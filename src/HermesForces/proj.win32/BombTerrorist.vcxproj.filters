@@ -1,0 +1,371 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="win32">
+      <UniqueIdentifier>{84a8ebd7-7cf0-47f6-b75e-d441df67da40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resource">
+      <UniqueIdentifier>{715254bc-d70b-4ec5-bf29-467dd3ace079}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{bb6c862e-70e9-49d9-81b7-3829a6f50471}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Fighter">
+      <UniqueIdentifier>{d9b14d9b-7671-4aec-a989-18cc6e66b99f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Missions">
+      <UniqueIdentifier>{c49ad987-8637-4276-9b49-a3883e21285b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Targets">
+      <UniqueIdentifier>{1bda3a64-7a39-42e5-b907-9dbeb779227e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Utility">
+      <UniqueIdentifier>{40a6a7d6-20e1-4339-bac1-2bdd927a4956}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Fighter\Items">
+      <UniqueIdentifier>{1aa7a41c-020f-47bb-b7a4-5507eb87d420}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Targets\map_berlin">
+      <UniqueIdentifier>{ad178725-d432-4c7d-8a09-ce98aacf191b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Targets\map_car">
+      <UniqueIdentifier>{f1992df7-fe25-4ac8-97cc-d22f40017430}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Targets\map_egypt">
+      <UniqueIdentifier>{693ad093-3f36-4a10-91cb-22904be2873d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Targets\map_india">
+      <UniqueIdentifier>{52b7bf0f-b769-4033-b935-5f93259526dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Targets\map_iraq">
+      <UniqueIdentifier>{10428be4-897a-49d4-b5b9-ebae1279f617}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Targets\map_morocco">
+      <UniqueIdentifier>{f135df80-7897-4925-97f0-b41dfbecd4f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Targets\map_paris">
+      <UniqueIdentifier>{826824c6-fe1f-48db-9a70-773f24986713}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Targets\map_russia">
+      <UniqueIdentifier>{00426e5c-8a61-46ac-b8d1-56861a43aa65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Targets\map_syria">
+      <UniqueIdentifier>{d0aa2d0e-3b25-4bc7-af1a-dffb9ce35693}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Targets\map_train">
+      <UniqueIdentifier>{a858a11d-bed1-4273-9041-7a720a350f57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Targets\map_pakistan">
+      <UniqueIdentifier>{759e1518-1622-44fe-929f-5a793914950c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Targets\map_london_isarel">
+      <UniqueIdentifier>{7b6ceeb3-3429-42a1-b642-ae7ebd80d035}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\AppDelegate.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Engine.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameOverScene.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameScene.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\MainMenuScene.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ScreenManager.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\SplashScene.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Fighter\Fighter.cpp">
+      <Filter>src\Fighter</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Fighter\Items\AntiRocket.cpp">
+      <Filter>src\Fighter\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Fighter\Items\B52Bomb.cpp">
+      <Filter>src\Fighter\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Fighter\Items\BombSquad.cpp">
+      <Filter>src\Fighter\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Fighter\Items\FireBomb.cpp">
+      <Filter>src\Fighter\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Fighter\Items\IItem.cpp">
+      <Filter>src\Fighter\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Fighter\Items\Items.cpp">
+      <Filter>src\Fighter\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Fighter\Items\MarineBomb.cpp">
+      <Filter>src\Fighter\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Fighter\Items\SpecialForce.cpp">
+      <Filter>src\Fighter\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Fighter\Items\ViewFinder.cpp">
+      <Filter>src\Fighter\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Missions\Land.cpp">
+      <Filter>src\Missions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Missions\Map.cpp">
+      <Filter>src\Missions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Missions\MapProccessor.cpp">
+      <Filter>src\Missions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Utility\BodyParser.cpp">
+      <Filter>src\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Utility\Utility.cpp">
+      <Filter>src\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Targets\IUnit.cpp">
+      <Filter>src\Targets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Targets\Target.cpp">
+      <Filter>src\Targets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Targets\map_berlin\BombWarning.cpp">
+      <Filter>src\Targets\map_berlin</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Targets\map_car\FakedCar.cpp">
+      <Filter>src\Targets\map_car</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Targets\map_car\NormalCar.cpp">
+      <Filter>src\Targets\map_car</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Targets\map_egypt\CiviEgypt.cpp">
+      <Filter>src\Targets\map_egypt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Targets\map_egypt\ISEgypt.cpp">
+      <Filter>src\Targets\map_egypt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Targets\map_iraq\ISIraq.cpp">
+      <Filter>src\Targets\map_iraq</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Targets\map_morocco\ISFire.cpp">
+      <Filter>src\Targets\map_morocco</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Targets\map_morocco\ISKnife.cpp">
+      <Filter>src\Targets\map_morocco</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Targets\map_morocco\ISMorocco.cpp">
+      <Filter>src\Targets\map_morocco</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Targets\map_morocco\ISVictim.cpp">
+      <Filter>src\Targets\map_morocco</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Targets\map_morocco\ISVictim_Cage.cpp">
+      <Filter>src\Targets\map_morocco</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Targets\map_paris\ISManHole.cpp">
+      <Filter>src\Targets\map_paris</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Targets\map_paris\NormalManHole.cpp">
+      <Filter>src\Targets\map_paris</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Targets\map_russia\SubMarine.cpp">
+      <Filter>src\Targets\map_russia</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Targets\map_syria\ISSyria.cpp">
+      <Filter>src\Targets\map_syria</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Targets\map_train\NormalBoxTrain.cpp">
+      <Filter>src\Targets\map_train</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Targets\map_train\SeriousBoxTrain.cpp">
+      <Filter>src\Targets\map_train</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Targets\map_pakistan\Alqueda.cpp">
+      <Filter>src\Targets\map_pakistan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Targets\map_pakistan\AlquedaRocket.cpp">
+      <Filter>src\Targets\map_pakistan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Targets\map_india\IsIndian.cpp">
+      <Filter>src\Targets\map_india</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Fighter\Items\IndianSwat.cpp">
+      <Filter>src\Fighter\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Targets\map_london_isarel\ISBodyInvi.cpp">
+      <Filter>src\Targets\map_london_isarel</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Targets\map_pakistan\AlquedaFire.cpp">
+      <Filter>src\Targets\map_pakistan</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Targets\map_pakistan\AlquedaVictim.cpp">
+      <Filter>src\Targets\map_pakistan</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="main.h">
+      <Filter>win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\AppDelegate.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\define.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Engine.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameOverScene.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameScene.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MainMenuScene.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ScreenManager.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\SplashScene.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Fighter\Fighter.h">
+      <Filter>src\Fighter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Fighter\Items\AntiRocket.h">
+      <Filter>src\Fighter\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Fighter\Items\B52Bomb.h">
+      <Filter>src\Fighter\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Fighter\Items\BombSquad.h">
+      <Filter>src\Fighter\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Fighter\Items\FireBomb.h">
+      <Filter>src\Fighter\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Fighter\Items\IItem.h">
+      <Filter>src\Fighter\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Fighter\Items\Items.h">
+      <Filter>src\Fighter\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Fighter\Items\MarineBomb.h">
+      <Filter>src\Fighter\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Fighter\Items\SpecialForce.h">
+      <Filter>src\Fighter\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Fighter\Items\ViewFinder.h">
+      <Filter>src\Fighter\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Missions\Land.h">
+      <Filter>src\Missions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Missions\Map.h">
+      <Filter>src\Missions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Missions\MapProccessor.h">
+      <Filter>src\Missions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Utility\BodyParser.h">
+      <Filter>src\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Utility\Utility.h">
+      <Filter>src\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Targets\IUnit.h">
+      <Filter>src\Targets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Targets\Target.h">
+      <Filter>src\Targets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Targets\map_berlin\BombWarning.h">
+      <Filter>src\Targets\map_berlin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Targets\map_car\FakedCar.h">
+      <Filter>src\Targets\map_car</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Targets\map_car\NormalCar.h">
+      <Filter>src\Targets\map_car</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Targets\map_egypt\CiviEgypt.h">
+      <Filter>src\Targets\map_egypt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Targets\map_egypt\ISEgypt.h">
+      <Filter>src\Targets\map_egypt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Targets\map_iraq\ISIraq.h">
+      <Filter>src\Targets\map_iraq</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Targets\map_morocco\ISFire.h">
+      <Filter>src\Targets\map_morocco</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Targets\map_morocco\ISKnife.h">
+      <Filter>src\Targets\map_morocco</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Targets\map_morocco\ISMorocco.h">
+      <Filter>src\Targets\map_morocco</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Targets\map_morocco\ISVictim.h">
+      <Filter>src\Targets\map_morocco</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Targets\map_morocco\ISVictim_Cage.h">
+      <Filter>src\Targets\map_morocco</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Targets\map_paris\ISManHole.h">
+      <Filter>src\Targets\map_paris</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Targets\map_paris\NormalManHole.h">
+      <Filter>src\Targets\map_paris</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Targets\map_russia\SubMarine.h">
+      <Filter>src\Targets\map_russia</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Targets\map_syria\ISSyria.h">
+      <Filter>src\Targets\map_syria</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Targets\map_train\NormalBoxTrain.h">
+      <Filter>src\Targets\map_train</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Targets\map_train\SeriousBoxTrain.h">
+      <Filter>src\Targets\map_train</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Targets\map_pakistan\Alqueda.h">
+      <Filter>src\Targets\map_pakistan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Targets\map_pakistan\AlquedaRocket.h">
+      <Filter>src\Targets\map_pakistan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Targets\map_india\IsIndian.h">
+      <Filter>src\Targets\map_india</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Fighter\Items\IndianSwat.h">
+      <Filter>src\Fighter\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Targets\map_london_isarel\ISBodyInvi.h">
+      <Filter>src\Targets\map_london_isarel</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Targets\map_pakistan\AlquedaFire.h">
+      <Filter>src\Targets\map_pakistan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Targets\map_pakistan\AlquedaVictim.h">
+      <Filter>src\Targets\map_pakistan</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="game.rc">
+      <Filter>resource</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
