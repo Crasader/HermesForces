@@ -23,8 +23,12 @@ private:
     //void GoToGameScene( cocos2d::Ref *sender );
     void GoToMainMenuScene(Ref* pSender, ui::Widget::TouchEventType eEventType);
     void GoToGameScene(Ref* pSender, ui::Widget::TouchEventType eEventType);
-    
-    char mx[300];
+	void onFinishLoading(float dt);
+
+	cocos2d::ui::Button* itemRetryButton;
+	cocos2d::ui::Button* itemMenuButton;
+
+    //char mx[300];
     
 };
 

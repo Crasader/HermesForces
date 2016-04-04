@@ -8,6 +8,7 @@ USING_NS_CC;
 class IItem{
 public:
 	IItem(cocos2d::Layer *layer, const cocos2d::Point&  pStart, const  int& idTag);
+	~IItem();
 	void Fall();
 	void removeBoom();
 	virtual void hitTarget() = 0;

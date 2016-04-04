@@ -29,8 +29,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     register_all_packages();
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     ScreenManager::Instance()->startApplication(false);
-#endif
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+#else
     ScreenManager::Instance()->startApplication(true);
 #endif
     

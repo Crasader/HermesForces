@@ -102,7 +102,12 @@ void AlQuedaRocket::attackMainCharacter()
 	if(_isDisable)
 		return;
 	//rocket_launch
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+	ScreenManager::Instance()->playSoundEffect("Sounds/rocket_launch.ogg");
+#else
 	ScreenManager::Instance()->playSoundEffect("Sounds/rocket_launch.mp3");
+#endif
+	//ScreenManager::Instance()->playSoundEffect("Sounds/rocket_launch.mp3");
 
 	Animation* animation = Animation::createWithSpriteFrames(MapProcessor::Instance()->getTargetAnimeFramesByIndex(2), 0.05);
 	Animate* animate = Animate::create(animation);

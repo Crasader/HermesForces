@@ -55,7 +55,7 @@ void FighterItems::hitLand()
 
 FighterItems::~FighterItems()
 {
-
+	delete _fighterItem;
 }
 
 void FighterItems::updatePosition()

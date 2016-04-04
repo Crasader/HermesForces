@@ -8,7 +8,7 @@ class Fighter
 {
 public:
 	Fighter(cocos2d::Layer *layer, const cocos2d::Point& leftAlignPos, const int& specialMap = 0);
-    //~Fighter();
+    ~Fighter();
     //void Fall( bool isGameOver );
 	void Drop( );
 	const bool& Shoot(const cocos2d::Point& pos);
@@ -25,6 +25,8 @@ public:
     void setAntiRocketMap14(const cocos2d::Point& p);
 	void setAnimationFighterFly();
     void soundGunMap415();//
+	void preReleaseFighter();
+	//static Fighter* ThisPointer;
 private:
     int _nextTimeShootGun , _iGood;
 	int _currentTime;
@@ -38,8 +40,12 @@ private:
     
 	cocos2d::Layer *_layer;
 	//FighterItems* _listFighterItems[300];
-	FighterItems** _listFighterItems;
-	AntiRocket** _listAntiRocketItems;
+	//FighterItems** _listFighterItems;
+	
+	std::vector<FighterItems*> _listFighterItems;
+	std::vector<AntiRocket*> _listAntiRocketItems;
+	cocos2d::Sprite* _listAntiRocketImage[5];
+
 	ViewFinder* _unlimitedWeapon;
 	int _timeDelayAntiRocket ;
 

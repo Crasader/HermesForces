@@ -16,7 +16,7 @@ public:
 	{
 		_currentWeapon = NO_WEAPONS_INIT;
 	}
-	void InitMapProcessor(const int& MapNumber, const bool& isCached = false);
+	void InitMapProcessor(const int& MapNumber);
 	std::vector<std::string> getListEnemies();
 	//void addEnemies(std::string path);
 	void getRandomEnemies(int* listEnemies,const int& enemiesType);

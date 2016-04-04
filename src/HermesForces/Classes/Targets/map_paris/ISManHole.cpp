@@ -9,7 +9,7 @@ IsManHole::IsManHole(const int& idTag, const cocos2d::Point& p) : IUnit(idTag,p)
 
 	_targetUnit->setPosition(Point(p.x, (p.y  * 0.5) + (_targetUnit->getContentSize().height * 0.5 * Land::deltaScale)));
 	
-	setPhysicsBody(_targetUnit->getContentSize()  * 1.5);
+	setPhysicsBody(_targetUnit->getContentSize()  * 1.2);
 	//_targetUnit->setOpacity(0);
 	//_targetBody->setEnabled(false);
 	

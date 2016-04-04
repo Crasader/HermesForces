@@ -67,5 +67,9 @@ void SpecialForce::hitLand()
 
 void SpecialForce::shootBangBang()
 {
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+	ScreenManager::Instance()->playSoundEffect("Sounds/gun.ogg");
+#else
 	ScreenManager::Instance()->playSoundEffect("Sounds/gun.mp3");
+#endif
 }

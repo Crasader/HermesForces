@@ -43,6 +43,10 @@ private:
 	void turnOnOffMusicButton(Ref* pSender, ui::Widget::TouchEventType eEventType);
 	void turnOnOffSoundButton(Ref* pSender, ui::Widget::TouchEventType eEventType);
 
+	void onFinishLoading(float dt);
+	Size visibleSize;
+	Vec2 origin;
+	float x, y;
 	float _scaleMap;
 	int _mapMax;
 	cocos2d::ui::Button* musicBtt;

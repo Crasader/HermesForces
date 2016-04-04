@@ -104,8 +104,14 @@ const bool& SubMarine::updatePositionToTheLeft()
 
 void SubMarine::attackMainCharacter()
 {
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+	ScreenManager::Instance()->playSoundEffect("Sounds/waterbomb.ogg");
+	ScreenManager::Instance()->playSoundEffect("Sounds/rocket_launch.ogg");
+#else
 	ScreenManager::Instance()->playSoundEffect("Sounds/waterbomb.mp3");
 	ScreenManager::Instance()->playSoundEffect("Sounds/rocket_launch.mp3");
+#endif
+
 
 	Vector<SpriteFrame*>  frames = MapProcessor::Instance()->getTargetAnimeFramesByIndex(0);
 	Animation* animation = Animation::createWithSpriteFrames(frames, 0.02);

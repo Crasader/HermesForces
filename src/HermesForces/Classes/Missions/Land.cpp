@@ -43,7 +43,7 @@ float Land::PosRocket = 0;
 
 cocos2d::Point Land::FighterPos;
 
-Land* Land::thisPointer;
+Land* Land::thisPointer = NULL;
 
 //float physicsLand = 50;
 
@@ -158,7 +158,7 @@ Land::Land(cocos2d::Layer* layer , const int& stage)
 	_lastTime = 0;
 
 	_indexOutTarget = 0;
-	_indexInTarget = _targetCount;
+	//_indexInTarget = _targetCount;
 	//_indexInTarget = 0;
 	Land::OutOfLeftWidth = -50 * Land::deltaScale;
 	// TODO : remove outofRight
@@ -206,12 +206,19 @@ void Land::addTargets(cocos2d::Layer* layer)
 		for(int i=2;i<currentMap->CountItems;i++)
 		{
 			// TO DO : && => ||
-			if(i != list6EnemiesItems[0] && i != list6EnemiesItems[1] && i != list6EnemiesItems[2])
-				listTargets[_targetCount] = new Target(Point(currentMap->Items[i] * Land::deltaScale,LandHeight),_targetCount,currentMap->Items[0]);
+			if (i != list6EnemiesItems[0] && i != list6EnemiesItems[1] && i != list6EnemiesItems[2])
+			{
+				_listTargets.push_back(new Target(Point(currentMap->Items[i] * Land::deltaScale, LandHeight), _targetCount, currentMap->Items[0]));
+			}
 			else
-				listTargets[_targetCount] = new Target(Point(currentMap->Items[i] * Land::deltaScale,LandHeight),_targetCount,currentMap->Items[1]);
-			layer->addChild(listTargets[_targetCount]->getSprite(), layerId + i);
-			_targetCount++;
+			{
+				_listTargets.push_back(new Target(Point(currentMap->Items[i] * Land::deltaScale, LandHeight), _targetCount, currentMap->Items[1]));
+			}
+				//_listTargets[_targetCount] = new Target(Point(currentMap->Items[i] * Land::deltaScale,LandHeight),_targetCount,currentMap->Items[0]);
+			//else
+			//	_listTargets[_targetCount] = new Target(Point(currentMap->Items[i] * Land::deltaScale,LandHeight),_targetCount,currentMap->Items[1]);
+			layer->addChild(_listTargets[_targetCount++]->getSprite(), layerId + i);
+			//_targetCount++;
 		}
 		break;
 	case GAME_PLAY_TYPE_RANDOM_6:
@@ -220,12 +227,17 @@ void Land::addTargets(cocos2d::Layer* layer)
 		for(int i=2;i<currentMap->CountItems;i++)
 		{
 			// TO DO : && => ||
-			if(i != list6EnemiesItems[0] && i != list6EnemiesItems[1] && i != list6EnemiesItems[2] && i != list6EnemiesItems[3] && i != list6EnemiesItems[4] && i != list6EnemiesItems[5])
-				listTargets[_targetCount] = new Target(Point(currentMap->Items[i] * Land::deltaScale,LandHeight),_targetCount,currentMap->Items[0]);
+			if (i != list6EnemiesItems[0] && i != list6EnemiesItems[1] && i != list6EnemiesItems[2] && i != list6EnemiesItems[3] && i != list6EnemiesItems[4] && i != list6EnemiesItems[5]){
+				//_listTargets[_targetCount] = new Target(Point(currentMap->Items[i] * Land::deltaScale, LandHeight), _targetCount, currentMap->Items[0]);
+				_listTargets.push_back(new Target(Point(currentMap->Items[i] * Land::deltaScale, LandHeight), _targetCount, currentMap->Items[0]));
+			}
 			else
-				listTargets[_targetCount] = new Target(Point(currentMap->Items[i] * Land::deltaScale,LandHeight),_targetCount,currentMap->Items[1]);
-			layer->addChild(listTargets[_targetCount]->getSprite(), layerId + i);
-			_targetCount++;
+			{
+				_listTargets.push_back(new Target(Point(currentMap->Items[i] * Land::deltaScale, LandHeight), _targetCount, currentMap->Items[1]));
+			}
+				//_listTargets[_targetCount] = new Target(Point(currentMap->Items[i] * Land::deltaScale,LandHeight),_targetCount,currentMap->Items[1]);
+			layer->addChild(_listTargets[_targetCount++]->getSprite(), layerId + i);
+			//_targetCount++;
 		}
 		break;
 	case GAME_PLAY_RANDOM_5_TARGETS:
@@ -233,37 +245,44 @@ void Land::addTargets(cocos2d::Layer* layer)
 		for (int i = 2; i < currentMap->CountItems; i++)
 		{
 			// TO DO : && => ||
-			if (i != list6EnemiesItems[0] && i != list6EnemiesItems[1] && i != list6EnemiesItems[2] && i != list6EnemiesItems[3] && i != list6EnemiesItems[4])
-				listTargets[_targetCount] = new Target(Point(currentMap->Items[i] * Land::deltaScale, LandHeight), _targetCount, currentMap->Items[0]);
-			else
-				listTargets[_targetCount] = new Target(Point(currentMap->Items[i] * Land::deltaScale, LandHeight), _targetCount, currentMap->Items[1]);
-			layer->addChild(listTargets[_targetCount]->getSprite(), layerId + i);
-			_targetCount++;
+			if (i != list6EnemiesItems[0] && i != list6EnemiesItems[1] && i != list6EnemiesItems[2] && i != list6EnemiesItems[3] && i != list6EnemiesItems[4]){
+				//_listTargets[_targetCount] = new Target(Point(currentMap->Items[i] * Land::deltaScale, LandHeight), _targetCount, currentMap->Items[0]);
+				_listTargets.push_back(new Target(Point(currentMap->Items[i] * Land::deltaScale, LandHeight), _targetCount, currentMap->Items[0]));
+			}
+			else{
+				_listTargets.push_back(new Target(Point(currentMap->Items[i] * Land::deltaScale, LandHeight), _targetCount, currentMap->Items[1]));
+				//_listTargets[_targetCount] = new Target(Point(currentMap->Items[i] * Land::deltaScale, LandHeight), _targetCount, currentMap->Items[1]);
+			}		
+			layer->addChild(_listTargets[_targetCount++]->getSprite(), layerId + i);
+			//_targetCount++;
 		}
 		break;
 	case GAME_PLAY_RANDOM_ENEMIES_POSITION:
 		for(int i=1;i<(currentMap->CountItems *2) +1;i=i+2)
 		{
 			int randPos = cocos2d::random(currentMap->Items[i],currentMap->Items[i+1]);
-			listTargets[_targetCount] = new Target(Point(randPos * Land::deltaScale,LandHeight),_targetCount,currentMap->Items[0]);
-			layer->addChild(listTargets[_targetCount]->getSprite(), layerId + i);
-			_targetCount++;
+			//_listTargets[_targetCount] = new Target(Point(randPos * Land::deltaScale,LandHeight),_targetCount,currentMap->Items[0]);
+			_listTargets.push_back(new Target(Point(randPos * Land::deltaScale, LandHeight), _targetCount, currentMap->Items[0]));
+			layer->addChild(_listTargets[_targetCount++]->getSprite(), layerId + i);
+			//_targetCount++;
 		}
 		break;
 	case  GAME_PLAY_ENEMIES_DIFF_HEIGHT:
 		for(int i=0;i<currentMap->CountItems;i=i+3)
 		{
-			listTargets[_targetCount] = new Target(Point(currentMap->Items[i+1] * Land::deltaScale,currentMap->Items[i+2] * Land::deltaScale),_targetCount,currentMap->Items[i]);
-			layer->addChild(listTargets[_targetCount]->getSprite(), layerId + i);
-			_targetCount++;
+			//_listTargets[_targetCount] = new Target(Point(currentMap->Items[i+1] * Land::deltaScale,currentMap->Items[i+2] * Land::deltaScale),_targetCount,currentMap->Items[i]);
+			_listTargets.push_back(new Target(Point(currentMap->Items[i + 1] * Land::deltaScale, currentMap->Items[i + 2] * Land::deltaScale), _targetCount, currentMap->Items[i]));
+			layer->addChild(_listTargets[_targetCount++]->getSprite(), layerId + i);
+			//_targetCount++;
 		}
 		break;
 	default:
 		for(int i=0;i<currentMap->CountItems;i=i+2)
 		{
-			listTargets[_targetCount] = new Target(Point(currentMap->Items[i+1] * Land::deltaScale,LandHeight),_targetCount,currentMap->Items[i]);
-			layer->addChild(listTargets[_targetCount]->getSprite(), layerId + i);
-			_targetCount++;
+			//_listTargets[_targetCount] = new Target(Point(currentMap->Items[i+1] * Land::deltaScale,LandHeight),_targetCount,currentMap->Items[i]);
+			_listTargets.push_back(new Target(Point(currentMap->Items[i + 1] * Land::deltaScale, LandHeight), _targetCount, currentMap->Items[i]));
+			layer->addChild(_listTargets[_targetCount++]->getSprite(), layerId + i);
+			//_targetCount++;
 		}
 		break;
 	}
@@ -273,32 +292,33 @@ void Land::addTargets(cocos2d::Layer* layer)
 const int& Land::destroyEnemies(const int& idTag)
 {
 	// recheck
-	return listTargets[idTag]->die();
+	return _listTargets[idTag]->die();
 }
 
 void Land::detectInScreen()
 {
 	// show target here
 	// show backgground here => 2 action ==> done ==> click later!!
-	for (int i = _indexOutTarget; i< _indexInTarget; i++)
+	for (int i = _indexOutTarget; i< _targetCount; i++)
 	{
-		listTargets[i]->detectTarget();
+		_listTargets[i]->detectTarget();
 	}
+}
+
+void Land::preReleaseLand()
+{
+	for (int i = 0; i < _listTargets.size(); i++)
+	{
+		delete _listTargets[i];
+	}
+	delete currentMap;
+	//Land::thisPointer = NULL;
 }
 
 Land::~Land()
 {
-	//for (int i = 0; i < _targetCount; i++)
-	//{
-	//	if (listTargets[i]->checkDisable() == false)
-	//	{
-	//		listTargets[i]->clean();
-	//		delete listTargets[i];
-	//	}
-	//}
-
-	//_land->stopAllActions();
-	//_land->removeFromParentAndCleanup(true);
+	this->preReleaseLand();
+	//Land::thisPointer = NULL;
 }
 
 float Land::LandPosY = 0;
@@ -452,7 +472,11 @@ void Land::turnOnLight()
 	{
 		_isClickSpecialBtt = true;
 		_maskButtonSpec->setOpacity(255);
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+		ScreenManager::Instance()->playSoundEffect("Sounds/antirocket.ogg");
+#else
 		ScreenManager::Instance()->playSoundEffect("Sounds/antirocket.mp3");
+#endif
 		_backgroundSpecial->stopAllActions();
 		
 		auto movingFall = MoveTo::create(ScreenManager::Instance()->getDelayTimeDevice(), Point(_backgroundSpecial->getPositionX(), Land::origin.y));
@@ -480,7 +504,13 @@ void Land::turnOnHeatRadar()
 {
 	if (!_isClickSpecialBtt)
 	{
+		
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+		ScreenManager::Instance()->playSoundEffect("Sounds/scanner.ogg");
+#else
 		ScreenManager::Instance()->playSoundEffect("Sounds/scanner.mp3");
+#endif
+
 		_isClickSpecialBtt = true;
 		_maskButtonSpec->setOpacity(255);
 
@@ -504,7 +534,12 @@ void Land::turnOnPointRadar()
 {
 	if (!_isClickSpecialBtt)
 	{
+		//ScreenManager::Instance()->playSoundEffect("Sounds/scanner.mp3");
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+		ScreenManager::Instance()->playSoundEffect("Sounds/scanner.ogg");
+#else
 		ScreenManager::Instance()->playSoundEffect("Sounds/scanner.mp3");
+#endif
 		_isClickSpecialBtt = true;
 		_maskButtonSpec->setOpacity(255);
 		detectInScreen();
@@ -528,7 +563,12 @@ void Land::turnOnBombRadar()
 {
 	if (!_isClickSpecialBtt)
 	{
+		//ScreenManager::Instance()->playSoundEffect("Sounds/scanner.mp3");
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+		ScreenManager::Instance()->playSoundEffect("Sounds/scanner.ogg");
+#else
 		ScreenManager::Instance()->playSoundEffect("Sounds/scanner.mp3");
+#endif
 		_isClickSpecialBtt = true;
 		_maskButtonSpec->setOpacity(255);
 		detectInScreen();
@@ -557,7 +597,7 @@ void Land::updateLandPositionToTheLeft()
 	//_pixelTargetMoving += _deltaMovingTargets;
 	for (int i = _indexOutTarget ; i < _targetCount/* - 1*/; i++)
 	{
-		if (!listTargets[i]->updatePositionToTheLeft(/*_deltaMovingTargets*/))
+		if (!_listTargets[i]->updatePositionToTheLeft(/*_deltaMovingTargets*/))
 			_indexOutTarget = i;
 
 	}
@@ -567,7 +607,7 @@ void Land::updateLandPositionToTheLeft()
 
 const bool& Land::hitWeaponEnemies(const int& idWeapons)
 {
-	listTargets[idWeapons]->hitMainCharacter();
+	_listTargets[idWeapons]->hitMainCharacter();
 	return true;
 }
 
@@ -642,7 +682,7 @@ void Land::startMoving()
 {
 	for (int i = 0; i < _targetCount; i++)
 	{
-		listTargets[i]->startMoving();
+		_listTargets[i]->startMoving();
 	}
 }
 
@@ -673,6 +713,8 @@ void Land::enableSpecialButton()
 	_isClickSpecialBtt = false;
 	_maskButtonSpec->setOpacity(0);
 }
+
+
 
 ////////////////////////////////////////////////////////////////////////////
 //const bool& GameScene::checkDeltaTime()

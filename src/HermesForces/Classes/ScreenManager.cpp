@@ -8,6 +8,7 @@
 
 #include "ScreenManager.h"
 #include "Missions/MapProccessor.h"
+
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS) 
 #include "SonarFrameworks.h"
 #endif
@@ -41,12 +42,10 @@ void ScreenManager::initInstance()
     //_isWelcome3s = true;
     //float a = Engine::Instance()->getVisibleSize().height;
     //_khBackground = 500 / a;
-    _listThemeSongs.push_back("Sounds/Fortunate_Son.mp3");
-    _listThemeSongs.push_back("Sounds/AllDayAndAllOfTheNight.mp3");
-    _listThemeSongs.push_back("Sounds/PsychoticReaction.mp3");
-    _listThemeSongs.push_back("Sounds/UpAroundTheBend.mp3");
-    _back = -1;
-    _back2 = -1;
+    _listThemeSongs.push_back("Sounds/bg_All_Day_and_All_of_the_Night.mp3");
+    _listThemeSongs.push_back("Sounds/bg_Fortunate_Son.mp3");
+    _listThemeSongs.push_back("Sounds/bg_Psychotic_Reaction.mp3");
+	_back = cocos2d::random(0, 2);
     this->getMusicStatus();
     this->getSoundStatus();
     
@@ -64,6 +63,9 @@ void ScreenManager::initInstance()
         _delayTime = TIME_DELAY_TABLET;
     }
     _minPixel *= _delayTime;
+
+	CurrentLand = 0;
+	CurrentFighter = 0;
 }
 
 void ScreenManager::startApplication(const bool& isGoToSplash)
@@ -109,6 +111,10 @@ void ScreenManager::scaleScreenFull(cocos2d::Sprite* bg)
 
 void ScreenManager::writeResult()
 {
+	int fileRs = this->ScreenManager::getMaxMap();
+	if (fileRs > _mapNumber + 1)
+		return;
+
 	char szMapStr[10] = { 0 };
 	sprintf(szMapStr, "%d", _mapNumber+1);
 	std::string path = cocos2d::FileUtils::sharedFileUtils()->getWritablePath() + "631164782_map.db";
@@ -311,15 +317,12 @@ void ScreenManager::playMusicMainMenu()
 {
 	if (_isOnSound)
 		CocosDenshion::SimpleAudioEngine::sharedEngine()->stopAllEffects();
-	do
-	{
-		_random = cocos2d::random(0, 3);
-	} while (_random == _back || _random == _back2);
-	_back2 = _back;
-	_back = _random;
+	
+	if (++_back > 2)
+		_back = 0;
 
 	CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic(
-		_listThemeSongs.at(_random).c_str(), true);
+		_listThemeSongs.at(_back).c_str(), true);
 	if (!_isOnMusic)
 		CocosDenshion::SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic();
 	else
@@ -341,45 +344,86 @@ const float& ScreenManager::getDelayTimeDevice()
 	return _delayTime;
 }
 
+void ScreenManager::setUpNewLand(cocos2d::Layer *layer)
+{
+	if (CurrentLand){
+		delete CurrentLand;
+		CurrentLand = 0;
+	}
+		
+	CurrentLand = new Land(layer,_mapNumber);
+}
+
+void ScreenManager::setUpNewFighter(cocos2d::Layer *layer, const cocos2d::Point& leftAlignPos, const int& specialMap)
+{
+	if (CurrentFighter){
+		delete CurrentFighter;
+		CurrentFighter = 0;
+	}
+		
+	CurrentFighter = new Fighter(layer, leftAlignPos, specialMap);
+}
+
+Land* ScreenManager::GetLand()
+{
+	return CurrentLand;
+}
+
+Fighter* ScreenManager::GetFighter()
+{
+	return CurrentFighter;
+}
+
+void ScreenManager::releaseGameScene()
+{
+	if (CurrentLand){
+		delete CurrentLand;
+		CurrentLand = 0;
+	}
+		
+	if (CurrentFighter){
+		delete CurrentFighter;
+		CurrentFighter = 0;
+	}
+}
+
 void ScreenManager::gotoSplash()
 {
-    _scene = SplashScene::createScene();
-    Engine::Instance()->gotoScene(_scene);
+    auto scene = SplashScene::createScene();
+	Engine::Instance()->gotoScene(scene);
 }
 
 void ScreenManager::gotoMainMenu()
 {
-	_scene = MainMenuScene::createScene();
-	Engine::Instance()->replaceScene(_scene, 1);
+	auto scene = MainMenuScene::createScene();
+	Engine::Instance()->replaceScene(scene, 1);
 }
 
 void ScreenManager::gotoGameScene(const int& map)
 {
 	//int map2 = 0;
-
-
 	_isWelcome3s = true;
-	if (map != _mapNumber){
-		SpriteFrameCache::getInstance()->removeSpriteFrames();
+	//if (map != _mapNumber){
+	//	SpriteFrameCache::getInstance()->removeSpriteFrames();
+	//	MapProcessor::Instance()->InitMapProcessor(map);
+	//}
+	//else
 		MapProcessor::Instance()->InitMapProcessor(map);
-	}
-	else
-		MapProcessor::Instance()->InitMapProcessor(map, true);
 	_mapNumber = map;
-	_scene = GameScene::createScene();
-	Engine::Instance()->replaceScene(_scene, 1);
+	auto scene = GameScene::createScene();
+	Engine::Instance()->replaceScene(scene, 1);
 }
 
 void ScreenManager::reloadGameScene()
 {
-	CocosDenshion::SimpleAudioEngine::sharedEngine()->stopAllEffects();
+	//CocosDenshion::SimpleAudioEngine::sharedEngine()->stopAllEffects();
 	if (_mapNumber == MAP_5 || _mapNumber == MAP_9 || _mapNumber == MAP_11 || _mapNumber == MAP_12 || _mapNumber == MAP_13)
 		_isWelcome3s = true;
 	else
 		_isWelcome3s = false;
-	MapProcessor::Instance()->InitMapProcessor(_mapNumber, true);
-	_scene = GameScene::createScene();
-	Engine::Instance()->replaceScene(_scene, 1);
+	MapProcessor::Instance()->InitMapProcessor(_mapNumber);
+	auto scene = GameScene::createScene();
+	Engine::Instance()->replaceScene(scene, 1);
 
 	//_scene = TransitGameScene::createScene();
 	//Engine::Instance()->replaceScene(_scene, 0.1f);
@@ -389,8 +433,8 @@ void ScreenManager::gotoGameOver(const bool& isCompleted, const std::string& rec
 {
 	_isCompleted = isCompleted;
 	_recentMap = recentMap + "";
-	_scene = GameOverScene::createScene();
-	Engine::Instance()->replaceScene(_scene, 1);
+	auto scene = GameOverScene::createScene();
+	Engine::Instance()->replaceScene(scene, 1);
 }
 
 void ScreenManager::cleanGameScene()
@@ -398,8 +442,8 @@ void ScreenManager::cleanGameScene()
 
 }
 
-void ScreenManager::continueGame()
-{
-	_scene = GameScene::createScene();
-	Engine::Instance()->replaceScene(_scene);
-}
+//void ScreenManager::continueGame()
+//{
+//	//_scene = GameScene::createScene();
+//	//Engine::Instance()->replaceScene(_scene);
+//}

@@ -56,6 +56,7 @@ class Target
 {
 public:
 	Target(const cocos2d::Point& pos, const int& idTag, const int& type);
+	~Target();
 	//void move();
 	const int&  die();
 	void setPosition(const cocos2d::Point& p);
@@ -73,7 +74,7 @@ public:
 
 private:
 	IUnit* _targetUnit;
-	cocos2d::Sprite* test;
+	//cocos2d::Sprite* test;
 	//int _type;
 };
 

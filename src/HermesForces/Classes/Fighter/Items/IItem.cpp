@@ -11,6 +11,11 @@ IItem::IItem(cocos2d::Layer *layer, const cocos2d::Point&  pStart, const  int& i
 	_idTag = idTag;
 }
 
+IItem::~IItem()
+{
+
+}
+
 void IItem::Fall()
 {
 	if(!isFalling)

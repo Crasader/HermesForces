@@ -14,7 +14,7 @@ class FighterItems
 {
 public:
 	FighterItems(cocos2d::Layer *layer, const cocos2d::Point& p, const int& type, const  int& idBomb);
-	virtual ~FighterItems();
+	~FighterItems();
 	void Fall();
 	void hitTarget();
 	void hitLand();

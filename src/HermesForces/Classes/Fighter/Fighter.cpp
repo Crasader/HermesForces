@@ -2,7 +2,7 @@
 #include "../Missions/Land.h"
 #include "../Utility/Utility.h"
 #include "../ScreenManager.h"
-
+//Fighter* Fighter::ThisPointer = NULL;
 USING_NS_CC;
 #define FIGHTER_BOX_SQUARE 10
 #define FIGHTER_POS_BOMB 0
@@ -26,6 +26,9 @@ Fighter::Fighter(cocos2d::Layer *layer, const cocos2d::Point& leftAlignPos, cons
 	_currentTime = 0;
  	layer->addChild( _fighter, 2000 );   
 	
+	//_listAntiRocketItems = 0;
+	_unlimitedWeapon = 0;
+
 	if(specialMap > 0)
 	{
 		// special map
@@ -39,8 +42,8 @@ Fighter::Fighter(cocos2d::Layer *layer, const cocos2d::Point& leftAlignPos, cons
 			_antiRocketToPos_2 = Point(_antiRocketFromPos_1.x, 0.4 * Land::visibleSize.height);
 			_antiRocketToPos_3 = Point(Land::visibleSize.width * 0.6, Land::visibleSize.height * 0.5);
 
-			_listAntiRocketItems = new AntiRocket*[15]; // 5 times
-			_restAntiRocket = 14;
+			//_listAntiRocketItems = new AntiRocket*[15]; // 5 times
+			_restAntiRocket = 0;
 			_timeDelayAntiRocket = 1000;
 			_specialButton = cocos2d::ui::Button::create();
 			_specialButton->loadTextures("mini/land/special/btt_antirocket.png", "mini/land/special/btt_antirocket_clicked.png", "");
@@ -56,14 +59,41 @@ Fighter::Fighter(cocos2d::Layer *layer, const cocos2d::Point& leftAlignPos, cons
 			fighterBody->setTag(999);
 			_fighter->setPhysicsBody(fighterBody);
 
+			float imgPos = Land::FighterPos.y - 30 * Land::deltaScale;
+			_listAntiRocketImage[4] = Sprite::create("mini/army/Weapons/anti_rocket/anti_rocket.png");
+			_listAntiRocketImage[4]->setScale(Land::deltaScale);
+			_listAntiRocketImage[4]->setPosition(Land::FighterPos.x, imgPos);
+
+			_listAntiRocketImage[3] = Sprite::create("mini/army/Weapons/anti_rocket/anti_rocket.png");
+			_listAntiRocketImage[3]->setScale(Land::deltaScale);
+			_listAntiRocketImage[3]->setPosition(Land::FighterPos.x + 10 * Land::deltaScale, imgPos);
+
+			_listAntiRocketImage[2] = Sprite::create("mini/army/Weapons/anti_rocket/anti_rocket.png");
+			_listAntiRocketImage[2]->setScale(Land::deltaScale);
+			_listAntiRocketImage[2]->setPosition(Land::FighterPos.x + 20 * Land::deltaScale, imgPos);
+
+			_listAntiRocketImage[1] = Sprite::create("mini/army/Weapons/anti_rocket/anti_rocket.png");
+			_listAntiRocketImage[1]->setScale(Land::deltaScale);
+			_listAntiRocketImage[1]->setPosition(Land::FighterPos.x + 30 * Land::deltaScale, imgPos);
+
+			_listAntiRocketImage[0] = Sprite::create("mini/army/Weapons/anti_rocket/anti_rocket.png");
+			_listAntiRocketImage[0]->setScale(Land::deltaScale);
+			_listAntiRocketImage[0]->setPosition(Land::FighterPos.x + 40 * Land::deltaScale, imgPos);
+
+			layer->addChild(_listAntiRocketImage[0], 2016);
+			layer->addChild(_listAntiRocketImage[1], 2016);
+			layer->addChild(_listAntiRocketImage[2], 2016);
+			layer->addChild(_listAntiRocketImage[3], 2016);
+			layer->addChild(_listAntiRocketImage[4], 2016);
+
 		}
 		else if(specialMap == MAP_15) // map 15
 		{
-			_listAntiRocketItems = new AntiRocket*[30]; // 10 times
-			_restAntiRocket = 30;
-			_timeDelayAntiRocket = 800;
+			//_listAntiRocketItems = new AntiRocket*[30]; // 10 times
+			//_restAntiRocket = 30;
+			//_timeDelayAntiRocket = 800;
 			_unlimitedWeapon = new ViewFinder(layer,Point(Land::visibleSize.width * 0.5, Land::visibleSize.height * 0.5));
-			Land::PosRocket = 0.95 * Land::visibleSize.width;
+			//Land::PosRocket = 0.95 * Land::visibleSize.width;
 
 			auto fighterBody = PhysicsBody::createBox( cocos2d::Size(FIGHTER_BOX_SQUARE,FIGHTER_BOX_SQUARE));
 			fighterBody->setCollisionBitmask(POINT_FIGHTER_BITMASK);
@@ -76,11 +106,12 @@ Fighter::Fighter(cocos2d::Layer *layer, const cocos2d::Point& leftAlignPos, cons
 	}
 
 	_bombBarrel = Point(Land::FighterPos.x, Land::FighterPos.y -  0.5 * Land::sizeBoom->height * Land::deltaScale - FIGHTER_POS_BOMB);
-	_listFighterItems = new FighterItems*[Land::BombCount];
+	//_listFighterItems = new FighterItems*[Land::BombCount];
 	restBomb = Land::BombCount; // by index
 	for(int i=0; i<= Land::BombCount ; i++)
 	{
-		_listFighterItems[i] = new FighterItems(_layer, _bombBarrel , Land::TypeWeapon,i);
+		//_listFighterItems[i] = new FighterItems(_layer, _bombBarrel , Land::TypeWeapon,i);
+		_listFighterItems.push_back(new FighterItems(_layer, _bombBarrel, Land::TypeWeapon, i));
 	}
 	if (map != MAP_5)
 	{
@@ -88,6 +119,8 @@ Fighter::Fighter(cocos2d::Layer *layer, const cocos2d::Point& leftAlignPos, cons
 	}
     _nextTimeShootGun = 1;
     _iGood = 6;
+
+	//Fighter::ThisPointer = this;
 	//_fighter
 }
 
@@ -98,14 +131,28 @@ void Fighter::Drop()
 		_listFighterItems[restBomb--]->Fall();
 }
 
-//Fighter::~Fighter()
-//{
-//	for(int i=0 ; i < Land::bombCount ; i++){
-//		_listFighterItems[i]->removeBoom();
-//		delete _listFighterItems[i];
-//	}
-//	_fighter->removeFromParentAndCleanup(true);
-//}
+
+void Fighter::preReleaseFighter()
+{
+	for (int i = 0; i < _listFighterItems.size(); i++){
+		delete _listFighterItems[i];
+	}
+
+	if (_listAntiRocketItems.size() > 0){
+		for (int i = 0; i < _listAntiRocketItems.size(); i++){
+			delete _listAntiRocketItems[i];
+		}
+	}
+		
+	if (_unlimitedWeapon)
+		delete _unlimitedWeapon;
+}
+
+Fighter::~Fighter()
+{
+	this->preReleaseFighter();
+	//Fighter::ThisPointer = NULL; 
+}
 
 void Fighter::hitTarget(const int&  idBoomTag)
 {
@@ -133,28 +180,47 @@ void Fighter::antiRocket(Ref* pSender, ui::Widget::TouchEventType eEventType)
 	//if(_systemAntiRocketCrt - _currentAntiRocketTime > _timeDelayAntiRocket)
 	if (eEventType == ui::Widget::TouchEventType::ENDED)
 	{
-		if(_restAntiRocket <= 1)
+		if(_restAntiRocket > 4 )
 			return;
-		CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect("Sounds/antirocket.mp3");
-		_listAntiRocketItems[_restAntiRocket] = new AntiRocket(_layer, _antiRocketFromPos_1  ,_restAntiRocket);
-		_listAntiRocketItems[_restAntiRocket]->MoveToPos(_antiRocketToPos_1);
-		_restAntiRocket--;
 
-		_listAntiRocketItems[_restAntiRocket] = new AntiRocket(_layer, _antiRocketFromPos_2 ,_restAntiRocket);
-		_listAntiRocketItems[_restAntiRocket]->MoveToPos(_antiRocketToPos_2);
-		_restAntiRocket--;
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+		ScreenManager::Instance()->playSoundEffect("Sounds/antirocket.ogg");
+#else
+		ScreenManager::Instance()->playSoundEffect("Sounds/antirocket.mp3");
+#endif
+		//_listAntiRocketItems[_restAntiRocket] = new AntiRocket(_layer, _antiRocketFromPos_1  ,_restAntiRocket);
+		//_listAntiRocketItems[_restAntiRocket]->MoveToPos(_antiRocketToPos_1);
+		//_restAntiRocket--;
 
-		_listAntiRocketItems[_restAntiRocket] = new AntiRocket(_layer, _antiRocketFromPos_3 ,_restAntiRocket);
-		_listAntiRocketItems[_restAntiRocket]->MoveToPos(_antiRocketToPos_3);
-		_restAntiRocket--;
+		//_listAntiRocketItems[_restAntiRocket] = new AntiRocket(_layer, _antiRocketFromPos_2 ,_restAntiRocket);
+		//_listAntiRocketItems[_restAntiRocket]->MoveToPos(_antiRocketToPos_2);
+		//_restAntiRocket--;
 
+		//_listAntiRocketItems[_restAntiRocket] = new AntiRocket(_layer, _antiRocketFromPos_3 ,_restAntiRocket);
+		//_listAntiRocketItems[_restAntiRocket]->MoveToPos(_antiRocketToPos_3);
+		//_restAntiRocket--;
+		_listAntiRocketImage[_restAntiRocket]->setOpacity(0);
+
+		_listAntiRocketItems.push_back(new AntiRocket(_layer, _antiRocketFromPos_1, _restAntiRocket));
+		_listAntiRocketItems.push_back(new AntiRocket(_layer, _antiRocketFromPos_1, _restAntiRocket));
+		_listAntiRocketItems.push_back(new AntiRocket(_layer, _antiRocketFromPos_1, _restAntiRocket));
+
+		_listAntiRocketItems[_restAntiRocket * 3]->MoveToPos(_antiRocketToPos_1);
+		_listAntiRocketItems[_restAntiRocket * 3 + 1]->MoveToPos(_antiRocketToPos_2);
+		_listAntiRocketItems[_restAntiRocket * 3 + 2]->MoveToPos(_antiRocketToPos_3);
+		_restAntiRocket++;
 		_currentAntiRocketTime = _systemAntiRocketCrt;
 	}
 }
 
 bool Fighter::hitRocket(const int& idAntiRocketTag)
 {
-		ScreenManager::Instance()->playSoundEffect("Sounds/rocketexp.mp3");
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+	ScreenManager::Instance()->playSoundEffect("Sounds/rocketexp.ogg");
+#else
+	ScreenManager::Instance()->playSoundEffect("Sounds/rocketexp.mp3");
+#endif
+		//ScreenManager::Instance()->playSoundEffect("Sounds/rocketexp.mp3");
 		_listAntiRocketItems[idAntiRocketTag]->hitRocket();
 		return true;
 }
@@ -171,7 +237,12 @@ void Fighter::gameOver(const int& indexFinal)
 
 void Fighter::eatRocket()
 {
+	//ScreenManager::Instance()->playSoundEffect("Sounds/fighter_exp.mp3");
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+	ScreenManager::Instance()->playSoundEffect("Sounds/fighter_exp.ogg");
+#else
 	ScreenManager::Instance()->playSoundEffect("Sounds/fighter_exp.mp3");
+#endif
 	_fighter->stopAllActions();
 	Vector<SpriteFrame*> frames_1;
 	frames_1.pushBack(SpriteFrameCache::getInstance()->getSpriteFrameByName("apache_hit_1.png"));
@@ -219,7 +290,12 @@ void Fighter::soundGunMap415()
     if(_nextTimeShootGun++ % _iGood == 0){
         _nextTimeShootGun = 1;
         _iGood = cocos2d::random(5,9);
-        ScreenManager::Instance()->playSoundEffect("Sounds/machinegun.mp3");
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+		ScreenManager::Instance()->playSoundEffect("Sounds/machinegun.ogg");
+#else
+		ScreenManager::Instance()->playSoundEffect("Sounds/machinegun.mp3");
+#endif
+        //ScreenManager::Instance()->playSoundEffect("Sounds/machinegun.mp3");
     }
 }
 //void Fighter::stopFly()

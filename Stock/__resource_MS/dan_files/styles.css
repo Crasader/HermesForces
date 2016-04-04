@@ -1,0 +1,109 @@
+/* Layout Stuff */
+#header {  
+    background-color: #ef8080;
+}
+#userbox {
+    background-color: #d86363;
+}
+#social {
+    background-color: #d86363;
+}
+#headerad {
+    background-color: #e59999;
+}
+#cplinks {
+    background-color: #e87272;
+}
+#subscribe {
+    background-color: #e87272;
+}
+#nav a {
+    text-shadow: 1px 1px 1px #492e2e;
+}
+#nav-top {
+    background-color: #ac4343;
+    border-bottom: 1px solid #662828;
+    box-shadow: 0px 1px 4px #8d3e3e;
+    text-shadow: 0px 0px 1px #b6a6a6;
+}
+.nav-header {
+    background-color: #ac4343;
+    text-shadow: 1px 1px 1px #492e2e;
+}
+.search_button {
+    border-left: 2px solid #fc8b8b;
+    background-color: #db4c4c;
+}
+.search_button:hover {
+    background-color: #b23434;
+}
+.active {
+    background-color: #ea8989;
+}
+.commentHeader {
+    background-color: #d86363;
+}
+.commentContent {
+    background-color: #f0a2a2;
+}
+.display {
+    text-shadow: 1px 1px 1px #813939;
+}
+.rowheader {
+    background-color: #d86363;
+}
+.altrow0 {
+    background-color: #ea8686;
+}
+.altrow1 {
+    background-color: #e27b7b;
+}
+.rowfooter {
+    background-color: #e57070;
+}
+
+/* Updates */
+.updatetitle {
+    background-color: #d86363;
+    text-shadow: 1px 1px 1px #492e2e;
+}
+.updatetitle:after {
+    border-left-color: #794d4d;
+}
+.updatemeta {
+    background-color: #f0a2a2;
+}
+div.updateconsolename {
+    background-color: #d86363;
+}
+
+/* Category Page */
+#letters {
+    background-color: #c94b4b;
+}
+#letters .active {
+    background-color: #e66f6f;
+}
+.section {
+    background-color: #d86363;
+    text-shadow: 1px 1px 1px #492e2e;
+}
+.section:after {
+    border-left-color: #794d4d;
+}
+
+/* Icons */
+.iconheader {
+    background-color: #a34d4d;
+    border-top: 1px solid #ca6f6f;
+    border-left: 1px solid #ca6f6f;
+    border-right: 1px solid #911414;
+    border-bottom: 1px solid #911414;
+}
+.gameiconheader {
+    background-color: #a34d4d;
+    border-top: 1px solid #ca6f6f;
+    border-left: 1px solid #ca6f6f;
+    border-right: 1px solid #911414;
+    border-bottom: 1px solid #911414;
+}

@@ -124,6 +124,11 @@ Target::Target(const cocos2d::Point& pos, const int& idTag, const int& type)
 }
 
 
+Target::~Target()
+{
+	delete _targetUnit;
+}
+
 const int& Target::die()
 {
 	return _targetUnit->die();

@@ -22,8 +22,8 @@
 	
 	<!-- AdMob -->
 		<string name="admob_test_device_id">000000000000000000000</string> <!-- SET TO YOUR TEST DEVICE ID FOR TESTING -->
-		<string name="admob_banner_top_id">ca-app-pub-5210758924220268/4505625035</string> <!-- SET TO YOUR ADMOB BANNER ID -->
-		<string name="admob_banner_bottom_id">ca-app-pub-5210758924220268/4505625035</string> <!-- SET TO YOUR ADMOB BANNER ID -->
+		<string name="admob_banner_top_id">ca-app-pub-5210758924220268/7000455035</string> <!-- SET TO YOUR ADMOB BANNER ID -->
+		<string name="admob_banner_bottom_id">ca-app-pub-5210758924220268/7000455035</string> <!-- SET TO YOUR ADMOB BANNER ID -->
 		<string name="admob_interstitial_id">ca-app-pub-00000000000000/00000000000</string> <!-- SET TO YOUR ADMOB INTERSTITIAL ID -->
 	<!-- AdMob End -->
 	

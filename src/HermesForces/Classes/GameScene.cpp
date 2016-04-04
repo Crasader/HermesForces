@@ -43,7 +43,7 @@ bool GameScene::init()
     //backgroundAudio = SimpleAudioEngine::getInstance();
     _testCallerUpdater = -1;
 	_clickPause = false;
-	_isWelcome = true;
+	//_isWelcome = true;
 
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
@@ -59,7 +59,8 @@ bool GameScene::init()
 	_isMapRandom6 = false;
     //backgroundAudio->playEffect("Sounds/background.mp3", true, 1.0f, 1.0f, 1.0f);
     // map -> 1.1
-    _land = new Land(this , ScreenManager::Instance()->CurrentMap());
+    //_land = new Land(this , ScreenManager::Instance()->CurrentMap());
+	ScreenManager::Instance()->setUpNewLand(this);
 	//
 	//Director::getInstance()->getEventDispatcher()->setEnabled(false);
 	_contactListener = EventListenerPhysicsContact::create();
@@ -147,7 +148,7 @@ void GameScene::touchReloadEvent(Ref* pSender, cocos2d::ui::Widget::TouchEventTy
 	if (eEventType == ui::Widget::TouchEventType::ENDED)
 	{
 		this->stopGame();
-		ScreenManager::Instance()->reloadGameScene();
+		ScreenManager::Instance()->gotoGameOver(false, ScreenManager::Instance()->GetLand()->getPathMap());
 	}
 }
 
@@ -195,7 +196,8 @@ bool GameScene::onContactBegin( cocos2d::PhysicsContact &contact )
 				&& POINT_LAND_BITMASK == b->getCollisionBitmask() )
 			{
 				//if(!_isGameOver)
-				_fighter->hitLand(a->getTag());
+				ScreenManager::Instance()->GetFighter()->hitLand(a->getTag());
+				//ScreenManager::Instance()->GetFighter()
 			}
 			else if( POINT_FIGHTER_ITEMS_BITMASK == b->getCollisionBitmask( )
 					&& POINT_LAND_BITMASK == a->getCollisionBitmask() )
@@ -203,7 +205,7 @@ bool GameScene::onContactBegin( cocos2d::PhysicsContact &contact )
 				// land : a
 				//actionAudio->playEffect("Sounds/fail.mp3", false, 1.0f, 1.0f, 1.0f);
 				//if(!_isGameOver)
-				_fighter->hitLand(b->getTag());
+				ScreenManager::Instance()->GetFighter()->hitLand(b->getTag());
 			}
 
     
@@ -212,14 +214,14 @@ bool GameScene::onContactBegin( cocos2d::PhysicsContact &contact )
 		   && POINT_FIGHTER_ITEMS_BITMASK == b->getCollisionBitmask())
 		{
 			//if (!_isMap15)  
-				_fighter->hitTarget(b->getTag());
-				_rs = _land->destroyEnemies(a->getTag());
+			ScreenManager::Instance()->GetFighter()->hitTarget(b->getTag());
+			_rs = ScreenManager::Instance()->GetLand()->destroyEnemies(a->getTag());
 				switch (_rs)
 				{
 				case DESTROY_ENEMY_BADKILL:
 					_isGameOver = true;
-					_fighter->hitLand(b->getTag());
-					_fighter->gameOver(b->getTag());
+					ScreenManager::Instance()->GetFighter()->hitLand(b->getTag());
+					ScreenManager::Instance()->GetFighter()->gameOver(b->getTag());
 					this->returnScoreScreen(false);
 					break;
 				case DESTROY_ENEMY_GOODKILL:
@@ -234,14 +236,14 @@ bool GameScene::onContactBegin( cocos2d::PhysicsContact &contact )
 				&& POINT_FIGHTER_ITEMS_BITMASK == a->getCollisionBitmask())
 		{
 			//if (!_isMap15)
-				_fighter->hitTarget(a->getTag());
-				_rs = _land->destroyEnemies(b->getTag());
+			ScreenManager::Instance()->GetFighter()->hitTarget(a->getTag());
+			_rs = ScreenManager::Instance()->GetLand()->destroyEnemies(b->getTag());
 				switch (_rs)
 				{
 				case DESTROY_ENEMY_BADKILL:
 					_isGameOver = true;
-					_fighter->hitLand(a->getTag());
-					_fighter->gameOver(a->getTag());
+					ScreenManager::Instance()->GetFighter()->hitLand(a->getTag());
+					ScreenManager::Instance()->GetFighter()->gameOver(a->getTag());
 					this->returnScoreScreen(false);
 					break;
 				case DESTROY_ENEMY_GOODKILL:
@@ -261,15 +263,15 @@ bool GameScene::onContactBegin( cocos2d::PhysicsContact &contact )
 		if (POINT_FIGHTER_BITMASK == b->getCollisionBitmask()
 			&& POINT_TARGET_ROCKET_BITMASK == a->getCollisionBitmask())
 		{
-				_fighter->eatRocket();
-				_land->hitWeaponEnemies(a->getTag());
+			ScreenManager::Instance()->GetFighter()->eatRocket();
+			ScreenManager::Instance()->GetLand()->hitWeaponEnemies(a->getTag());
 				returnScoreScreen(false);
 		}
 		else if (POINT_TARGET_ROCKET_BITMASK == b->getCollisionBitmask()
 			&& POINT_FIGHTER_BITMASK == a->getCollisionBitmask())
 		{
-				_fighter->eatRocket();
-				_land->hitWeaponEnemies(b->getTag());
+			ScreenManager::Instance()->GetFighter()->eatRocket();
+			ScreenManager::Instance()->GetLand()->hitWeaponEnemies(b->getTag());
 				returnScoreScreen(false);
 		}
 
@@ -281,12 +283,12 @@ bool GameScene::onContactBegin( cocos2d::PhysicsContact &contact )
 			if (POINT_ANTI_ROCKET_FIGHTER == b->getCollisionBitmask()
 				&& POINT_TARGET_ROCKET_BITMASK == a->getCollisionBitmask())
 			{
-				_land->hitWeaponEnemies(a->getTag());
+				ScreenManager::Instance()->GetLand()->hitWeaponEnemies(a->getTag());
 			}
 			else if (POINT_TARGET_ROCKET_BITMASK == b->getCollisionBitmask()
 				&& POINT_ANTI_ROCKET_FIGHTER == a->getCollisionBitmask())
 			{
-				_land->hitWeaponEnemies(b->getTag());
+				ScreenManager::Instance()->GetLand()->hitWeaponEnemies(b->getTag());
 			}
 		}
 		else // 15!!
@@ -295,7 +297,7 @@ bool GameScene::onContactBegin( cocos2d::PhysicsContact &contact )
 			if (POINT_TARGET_BITMASK == a->getCollisionBitmask()
 				&& POINT_VIEWER_ITEMS_BITMASK == b->getCollisionBitmask())
 			{
-				_rs = _land->destroyEnemies(a->getTag());
+				_rs = ScreenManager::Instance()->GetLand()->destroyEnemies(a->getTag());
 				if (_rs == DESTROY_ENEMY_BADKILL)
 					returnScoreScreen(false);
 				else if (_rs == DESTROY_ENEMY_GOODKILL)
@@ -310,7 +312,7 @@ bool GameScene::onContactBegin( cocos2d::PhysicsContact &contact )
 			else if (POINT_VIEWER_ITEMS_BITMASK == a->getCollisionBitmask()
 				&& POINT_TARGET_BITMASK == b->getCollisionBitmask())
 			{
-				_rs = _land->destroyEnemies(b->getTag());
+				_rs = ScreenManager::Instance()->GetLand()->destroyEnemies(b->getTag());
 				if (_rs == DESTROY_ENEMY_BADKILL)
 					returnScoreScreen(false);
 				else if (_rs == DESTROY_ENEMY_GOODKILL)
@@ -328,12 +330,12 @@ bool GameScene::onContactBegin( cocos2d::PhysicsContact &contact )
 			if (POINT_TARGET_ROCKET_BITMASK == a->getCollisionBitmask()
 				&& POINT_VIEWER_ITEMS_BITMASK == b->getCollisionBitmask())
 			{
-				_land->hitWeaponEnemies(a->getTag());
+				ScreenManager::Instance()->GetLand()->hitWeaponEnemies(a->getTag());
 			}
 			else if (POINT_VIEWER_ITEMS_BITMASK == a->getCollisionBitmask()
 				&& POINT_TARGET_ROCKET_BITMASK == b->getCollisionBitmask())
 			{
-				_land->hitWeaponEnemies(b->getTag());
+				ScreenManager::Instance()->GetLand()->hitWeaponEnemies(b->getTag());
 			}
 		}
     }
@@ -421,14 +423,14 @@ bool GameScene::onTouchBegan( cocos2d::Touch *touch, cocos2d::Event *event )
 		if(Land::isMoving == true){
             if(_isMap15)
             {
-                _fighter->Shoot(touch->getLocation());
+				ScreenManager::Instance()->GetFighter()->Shoot(touch->getLocation());
             }
             else
             {
 				if (this->checkDeltaTime())
 				{
 					if (_iweaponTotal-- > 0){
-						_fighter->Drop();
+						ScreenManager::Instance()->GetFighter()->Drop();
 						sprintf(_szWeaponTotalStr, " x %d ", _iweaponTotal);
 						_weaponLabel->setString(_szWeaponTotalStr);
 					}
@@ -457,9 +459,9 @@ bool GameScene::onTouchBegan( cocos2d::Touch *touch, cocos2d::Event *event )
 
 void GameScene::update( float dt )
 {
-	_land->updateLandPositionToTheLeft();
+	ScreenManager::Instance()->GetLand()->updateLandPositionToTheLeft();
 	if (!_isMap15)
-		_fighter->updateBombs();
+		ScreenManager::Instance()->GetFighter()->updateBombs();
     // update position of land and enemies
     // try to put enemies in land => moving with land 
 }
@@ -475,11 +477,13 @@ void GameScene::stopGame()
 void GameScene::returnScoreScreen(const bool& _isCompleted)
 {
 	this->stopGame();
-	ScreenManager::Instance()->gotoGameOver(_isCompleted,_land->getPathMap());
+	ScreenManager::Instance()->gotoGameOver(_isCompleted, ScreenManager::Instance()->GetLand()->getPathMap());
 }
 
 void GameScene::start()
 {
+	//ScreenManager::Instance()->cleanUpMainMenu();
+	//ScreenManager::Instance()->cleanUpGameOver();
 	//CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("Sounds/heli_long.mp3", true);
 
 	if (_isMapRandom3)
@@ -499,7 +503,7 @@ void GameScene::start()
 	}
 
 	
-	_land->startMoving();
+	ScreenManager::Instance()->GetLand()->startMoving();
     this->scheduleUpdate( );
 	//CocosDenshion::SimpleAudioEngine::sharedEngine()->stopBackgroundMusic(true);
 	ScreenManager::Instance()->playMusicGameScene();
@@ -508,7 +512,6 @@ void GameScene::start()
 	_pauseButton->setTouchEnabled(true);
 //    this->schedule(schedule_selector(GameScene::updateFPS), 0);
     Land::isMoving = true;
-	_isWelcome = false;
 	//Director::getInstance()->getEventDispatcher()->setEnabled(true);
 }
 
@@ -522,26 +525,32 @@ void GameScene::setupUI()
 
 	//// add fighter
 	if (ScreenManager::Instance()->CurrentMap() == MAP_14){
-		_fighter = new Fighter(this, Point(xfighter, ytop1), MAP_14);
+		//_fighter = ScreenManager::Instance()->getNewFighter(this, Point(xfighter, ytop1), MAP_14);//new Fighter(this, Point(xfighter, ytop1), MAP_14);
+		ScreenManager::Instance()->setUpNewFighter(this, Point(xfighter, ytop1), MAP_14);
 		_isSpecialMap = true;
 		_isMap14 = true;
 	}
 	else if (ScreenManager::Instance()->CurrentMap() == MAP_15)
 	{
-		_fighter = new Fighter(this, Point(xfighter, ytop1), MAP_15);
+		ScreenManager::Instance()->setUpNewFighter(this, Point(xfighter, ytop1), MAP_15);
+		//_fighter = ScreenManager::Instance()->getNewFighter(this, Point(xfighter, ytop1), MAP_15);//new Fighter(this, Point(xfighter, ytop1), MAP_15);
 		_isMap15 = true;
 		_isSpecialMap = true;
 		//_isUnlimitedGun = true;
 	}
-	else
-		_fighter = new Fighter(this, Point(xfighter, ytop1));
-
+	else{
+		ScreenManager::Instance()->setUpNewFighter(this, Point(xfighter, ytop1));
+		//_fighter = ScreenManager::Instance()->getNewFighter(this, Point(xfighter, ytop1));;//new Fighter(this, Point(xfighter, ytop1));
+	}
+		
+		
 	////// weapon totals
-	_land->getWeaponsAndTarget(_iweaponTotal, _itargetTotal);
+	
+	ScreenManager::Instance()->GetLand()->getWeaponsAndTarget(_iweaponTotal, _itargetTotal);
 	if (!_isMap14)
-		_land->setPositionSpecialBtt(Point(xSpec, ytop1));
+		ScreenManager::Instance()->GetLand()->setPositionSpecialBtt(Point(xSpec, ytop1));
 	else
-		_fighter->setAntiRocketMap14(Point(xSpec, ytop1));
+		ScreenManager::Instance()->GetFighter()->setAntiRocketMap14(Point(xSpec, ytop1));
 
 	if (!_isMap15)
 	{
@@ -552,7 +561,7 @@ void GameScene::setupUI()
 
 		auto weaponIco = Sprite::create(MapProcessor::Instance()->getWeaponsSpriteFrameName());
 		weaponIco->setScale(Land::deltaScale);
-		if (_land->isSpecialButtonExist())
+		if (ScreenManager::Instance()->GetLand()->isSpecialButtonExist())
 		{
 			float ytop2 = visibleSize.height * 0.947 + origin.y - SIZE_BTT_SPEC * Land::deltaScale - weaponIco->getContentSize().height * 0.5 * Land::deltaScale;
 			weaponIco->setPosition(Point(xblank_top + SIZE_AHALF_BTT_SPEC * Land::deltaScale * 0.25, ytop2));
@@ -808,10 +817,9 @@ void GameScene::NoDesciptStart(float dt)
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 void GameScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
 {
-	onPause();
+	if(Land::isMoving)
+		onPause();
 }
-
-
 #endif
 
 

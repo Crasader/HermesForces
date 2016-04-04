@@ -14,6 +14,8 @@
 #include "MainMenuScene.h"
 #include "GameOverScene.h"
 #include "GameScene.h"
+#include "Missions/Land.h"
+#include "Fighter/Fighter.h"
 
 #define SIZE_TABLET 1680
 #define SIZE_MINI_TABLET 1390
@@ -76,6 +78,13 @@ public:
 
 	const float& getDelayTimeDevice();
 
+	void setUpNewLand(cocos2d::Layer *layer);
+	void setUpNewFighter(cocos2d::Layer *layer, const cocos2d::Point& leftAlignPos, const int& specialMap = 0);
+
+	Land* GetLand();
+	Fighter* GetFighter();
+
+	void releaseGameScene();
 private:
 	float _delayTime;
 		int _deviceType;
@@ -92,7 +101,10 @@ private:
         Scene* _scene;
 		float _khBackground, _kwBackground;
 		std::vector<std::string> _listThemeSongs;
-		int _back2, _back , _random;
+		int _back/*_back2, _back , _random*/;
 		float _minPixel;
+
+		Land* CurrentLand;
+		Fighter* CurrentFighter;
 };
 #endif /* ScreenManager_h */

@@ -84,13 +84,13 @@ private:
 	cocos2d::ui::Button *_pauseButton,*_resumeBtt, *_reloadBtt, *_homeBtt, *_musicBtt, *_soundBtt;
 
 	Sprite *Enemy1, *Enemy2, *Enemy3, *Enemy4, *Enemy5, *Enemy6;
-	bool _isGameOver, _isWelcome;
+	bool _isGameOver;
 	bool _isEmptyWeapons;
 	bool _isMapRandom3, _isMapRandom6;
 	int _rs;
 
-    Land* _land;
-    Fighter *_fighter;
+    //Land* _land;
+    //Fighter *_fighter;
     
     void start();
     int _typeWeapon;

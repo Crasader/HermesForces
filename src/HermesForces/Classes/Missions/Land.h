@@ -78,6 +78,8 @@ public:
 	std::string& getPathMap(){ return startLandPath; }
 
 	void enableSpecialButton();
+
+	void preReleaseLand();
 private:
 	//const bool& checkDeltaTime();
 
@@ -95,7 +97,8 @@ private:
 	cocos2d::Sprite *_land_next_current, *_land_next_current_rest;
 
 	//MapNext* _mapNext;
-	Target* listTargets[50];
+	//Target* _listTargets[50];
+	std::vector<Target*> _listTargets;
 	GameScene* parent;
 
 	int _typeBomb;
@@ -111,7 +114,7 @@ private:
 	int _pointXToDieStartMap, _pointXToDieNextMap;
 
 	int _lastTime;
-	int _isGoodTarget , _indexInTarget, _indexOutTarget;
+	int _isGoodTarget , /*_indexInTarget, */_indexOutTarget;
 	float _pixelTargetMoving , _pixelLandMoving;
 
 	bool _isNextLandAvaiable , _isAllNextLandAvaiable , _isEndOfStartLand;

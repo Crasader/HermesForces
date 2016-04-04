@@ -1,6 +1,7 @@
 #include "GameOverScene.h"
 #include "ScreenManager.h"
 #include "Missions/Land.h"
+#include "Fighter/Fighter.h"
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS) 
 #include "SonarFrameworks.h"
@@ -25,7 +26,7 @@ Scene* GameOverScene::createScene()
 // on "init" you need to initialize your instance
 bool GameOverScene::init()
 {
-    mx[0] = 0;
+    //mx[0] = 0;
     
     //////////////////////////////
     // 1. super init first
@@ -79,23 +80,6 @@ bool GameOverScene::init()
 //    menu->setPosition( Point::ZERO );
 //    
 //    this->addChild( menu );
-
-    auto itemRetryButton = cocos2d::ui::Button::create();
-    itemRetryButton->loadTextures("mini/scene/button_retry.jpg", "", "");
-    itemRetryButton->addTouchEventListener(CC_CALLBACK_2(GameOverScene::GoToGameScene, this));
-    itemRetryButton->setPosition( Point( visibleSize.width * 0.25 , visibleSize.height * 0.5 ) );
-    itemRetryButton->setScale(Land::deltaScale);
-    this->addChild(itemRetryButton);
-    
-    
-    auto itemMenuButton = cocos2d::ui::Button::create();
-    itemMenuButton->loadTextures("mini/scene/button_menu.jpg", "", "");
-    itemMenuButton->addTouchEventListener(CC_CALLBACK_2(GameOverScene::GoToMainMenuScene, this));
-    itemMenuButton->setPosition( Point( visibleSize.width * 0.75, visibleSize.height * 0.5) );
-    itemMenuButton->setScale(Land::deltaScale);
-    this->addChild(itemMenuButton);
-    
-    
     
 //    auto retryItem = cocos2d::ui::Button::cMenuItemImage::create( "mini/scene/button_retry.jpg", "mini/scene/button_retry.jpg", CC_CALLBACK_1( GameOverScene::GoToGameScene, this ) );
 //    retryItem->setPosition( Point( visibleSize.width * 0.25 , visibleSize.height * 0.5 ) );
@@ -121,14 +105,20 @@ bool GameOverScene::init()
 	//float wx = cloudSprite->getPositionX();
 
 
-	// ios
+	// ios > 3
+	if(ScreenManager::Instance()->CurrentMap() >= 3)
+	{
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-	SonarCocosHelper::IOS::Setup();
-	SonarCocosHelper::AdMob::showBannerAd(SonarCocosHelper::AdBannerPosition::eTop);
+		SonarCocosHelper::IOS::Setup();
+		SonarCocosHelper::AdMob::showBannerAd(SonarCocosHelper::AdBannerPosition::eTop);
 #endif
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-	SonarCocosHelper::AdMob::showBannerAd(SonarCocosHelper::AdBannerPosition::eBottom);
+		SonarCocosHelper::AdMob::showBannerAd(SonarCocosHelper::AdBannerPosition::eBottom);
 #endif
+	}
+
+
+	this->scheduleOnce(schedule_selector(GameOverScene::onFinishLoading), 0.75f);
     return true;
 }
 
@@ -150,22 +140,37 @@ bool GameOverScene::init()
 
 void GameOverScene::GoToMainMenuScene( Ref* pSender, ui::Widget::TouchEventType eEventType )
 {
-    if (eEventType == ui::Widget::TouchEventType::ENDED)
-    {
+	//if (Land::thisPointer)
+	//	delete Land::thisPointer;
+	//if (Fighter::ThisPointer)
+	//	delete Fighter::ThisPointer;
+	if (eEventType == ui::Widget::TouchEventType::ENDED)
+	{
+		if(ScreenManager::Instance()->CurrentMap() >= 3)
+		{
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-        SonarCocosHelper::AdMob::hideBannerAd(SonarCocosHelper::AdBannerPosition::eBottom);
+			SonarCocosHelper::AdMob::hideBannerAd(SonarCocosHelper::AdBannerPosition::eBottom);
 #endif
+		}
         ScreenManager::Instance()->gotoMainMenu();
     }
 }
 
 void GameOverScene::GoToGameScene( Ref* pSender, ui::Widget::TouchEventType eEventType )
 {
-    if (eEventType == ui::Widget::TouchEventType::ENDED)
-    {
+	//if (Land::thisPointer)
+	//	Land::thisPointer->preReleaseLand();
+	//if (Fighter::ThisPointer)
+	//	delete Fighter::ThisPointer;
+
+	if (eEventType == ui::Widget::TouchEventType::ENDED)
+	{
+		if(ScreenManager::Instance()->CurrentMap() >= 3)
+		{
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-        SonarCocosHelper::AdMob::hideBannerAd(SonarCocosHelper::AdBannerPosition::eBottom);
+			SonarCocosHelper::AdMob::hideBannerAd(SonarCocosHelper::AdBannerPosition::eBottom);
 #endif
+		}
         ScreenManager::Instance()->reloadGameScene();
     }
 }
@@ -175,10 +180,36 @@ GameOverScene::~GameOverScene()
 
 }
 
+
+void GameOverScene::onFinishLoading(float dt)
+{
+	//ScreenManager::Instance()->releaseGameScene();
+
+	itemRetryButton = cocos2d::ui::Button::create();
+	itemRetryButton->loadTextures("mini/scene/button_retry.jpg", "", "");
+	itemRetryButton->addTouchEventListener(CC_CALLBACK_2(GameOverScene::GoToGameScene, this));
+	itemRetryButton->setPosition(Point(Director::getInstance()->getVisibleSize().width * 0.25, Director::getInstance()->getVisibleSize().height * 0.5));
+	itemRetryButton->setScale(Land::deltaScale);
+	this->addChild(itemRetryButton);
+
+
+	itemMenuButton = cocos2d::ui::Button::create();
+	itemMenuButton->loadTextures("mini/scene/button_menu.jpg", "", "");
+	itemMenuButton->addTouchEventListener(CC_CALLBACK_2(GameOverScene::GoToMainMenuScene, this));
+	itemMenuButton->setPosition(Point(Director::getInstance()->getVisibleSize().width * 0.75, Director::getInstance()->getVisibleSize().height * 0.5));
+	itemMenuButton->setScale(Land::deltaScale);
+	this->addChild(itemMenuButton);
+
+}
+
+
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 void GameOverScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
 {
+	if(ScreenManager::Instance()->CurrentMap() >= 3)
+	{
 	SonarCocosHelper::AdMob::hideBannerAd(SonarCocosHelper::AdBannerPosition::eBottom);
+	}
 	ScreenManager::Instance()->gotoMainMenu();
 }
 #endif
