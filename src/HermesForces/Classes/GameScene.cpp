@@ -37,7 +37,7 @@ bool GameScene::init()
 		_oldTimer.tv_sec = 0;
 		_oldTimer.tv_usec = 0;
 	}
-
+	_isSpecialTutorial = false;
     //background.mp3
     //actionAudio = SimpleAudioEngine::getInstance();
     //backgroundAudio = SimpleAudioEngine::getInstance();
@@ -87,7 +87,7 @@ bool GameScene::init()
 	//_testLabel->setColor(Color3B::BLACK);
 	//this->addChild(_testLabel, 14102);
 	_disTime = DELTA_TIME / ScreenManager::Instance()->getDelayTimeDevice();
-
+	
     return true;
 }
 
@@ -485,6 +485,12 @@ void GameScene::start()
 	//ScreenManager::Instance()->cleanUpMainMenu();
 	//ScreenManager::Instance()->cleanUpGameOver();
 	//CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("Sounds/heli_long.mp3", true);
+	if (_isSpecialTutorial){
+		if (ScreenManager::Instance()->CurrentMap() == MAP_14)
+			ScreenManager::Instance()->GetFighter()->turnOffAntiRocketFading();
+		else
+			ScreenManager::Instance()->GetLand()->stopFadeInoutSpecBtt();
+	}
 
 	if (_isMapRandom3)
 	{
@@ -504,6 +510,7 @@ void GameScene::start()
 
 	
 	ScreenManager::Instance()->GetLand()->startMoving();
+	ScreenManager::Instance()->GetFighter()->startMoving();
     this->scheduleUpdate( );
 	//CocosDenshion::SimpleAudioEngine::sharedEngine()->stopBackgroundMusic(true);
 	ScreenManager::Instance()->playMusicGameScene();
@@ -783,14 +790,20 @@ void GameScene::runTutorial()
 	else if (ScreenManager::Instance()->CurrentMap() == MAP_2)
 	{
 		tut = Sprite::create("mini/scene/ctn/tut_map2.png");
+		ScreenManager::Instance()->GetLand()->fadeInOutSpecBtt();
+		_isSpecialTutorial = true;
 	}
 	else if (ScreenManager::Instance()->CurrentMap() == MAP_4)
 	{
 		tut = Sprite::create("mini/scene/ctn/tut_map4.png");
+		ScreenManager::Instance()->GetLand()->fadeInOutSpecBtt();
+		_isSpecialTutorial = true;
 	}
 	else if (ScreenManager::Instance()->CurrentMap() == MAP_14)
 	{
 		tut = Sprite::create("mini/scene/ctn/tut_map14.png");
+		ScreenManager::Instance()->GetFighter()->fadeInOutAntiRocketButton();
+		_isSpecialTutorial = true;
 	}
 	else{
 		this->start();

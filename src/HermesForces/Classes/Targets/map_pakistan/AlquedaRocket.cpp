@@ -98,7 +98,6 @@ const bool& AlQuedaRocket::updatePositionToTheLeft()
 
 void AlQuedaRocket::attackMainCharacter()
 {
-    //return;
 	if(_isDisable)
 		return;
 	//rocket_launch

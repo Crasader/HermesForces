@@ -387,6 +387,17 @@ void ScreenManager::releaseGameScene()
 	}
 }
 
+void ScreenManager::playMusicVictory()
+{
+	if (_isOnSound)
+		CocosDenshion::SimpleAudioEngine::sharedEngine()->stopAllEffects();
+
+	if (_isOnMusic){
+		if (_mapNumber == MAP_15)
+			CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("Sounds/bg_Up_Around_The_Bend.mp3", true);
+	}
+}
+
 void ScreenManager::gotoSplash()
 {
     auto scene = SplashScene::createScene();
@@ -437,9 +448,10 @@ void ScreenManager::gotoGameOver(const bool& isCompleted, const std::string& rec
 	Engine::Instance()->replaceScene(scene, 1);
 }
 
-void ScreenManager::cleanGameScene()
+void ScreenManager::gotoCreditScene()
 {
-
+	auto scene = CreditScene::createScene();
+	Engine::Instance()->replaceScene(scene, 0.9f);
 }
 
 //void ScreenManager::continueGame()

@@ -231,10 +231,15 @@ void MainMenuScene::onFinishLoading(float dt)
 
 	soundBtt->addTouchEventListener(CC_CALLBACK_2(MainMenuScene::turnOnOffSoundButton, this));
 
+	copyrightBtt = cocos2d::ui::Button::create();
+	copyrightBtt->loadTextures("mini/scene/copyrightbtt.png", "mini/scene/copyrightbtt.png", "");
+	copyrightBtt->addTouchEventListener(CC_CALLBACK_2(MainMenuScene::gotoCreditScene, this));
+
 	//auto musicBtt = Sprite::create("mini/scene/musicbtt.png");
 	//auto soundBtt = Sprite::create("mini/scene/soundbtt.png");
 	musicBtt->setScale(x*1.5);
 	soundBtt->setScale(x*1.5);
+	copyrightBtt->setScale(x*1.5);
 
 	float widthReal = visibleSize.width - musicBtt->getContentSize().width *  x;
 	float widthEachCell = (widthReal)* 0.16;
@@ -269,9 +274,11 @@ void MainMenuScene::onFinishLoading(float dt)
 	musicBtt->setPosition(Point(col_6, row_1 + map_15->getContentSize().height *  0.5 * _scaleMap -
 		musicBtt->getContentSize().height * x * 0.5 *1.5));
 	soundBtt->setPosition(Point(musicBtt->getPositionX(), musicBtt->getPositionY() - musicBtt->getContentSize().height * x * 1.25 * 1.5));
-
+	copyrightBtt->setPosition(Point(soundBtt->getPositionX(), soundBtt->getPositionY() - soundBtt->getContentSize().height * x * 1.25 * 1.5));
+	
 	this->addChild(musicBtt);
 	this->addChild(soundBtt);
+	this->addChild(copyrightBtt);
 
 	auto cloudSprite = Sprite::create("mini/scene/cloud.png");
 	cloudSprite->setPosition(Point(cloudSprite->getContentSize().width * 0.5 * y + origin.x * 0.5, visibleSize.height / 2 + origin.y * 0.5));
@@ -284,7 +291,7 @@ void MainMenuScene::onFinishLoading(float dt)
 	cloudSprite->runAction(RepeatForever::create(seq));
 	ScreenManager::Instance()->playMusicMainMenu();
 
-	_mapMax = 14;// ScreenManager::Instance()->getMaxMap();
+	_mapMax =  ScreenManager::Instance()->getMaxMap();
 
 	this->addMapButton(MAP_1, "mini/scene/map_stage/iraq_map.png", "", CC_CALLBACK_2(MainMenuScene::GoToGameScene_1, this), col_1, row_1);
 	this->addMapButton(MAP_2, "mini/scene/map_stage/syria_map.png", "mini/scene/map_stage/syria_map_no.png", CC_CALLBACK_2(MainMenuScene::GoToGameScene_2, this), col_2, row_1);
@@ -316,9 +323,13 @@ void MainMenuScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
 {
 	Director::getInstance()->end();
 }
-
-
 #endif
+
+void MainMenuScene::gotoCreditScene(Ref* pSender, ui::Widget::TouchEventType eEventType)
+{
+	ScreenManager::Instance()->gotoCreditScene();
+}
+
 
 
 

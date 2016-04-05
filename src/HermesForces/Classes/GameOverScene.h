@@ -27,7 +27,7 @@ private:
 
 	cocos2d::ui::Button* itemRetryButton;
 	cocos2d::ui::Button* itemMenuButton;
-
+	bool _isVictory;
     //char mx[300];
     
 };

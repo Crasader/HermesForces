@@ -26,6 +26,9 @@ public:
 	void setAnimationFighterFly();
     void soundGunMap415();//
 	void preReleaseFighter();
+	void fadeInOutAntiRocketButton();
+	void turnOffAntiRocketFading();
+	void startMoving();
 	//static Fighter* ThisPointer;
 private:
     int _nextTimeShootGun , _iGood;

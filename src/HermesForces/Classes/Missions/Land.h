@@ -40,7 +40,7 @@ public:
 	static float pixelOfLandMoving;
 	static float pixelOfTargetMoving;
 	static int OutOfLeftWidth;
-	static int OutOfRightWidth;
+	//static int OutOfRightWidth;
 	static cocos2d::Point endPointFallingBomb;
 	static bool isCalculateEndPoint;
 	//static bool isClickSpecialBtt;
@@ -80,6 +80,9 @@ public:
 	void enableSpecialButton();
 
 	void preReleaseLand();
+
+	void fadeInOutSpecBtt();
+	void stopFadeInoutSpecBtt();
 private:
 	//const bool& checkDeltaTime();
 
@@ -127,6 +130,7 @@ private:
 	timeval _oldTimer, _currTimer;
 
 	bool _isClickSpecialBtt;
+
 	// 1 ms -> 0.5px => 1s ->50px 
 };
 

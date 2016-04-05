@@ -22,7 +22,7 @@ float Land::pixelOfLandMoving;
 float Land::pixelOfTargetMoving;
 
 int Land::OutOfLeftWidth = 0;
-int Land::OutOfRightWidth = 100;
+//int Land::OutOfRightWidth = 100;
 
 Point Land::endPointFallingBomb;
 
@@ -58,7 +58,7 @@ Land::Land(cocos2d::Layer* layer , const int& stage)
 	_mapStage = stage;
 	k = 1;
 	Land::isCalculateEndPoint = false;
-	//_SpecialButton = NULL;
+	_SpecialButton = NULL;
 	//Land::parentLayer = layer;
 
 	//Land::intoScreen = -1;
@@ -162,7 +162,7 @@ Land::Land(cocos2d::Layer* layer , const int& stage)
 	//_indexInTarget = 0;
 	Land::OutOfLeftWidth = -50 * Land::deltaScale;
 	// TODO : remove outofRight
-	Land::OutOfRightWidth = Director::getInstance()->getVisibleSize().width + 200;
+	//Land::OutOfRightWidth = Director::getInstance()->getVisibleSize().width + 200;
 
 	_pixelTargetMoving = 0;
 	_isNextLandAvaiable = false;
@@ -315,6 +315,23 @@ void Land::preReleaseLand()
 	//Land::thisPointer = NULL;
 }
 
+void Land::fadeInOutSpecBtt()
+{
+	if (_SpecialButton == NULL)
+		return;
+	//_SpecialButton->loadTextures("mini/land/special/btt_flare.png", "mini/land/special/btt_flare.png", "");
+	auto fadein = FadeTo::create(0.1f, 0);
+	auto fadeOut = FadeTo::create(0.5f, 255);
+	auto seq = Sequence::create(fadein, fadeOut, nullptr);
+	_SpecialButton->runAction(RepeatForever::create(seq));
+}
+
+void Land::stopFadeInoutSpecBtt()
+{
+	_SpecialButton->stopAllActions();
+	_SpecialButton->setOpacity(255);
+}
+
 Land::~Land()
 {
 	this->preReleaseLand();
@@ -332,7 +349,7 @@ void Land::setUpSpecialAndAddTarget(cocos2d::Layer* layer)
 	}
 
 	_SpecialButton = cocos2d::ui::Button::create();
-	_SpecialButton->setTouchEnabled(true);
+	_SpecialButton->setTouchEnabled(false);
 	switch (currentMap->Special)
 	{
 	case SPECIAL_HELPER_LIGHT:
@@ -680,6 +697,9 @@ void Land::moveToLeft()
 
 void Land::startMoving()
 {
+	if (_SpecialButton)
+		_SpecialButton->setTouchEnabled(true);
+
 	for (int i = 0; i < _targetCount; i++)
 	{
 		_listTargets[i]->startMoving();

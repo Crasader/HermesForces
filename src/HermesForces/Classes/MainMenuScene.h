@@ -42,6 +42,7 @@ private:
     void exitGame();
 	void turnOnOffMusicButton(Ref* pSender, ui::Widget::TouchEventType eEventType);
 	void turnOnOffSoundButton(Ref* pSender, ui::Widget::TouchEventType eEventType);
+	void gotoCreditScene(Ref* pSender, ui::Widget::TouchEventType eEventType);
 
 	void onFinishLoading(float dt);
 	Size visibleSize;
@@ -51,6 +52,7 @@ private:
 	int _mapMax;
 	cocos2d::ui::Button* musicBtt;
 	cocos2d::ui::Button* soundBtt;
+	cocos2d::ui::Button* copyrightBtt;
 };
 
 #endif // __MAIN_MENU_SCENE_H__

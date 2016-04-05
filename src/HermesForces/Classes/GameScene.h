@@ -112,6 +112,7 @@ private:
 	//time_measure _tm;
 
 	int _disTime;
+	bool _isSpecialTutorial;
 };
 
 #endif // __GAME_SCENE_H__

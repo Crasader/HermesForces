@@ -210,6 +210,9 @@
     <ClCompile Include="..\Classes\Targets\map_pakistan\AlquedaVictim.cpp">
       <Filter>src\Targets\map_pakistan</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\CreditScene.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -361,6 +364,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Targets\map_pakistan\AlquedaVictim.h">
       <Filter>src\Targets\map_pakistan</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\CreditScene.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

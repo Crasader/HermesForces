@@ -188,8 +188,8 @@ glview->setDesignResolutionSize(1337, 750, ResolutionPolicy::EXACT_FIT);
 //glview->setFrameSize(920, 680);
 //glview->setDesignResolutionSize(920, 680, ResolutionPolicy::EXACT_FIT);
 
-//glview->setFrameSize(1330, 750);
-//glview->setDesignResolutionSize(1330, 750, ResolutionPolicy::EXACT_FIT);
+//glview->setFrameSize(480, 320);
+//glview->setDesignResolutionSize(480, 320, ResolutionPolicy::EXACT_FIT);
 
 	//if (true == IS_LANDSCAPE)
 	//{

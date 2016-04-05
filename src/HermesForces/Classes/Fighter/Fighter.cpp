@@ -28,7 +28,7 @@ Fighter::Fighter(cocos2d::Layer *layer, const cocos2d::Point& leftAlignPos, cons
 	
 	//_listAntiRocketItems = 0;
 	_unlimitedWeapon = 0;
-
+	_specialButton = NULL;
 	if(specialMap > 0)
 	{
 		// special map
@@ -49,6 +49,7 @@ Fighter::Fighter(cocos2d::Layer *layer, const cocos2d::Point& leftAlignPos, cons
 			_specialButton->loadTextures("mini/land/special/btt_antirocket.png", "mini/land/special/btt_antirocket_clicked.png", "");
 			_specialButton->addTouchEventListener(CC_CALLBACK_2(Fighter::antiRocket, this));
 			_specialButton->setScale(Land::deltaScale);
+			_specialButton->setTouchEnabled(false);
 			layer->addChild(_specialButton, 2895);
 			//SpecialButton->setPosition(Point(50 , Land::visibleSize.height - 50));
 			Land::PosRocket = cocos2d::random(0.8,0.95) * Land::visibleSize.width;
@@ -93,7 +94,7 @@ Fighter::Fighter(cocos2d::Layer *layer, const cocos2d::Point& leftAlignPos, cons
 			//_restAntiRocket = 30;
 			//_timeDelayAntiRocket = 800;
 			_unlimitedWeapon = new ViewFinder(layer,Point(Land::visibleSize.width * 0.5, Land::visibleSize.height * 0.5));
-			//Land::PosRocket = 0.95 * Land::visibleSize.width;
+			Land::PosRocket = 0.95 * Land::visibleSize.width;
 
 			auto fighterBody = PhysicsBody::createBox( cocos2d::Size(FIGHTER_BOX_SQUARE,FIGHTER_BOX_SQUARE));
 			fighterBody->setCollisionBitmask(POINT_FIGHTER_BITMASK);
@@ -146,6 +147,26 @@ void Fighter::preReleaseFighter()
 		
 	if (_unlimitedWeapon)
 		delete _unlimitedWeapon;
+}
+
+void Fighter::fadeInOutAntiRocketButton()
+{
+	auto fadein = FadeTo::create(0.1f, 0);
+	auto fadeOut = FadeTo::create(0.5f, 255);
+	auto seq = Sequence::create(fadein, fadeOut, nullptr);
+	_specialButton->runAction(RepeatForever::create(seq));
+}
+
+void Fighter::turnOffAntiRocketFading()
+{
+	_specialButton->stopAllActions();
+	_specialButton->setOpacity(255);	
+}
+
+void Fighter::startMoving()
+{
+	if (_specialButton)
+		_specialButton->setTouchEnabled(true);
 }
 
 Fighter::~Fighter()

@@ -13,6 +13,7 @@
 #include "SplashScene.h"
 #include "MainMenuScene.h"
 #include "GameOverScene.h"
+#include "CreditScene.h"
 #include "GameScene.h"
 #include "Missions/Land.h"
 #include "Fighter/Fighter.h"
@@ -46,8 +47,8 @@ public:
     void gotoGameScene(const int& map);
 	void reloadGameScene();
     void gotoGameOver(const bool& isCompleted, const std::string& recentMap);
-    void cleanGameScene();
-    void continueGame();
+	void gotoCreditScene();
+
     const int& CurrentMap();
 	const float& getkScale();
 	void scaleScreenFull(cocos2d::Sprite* bg);
@@ -85,6 +86,7 @@ public:
 	Fighter* GetFighter();
 
 	void releaseGameScene();
+	void playMusicVictory();
 private:
 	float _delayTime;
 		int _deviceType;

@@ -34,6 +34,7 @@ bool GameOverScene::init()
     {
         return false;
     }
+	_isVictory = false;
 	CocosDenshion::SimpleAudioEngine::getInstance()->stopAllEffects();
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -52,9 +53,39 @@ bool GameOverScene::init()
 
 	//ScreenManager::Instance()->scaleScreenFull(backgroundSprite);
 	this->addChild(backgroundSprite);
-    
+
+	auto cloudSprite = Sprite::create("mini/scene/cloud.png");
+	cloudSprite->setPosition(Point(cloudSprite->getContentSize().width * 0.5 * y + origin.x * 0.5, visibleSize.height / 2 + origin.y * 0.5));
+	cloudSprite->setScale(y);
+	this->addChild(cloudSprite,200);
+
+	auto moveToLeft = MoveTo::create(15, Point(cloudSprite->getContentSize().width * y - visibleSize.width, visibleSize.height * 0.5 + origin.y * 0.5));
+	auto moveToRight = MoveTo::create(15, Point(cloudSprite->getPositionX(), visibleSize.height * 0.5 + origin.y * 0.5));
+	auto seq = Sequence::create(moveToLeft, moveToRight, nullptr);
+	cloudSprite->runAction(RepeatForever::create(seq));
+
+
 	Sprite* _statusImage;
 	if (ScreenManager::Instance()->getStatusMapOver()){
+		if (ScreenManager::Instance()->CurrentMap() == MAP_15)
+		{
+			//mission_complete_final
+			_statusImage = Sprite::create("mini/scene/mission_complete_final.png");
+			_statusImage->setPosition(Point(visibleSize.width / 2, visibleSize.height * 0.5));
+			_statusImage->setScale(Land::deltaScale);
+			this->addChild(_statusImage);
+
+			auto backButton = cocos2d::ui::Button::create();
+			backButton->loadTextures("mini/scene/btt_large.png", "mini/scene/btt_large.png", "");
+			backButton->setScale(Land::deltaScale);
+			float distanceConer = 0.12 * Director::getInstance()->getVisibleSize().height;
+			backButton->setPosition(Point(Director::getInstance()->getVisibleSize().width - distanceConer,
+				Director::getInstance()->getVisibleSize().height - distanceConer));
+			backButton->addTouchEventListener(CC_CALLBACK_2(GameOverScene::GoToMainMenuScene, this));
+			this->addChild(backButton);
+			ScreenManager::Instance()->playMusicVictory();
+			return true;
+		}
 		_statusImage = Sprite::create("mini/scene/mission_finish.png");
 		ScreenManager::Instance()->writeResult();
 	}	
@@ -69,36 +100,6 @@ bool GameOverScene::init()
 	_statusImage->setScale(Land::deltaScale);
 	this->addChild(_statusImage);
 
-
-//    auto retryItem = MenuItemImage::create( "mini/scene/button_retry.jpg", "mini/scene/button_retry.jpg", CC_CALLBACK_1( GameOverScene::GoToGameScene, this ) );
-//    retryItem->setPosition( Point( visibleSize.width * 0.25 , visibleSize.height * 0.5 ) );
-//	retryItem->setScale(Land::deltaScale);
-//    auto mainMenuItem = MenuItemImage::create( "mini/scene/button_menu.jpg", "mini/scene/button_menu.jpg", CC_CALLBACK_1( GameOverScene::GoToMainMenuScene, this ) );
-//	mainMenuItem->setPosition(Point(visibleSize.width * 0.75, visibleSize.height * 0.5));
-//	mainMenuItem->setScale(Land::deltaScale);
-//    auto menu = Menu::create( retryItem, mainMenuItem, NULL );
-//    menu->setPosition( Point::ZERO );
-//    
-//    this->addChild( menu );
-    
-//    auto retryItem = cocos2d::ui::Button::cMenuItemImage::create( "mini/scene/button_retry.jpg", "mini/scene/button_retry.jpg", CC_CALLBACK_1( GameOverScene::GoToGameScene, this ) );
-//    retryItem->setPosition( Point( visibleSize.width * 0.25 , visibleSize.height * 0.5 ) );
-//    retryItem->setScale(Land::deltaScale);
-//    auto mainMenuItem = MenuItemImage::create( "mini/scene/button_menu.jpg", "mini/scene/button_menu.jpg", CC_CALLBACK_1( GameOverScene::GoToMainMenuScene, this ) );
-//    mainMenuItem->setPosition(Point(visibleSize.width * 0.75, visibleSize.height * 0.5));
-//    mainMenuItem->setScale(Land::deltaScale);
-    
-    
-	auto cloudSprite = Sprite::create("mini/scene/cloud.png");
-	cloudSprite->setPosition(Point(cloudSprite->getContentSize().width * 0.5 * y + origin.x * 0.5, visibleSize.height / 2 + origin.y * 0.5));
-	cloudSprite->setScale(y);
-	this->addChild(cloudSprite);
-
-	auto moveToLeft = MoveTo::create(15, Point(cloudSprite->getContentSize().width * y - visibleSize.width, visibleSize.height * 0.5 + origin.y * 0.5));
-	auto moveToRight = MoveTo::create(15, Point(cloudSprite->getPositionX(), visibleSize.height * 0.5 + origin.y * 0.5));
-	auto seq = Sequence::create(moveToLeft, moveToRight, nullptr);
-	cloudSprite->runAction(RepeatForever::create(seq));
-
 	
 	//float wi = cloudSprite->getContentSize().width * 0.5 * x + origin.x * 0.5;
 	//float wl = cloudSprite->getContentSize().width * x - visibleSize.width;
@@ -106,7 +107,7 @@ bool GameOverScene::init()
 
 
 	// ios > 3
-	if(ScreenManager::Instance()->CurrentMap() >= 3)
+	if(ScreenManager::Instance()->CurrentMap() >= MAP_3)
 	{
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 		SonarCocosHelper::IOS::Setup();
@@ -146,10 +147,12 @@ void GameOverScene::GoToMainMenuScene( Ref* pSender, ui::Widget::TouchEventType 
 	//	delete Fighter::ThisPointer;
 	if (eEventType == ui::Widget::TouchEventType::ENDED)
 	{
-		if(ScreenManager::Instance()->CurrentMap() >= 3)
+		if (ScreenManager::Instance()->CurrentMap() >= MAP_3)
 		{
+
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-			SonarCocosHelper::AdMob::hideBannerAd(SonarCocosHelper::AdBannerPosition::eBottom);
+			if (!_isVictory)
+				SonarCocosHelper::AdMob::hideBannerAd(SonarCocosHelper::AdBannerPosition::eBottom);
 #endif
 		}
         ScreenManager::Instance()->gotoMainMenu();
@@ -165,7 +168,7 @@ void GameOverScene::GoToGameScene( Ref* pSender, ui::Widget::TouchEventType eEve
 
 	if (eEventType == ui::Widget::TouchEventType::ENDED)
 	{
-		if(ScreenManager::Instance()->CurrentMap() >= 3)
+		if (ScreenManager::Instance()->CurrentMap() >= MAP_3)
 		{
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
 			SonarCocosHelper::AdMob::hideBannerAd(SonarCocosHelper::AdBannerPosition::eBottom);
@@ -206,9 +209,10 @@ void GameOverScene::onFinishLoading(float dt)
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 void GameOverScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event)
 {
-	if(ScreenManager::Instance()->CurrentMap() >= 3)
+	if(ScreenManager::Instance()->CurrentMap() >= MAP_3)
 	{
-	SonarCocosHelper::AdMob::hideBannerAd(SonarCocosHelper::AdBannerPosition::eBottom);
+		if(!_isVictory)
+			SonarCocosHelper::AdMob::hideBannerAd(SonarCocosHelper::AdBannerPosition::eBottom);
 	}
 	ScreenManager::Instance()->gotoMainMenu();
 }
