@@ -195,5 +195,11 @@ USING_NS_CC;
 #define BE_DETECTED 100
 #define BE_DEAD_NO_DETECT 200
 
+#define MAP_DESERT 17
+#define MAP_CITY 19
+#define MAP_SUBURB 23
+#define MAP_AREAX 29
+#define NO_MAP_AREA -31
+
 
 #endif /* define_h */

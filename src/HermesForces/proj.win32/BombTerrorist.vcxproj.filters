@@ -213,6 +213,9 @@
     <ClCompile Include="..\Classes\CreditScene.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\DetailMainMenu.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -366,6 +369,9 @@
       <Filter>src\Targets\map_pakistan</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\CreditScene.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\DetailMainMenu.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

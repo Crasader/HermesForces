@@ -145,11 +145,14 @@ const int& ScreenManager::getMaxMap()
 		else
 		{
 			fclose(f);
+			_mapNumber = 0;
 			return 0;
 		}
 		fclose(f);
-		return ToInt(buf1);
+		_mapNumber = ToInt(buf1);
+		return _mapNumber;
 	}
+	_mapNumber = 0;
 	return 0;
 }
 
@@ -451,6 +454,23 @@ void ScreenManager::gotoGameOver(const bool& isCompleted, const std::string& rec
 void ScreenManager::gotoCreditScene()
 {
 	auto scene = CreditScene::createScene();
+	Engine::Instance()->replaceScene(scene, 0.9f);
+}
+
+void ScreenManager::gotoDetailMap(const int& bigmap)
+{
+	if (bigmap == MAP_CITY)
+		if (_mapNumber < MAP_5)
+			return;
+	if (bigmap == MAP_SUBURB)
+		if (_mapNumber < MAP_9)
+			return;
+	if (bigmap == MAP_AREAX)
+		if (_mapNumber < MAP_13)
+			return;
+
+	_bigMap = bigmap;
+	auto scene = DetailMainMenuScene::createScene();
 	Engine::Instance()->replaceScene(scene, 0.9f);
 }
 

@@ -57,6 +57,7 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 				../../Classes/Engine.cpp \
 				../../Classes/ScreenManager.cpp \
 				../../Classes/MainMenuScene.cpp	\
+				../../Classes/DetailMainMenu.cpp \
 				../../Classes/CreditScene.cpp \
 				../../Classes/SonarFrameworks.cpp \
 				../../Classes/JNIHelpers.cpp \

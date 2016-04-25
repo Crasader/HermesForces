@@ -602,7 +602,12 @@ void GameScene::setupUI()
 		, ytop1));
 	this->addChild(_targetLabel, 4201);
 
-	auto deadHeadIco = Sprite::create("mini/scene/headdead.png");
+	Sprite* deadHeadIco;
+	if (ScreenManager::Instance()->CurrentMap() == MAP_7)
+		deadHeadIco = Sprite::create("mini/scene/bomb.png");
+	else
+		deadHeadIco = Sprite::create("mini/scene/target.png");
+
 	deadHeadIco->setScale(Land::deltaScale);
 	deadHeadIco->setPosition(Point(_targetLabel->getPositionX() - _targetLabel->getContentSize().width * 0.5 - deadHeadIco->getContentSize().width * Land::deltaScale * 0.5, ytop1));
 	this->addChild(deadHeadIco, 4205);

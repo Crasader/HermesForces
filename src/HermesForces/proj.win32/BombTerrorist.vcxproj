@@ -146,6 +146,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\CreditScene.cpp" />
+    <ClCompile Include="..\Classes\DetailMainMenu.cpp" />
     <ClCompile Include="..\Classes\Engine.cpp" />
     <ClCompile Include="..\Classes\Fighter\Fighter.cpp" />
     <ClCompile Include="..\Classes\Fighter\Items\AntiRocket.cpp" />
@@ -199,6 +200,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\CreditScene.h" />
     <ClInclude Include="..\Classes\define.h" />
+    <ClInclude Include="..\Classes\DetailMainMenu.h" />
     <ClInclude Include="..\Classes\Engine.h" />
     <ClInclude Include="..\Classes\Fighter\Fighter.h" />
     <ClInclude Include="..\Classes\Fighter\Items\AntiRocket.h" />

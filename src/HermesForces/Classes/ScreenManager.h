@@ -15,6 +15,7 @@
 #include "GameOverScene.h"
 #include "CreditScene.h"
 #include "GameScene.h"
+#include "DetailMainMenu.h"
 #include "Missions/Land.h"
 #include "Fighter/Fighter.h"
 
@@ -48,6 +49,7 @@ public:
 	void reloadGameScene();
     void gotoGameOver(const bool& isCompleted, const std::string& recentMap);
 	void gotoCreditScene();
+	void gotoDetailMap(const int& bigmap);
 
     const int& CurrentMap();
 	const float& getkScale();
@@ -87,6 +89,8 @@ public:
 
 	void releaseGameScene();
 	void playMusicVictory();
+
+	const int& bigMap() { return _bigMap;}
 private:
 	float _delayTime;
 		int _deviceType;
@@ -108,5 +112,6 @@ private:
 
 		Land* CurrentLand;
 		Fighter* CurrentFighter;
+		int _bigMap;
 };
 #endif /* ScreenManager_h */

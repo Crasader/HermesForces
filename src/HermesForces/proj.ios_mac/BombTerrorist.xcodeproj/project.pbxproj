@@ -54,9 +54,6 @@
 		8423D32E1C5F75430053C15B /* BodyParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8423D2FD1C5F75430053C15B /* BodyParser.cpp */; };
 		8423D32F1C5F75430053C15B /* Utility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8423D2FF1C5F75430053C15B /* Utility.cpp */; };
 		842E64861C5F107700E10412 /* GameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 842E64841C5F107700E10412 /* GameScene.cpp */; };
-		846889CB1CA912F20013428D /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 846889C81CA912F20013428D /* fonts */; };
-		846889CC1CA912F20013428D /* mini in Resources */ = {isa = PBXBuildFile; fileRef = 846889C91CA912F20013428D /* mini */; };
-		846889CD1CA912F20013428D /* Sounds in Resources */ = {isa = PBXBuildFile; fileRef = 846889CA1CA912F20013428D /* Sounds */; };
 		846889E61CA9133E0013428D /* Fighter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 846889CF1CA9133E0013428D /* Fighter.cpp */; };
 		846889E71CA9133E0013428D /* AntiRocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 846889D21CA9133E0013428D /* AntiRocket.cpp */; };
 		846889E81CA9133E0013428D /* B52Bomb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 846889D41CA9133E0013428D /* B52Bomb.cpp */; };
@@ -107,6 +104,10 @@
 		84D0498A1C60601F00DF7644 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D049891C60601F00DF7644 /* StoreKit.framework */; };
 		84D0498C1C60603300DF7644 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D0498B1C60603300DF7644 /* SystemConfiguration.framework */; };
 		84D0498E1C6061F400DF7644 /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D0498D1C6061F400DF7644 /* GoogleMobileAds.framework */; };
+		84F58B5A1CB424C60088F5E6 /* CreditScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84F58B581CB424C60088F5E6 /* CreditScene.cpp */; };
+		84F58B5E1CB424C60088F5E6 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 84F58B5B1CB424C60088F5E6 /* fonts */; };
+		84F58B5F1CB424C60088F5E6 /* mini in Resources */ = {isa = PBXBuildFile; fileRef = 84F58B5C1CB424C60088F5E6 /* mini */; };
+		84F58B601CB424C60088F5E6 /* Sounds in Resources */ = {isa = PBXBuildFile; fileRef = 84F58B5D1CB424C60088F5E6 /* Sounds */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
 		BF1C47F01293687400B63C5D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C47EA1293683800B63C5D /* QuartzCore.framework */; };
@@ -211,9 +212,6 @@
 		8423D3001C5F75430053C15B /* Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utility.h; sourceTree = "<group>"; };
 		842E64831C5F0EDA00E10412 /* GameScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameScene.h; sourceTree = "<group>"; };
 		842E64841C5F107700E10412 /* GameScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameScene.cpp; sourceTree = "<group>"; };
-		846889C81CA912F20013428D /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
-		846889C91CA912F20013428D /* mini */ = {isa = PBXFileReference; lastKnownFileType = folder; path = mini; sourceTree = "<group>"; };
-		846889CA1CA912F20013428D /* Sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sounds; sourceTree = "<group>"; };
 		846889CF1CA9133E0013428D /* Fighter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Fighter.cpp; sourceTree = "<group>"; };
 		846889D01CA9133E0013428D /* Fighter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Fighter.h; sourceTree = "<group>"; };
 		846889D21CA9133E0013428D /* AntiRocket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AntiRocket.cpp; sourceTree = "<group>"; };
@@ -308,6 +306,11 @@
 		84D049891C60601F00DF7644 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.2.sdk/System/Library/Frameworks/StoreKit.framework; sourceTree = DEVELOPER_DIR; };
 		84D0498B1C60603300DF7644 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.2.sdk/System/Library/Frameworks/SystemConfiguration.framework; sourceTree = DEVELOPER_DIR; };
 		84D0498D1C6061F400DF7644 /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMobileAds.framework; path = ios/GoogleMobileAds.framework; sourceTree = SOURCE_ROOT; };
+		84F58B581CB424C60088F5E6 /* CreditScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CreditScene.cpp; sourceTree = "<group>"; };
+		84F58B591CB424C60088F5E6 /* CreditScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreditScene.h; sourceTree = "<group>"; };
+		84F58B5B1CB424C60088F5E6 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
+		84F58B5C1CB424C60088F5E6 /* mini */ = {isa = PBXFileReference; lastKnownFileType = folder; path = mini; sourceTree = "<group>"; };
+		84F58B5D1CB424C60088F5E6 /* Sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sounds; sourceTree = "<group>"; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF170DB412928DE900B8313A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		BF1C47EA1293683800B63C5D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -467,9 +470,9 @@
 		46880B7519C43A67006E1F66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				846889C81CA912F20013428D /* fonts */,
-				846889C91CA912F20013428D /* mini */,
-				846889CA1CA912F20013428D /* Sounds */,
+				84F58B5B1CB424C60088F5E6 /* fonts */,
+				84F58B5C1CB424C60088F5E6 /* mini */,
+				84F58B5D1CB424C60088F5E6 /* Sounds */,
 			);
 			name = Resources;
 			path = ../Resources;
@@ -478,6 +481,8 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				84F58B581CB424C60088F5E6 /* CreditScene.cpp */,
+				84F58B591CB424C60088F5E6 /* CreditScene.h */,
 				846889F11CA9135F0013428D /* Targets */,
 				846889CE1CA9133E0013428D /* Fighter */,
 				84BF6DE51C7E31E60067E923 /* SonarCocosHelperCPP */,
@@ -888,14 +893,14 @@
 				5087E78117EB970100C73F5D /* Icon-120.png in Resources */,
 				5087E78617EB970100C73F5D /* Icon-76.png in Resources */,
 				5087E77F17EB970100C73F5D /* Default@2x.png in Resources */,
-				846889CB1CA912F20013428D /* fonts in Resources */,
+				84F58B5E1CB424C60088F5E6 /* fonts in Resources */,
 				50EF629917ECD46A001EB2F8 /* Icon-100.png in Resources */,
 				5087E78317EB970100C73F5D /* Icon-152.png in Resources */,
-				846889CD1CA912F20013428D /* Sounds in Resources */,
+				84F58B601CB424C60088F5E6 /* Sounds in Resources */,
 				5087E77D17EB970100C73F5D /* Default-568h@2x.png in Resources */,
 				5087E78517EB970100C73F5D /* Icon-72.png in Resources */,
 				521A8E6519F0C34300D177D7 /* Default-736h@3x.png in Resources */,
-				846889CC1CA912F20013428D /* mini in Resources */,
+				84F58B5F1CB424C60088F5E6 /* mini in Resources */,
 				50EF62A317ECD613001EB2F8 /* Icon-50.png in Resources */,
 				5087E78017EB970100C73F5D /* Icon-114.png in Resources */,
 				50EF62A217ECD613001EB2F8 /* Icon-29.png in Resources */,
@@ -958,6 +963,7 @@
 				C952413A1C57B1F700B98339 /* Engine.cpp in Sources */,
 				84688A391CA9135F0013428D /* CiviIraq.cpp in Sources */,
 				84688A3C1CA9135F0013428D /* ISFire.cpp in Sources */,
+				84F58B5A1CB424C60088F5E6 /* CreditScene.cpp in Sources */,
 				84688A4B1CA9135F0013428D /* Target.cpp in Sources */,
 				8423D30E1C5F75430053C15B /* MapProccessor.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,

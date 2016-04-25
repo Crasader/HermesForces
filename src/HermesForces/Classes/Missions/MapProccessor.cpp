@@ -248,147 +248,6 @@ void MapProcessor::InitMapProcessor(const int& MapNumber)
 		//this->addEnemies("is_shoot_gun_1.png");
 	}
 	else if (MapNumber == MAP_4){
-		// india
-		SpriteFrameCache::getInstance()->addSpriteFramesWithFile("mini/army/plist/map_point_radar/sprites.plist"
-			, "mini/army/plist/map_point_radar/sprites.png");
-
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-		_hitLand = "Sounds/hitland.ogg";
-		_targetDie = "Sounds/targetdestroy.ogg";//siryessir.mp3
-		_bombFall = "Sounds/siryessir.ogg";
-#else
-		_hitLand = "Sounds/hitland.mp3";
-		_targetDie = "Sounds/targetdestroy.mp3";//siryessir.mp3
-		_bombFall = "Sounds/siryessir.mp3";
-#endif
-
-		_isVisibleMap = true;
-	}
-	else if (MapNumber == MAP_5){
-		// china
-		sprintf(_currentEnemiesPath, "car_");
-		_randEnemies = cocos2d::random(0, 9);
-		_randMap = cocos2d::random(0, 9);
-		_targetRandomList = map_30[_randMap];
-		_enemiesRandList = rand_3_30[_randEnemies];
-		this->addCarAnimation();
-
-
-
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-		_hitLand = "Sounds/bombexp.ogg";
-		_targetDie = "Sounds/ahcut.ogg";
-		_bombFall = "Sounds/ziuziu.ogg";
-#else
-		_hitLand = "Sounds/bombexp.mp3";
-		_targetDie = "Sounds/ahcut.mp3";
-		_bombFall = "Sounds/ziuziu.mp3";
-#endif
-
-	}
-	else if (MapNumber == MAP_6 || MapNumber == MAP_10){
-		// london - isarel
-		SpriteFrameCache::getInstance()->addSpriteFramesWithFile("mini/army/plist/burn_body/sprites.plist"
-			, "mini/army/plist/burn_body/sprites.png");
-		SpriteFrameCache::getInstance()->addSpriteFramesWithFile("mini/army/plist/heat_body/sprites.plist"
-			, "mini/army/plist/heat_body/sprites.png");
-		Vector<SpriteFrame*> frames_1;
-		frames_1.pushBack(SpriteFrameCache::getInstance()->getSpriteFrameByName("die_body_1.png"));
-		frames_1.pushBack(SpriteFrameCache::getInstance()->getSpriteFrameByName("die_body_2.png"));
-		frames_1.pushBack(SpriteFrameCache::getInstance()->getSpriteFrameByName("die_body_3.png"));
-		frames_1.pushBack(SpriteFrameCache::getInstance()->getSpriteFrameByName("die_body_4.png"));
-		frames_1.pushBack(SpriteFrameCache::getInstance()->getSpriteFrameByName("die_body_5.png"));
-		_animTargetFrames.push_back(frames_1);
-
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-		_hitLand = "Sounds/fire.ogg";
-		_targetDie = "Sounds/ahcut.ogg";
-		_bombFall = "Sounds/fire.ogg";
-#else
-		_hitLand = "Sounds/fire.mp3";
-		_targetDie = "Sounds/ahcut.mp3";
-		_bombFall = "Sounds/fire.mp3";
-#endif
-
-
-		_isVisibleMap = true;
-	}
-	else if (MapNumber == MAP_7){
-		//berlin
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-		_hitLand = "Sounds/hitland.ogg";
-		_targetDie = "Sounds/targetdestroy.ogg";//siryessir.mp3
-		_bombFall = "Sounds/siryessir.ogg";
-#else
-		_hitLand = "Sounds/hitland.mp3";
-		_targetDie = "Sounds/targetdestroy.mp3";//siryessir.mp3
-		_bombFall = "Sounds/siryessir.mp3";
-#endif
-
-
-		_isVisibleMap = true;
-	}
-	else if (MapNumber == MAP_8){
-		// paris
-
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-		_hitLand = "Sounds/fire.ogg";
-		_targetDie = "Sounds/ahcut.ogg";//siryessir.mp3
-		_bombFall = "Sounds/fire.ogg";
-#else
-		_hitLand = "Sounds/fire.mp3";
-		_targetDie = "Sounds/ahcut.mp3";//siryessir.mp3
-		_bombFall = "Sounds/fire.mp3";
-#endif
-
-		_randEnemies = cocos2d::random(0,3);
-		_enemiesRandList = map_5_in_20[_randEnemies];
-
-		SpriteFrameCache::getInstance()->addSpriteFramesWithFile("mini/army/plist/map_paris/sprites.plist"
-			, "mini/army/plist/map_paris/sprites.png");
-		SpriteFrameCache::getInstance()->addSpriteFramesWithFile("mini/army/plist/map_point_radar/sprites.plist"
-			, "mini/army/plist/map_point_radar/sprites.png");
-		Vector<SpriteFrame*> frames_1;
-		frames_1.pushBack(SpriteFrameCache::getInstance()->getSpriteFrameByName("paris_fire_hit_1.png"));
-		frames_1.pushBack(SpriteFrameCache::getInstance()->getSpriteFrameByName("paris_fire_hit_2.png"));
-		frames_1.pushBack(SpriteFrameCache::getInstance()->getSpriteFrameByName("paris_fire_hit_3.png"));
-		frames_1.pushBack(SpriteFrameCache::getInstance()->getSpriteFrameByName("paris_fire_hit_4.png"));
-		frames_1.pushBack(SpriteFrameCache::getInstance()->getSpriteFrameByName("paris_fire_hit_5.png"));
-		_animTargetFrames.push_back(frames_1);
-
-		Vector<SpriteFrame*> frames_2;
-		frames_2.pushBack(SpriteFrameCache::getInstance()->getSpriteFrameByName("paris_fire_no_hit_1.png"));
-		frames_2.pushBack(SpriteFrameCache::getInstance()->getSpriteFrameByName("paris_fire_no_hit_2.png"));
-		frames_2.pushBack(SpriteFrameCache::getInstance()->getSpriteFrameByName("paris_fire_no_hit_3.png"));
-		frames_2.pushBack(SpriteFrameCache::getInstance()->getSpriteFrameByName("paris_fire_no_hit_4.png"));
-		_animTargetFrames.push_back(frames_2);
-
-		//this->addEnemies("drain_cover.png");
-	}
-	else if (MapNumber == MAP_9 || MapNumber == MAP_13){
-		// jakarta - iran
-
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-		_hitLand = "Sounds/hitland.ogg";
-		_targetDie = "Sounds/targetdestroy.ogg";//siryessir.mp3
-		_bombFall = "Sounds/siryessir.ogg";
-#else
-		_hitLand = "Sounds/hitland.mp3";
-		_targetDie = "Sounds/targetdestroy.mp3";//siryessir.mp3
-		_bombFall = "Sounds/siryessir.mp3";
-#endif
-
-		SpriteFrameCache::getInstance()->addSpriteFramesWithFile("mini/army/plist/map_train/sprites.plist"
-			, "mini/army/plist/map_train/sprites.png");
-
-		sprintf(_currentEnemiesPath, "number_box_");
-		_randEnemies = cocos2d::random(0, 9);
-		_randMap = cocos2d::random(0, 9);
-		_targetRandomList = map_30[_randMap];
-		_enemiesRandList = rand_3_30[_randEnemies];
-		_isTrainMap = true;
-	}
-	else if (MapNumber == MAP_11){
 		// egypt !
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
@@ -414,8 +273,72 @@ void MapProcessor::InitMapProcessor(const int& MapNumber)
 		_animTargetFrames.push_back(frames_1);
 
 		_isVisibleMap = true;
+
+
 	}
-	else if (MapNumber == MAP_12){
+	else if (MapNumber == MAP_5){
+		// china
+		sprintf(_currentEnemiesPath, "car_");
+		_randEnemies = cocos2d::random(0, 9);
+		_randMap = cocos2d::random(0, 9);
+		_targetRandomList = map_30[_randMap];
+		_enemiesRandList = rand_3_30[_randEnemies];
+		this->addCarAnimation();
+
+
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+		_hitLand = "Sounds/bombexp.ogg";
+		_targetDie = "Sounds/ahcut.ogg";
+		_bombFall = "Sounds/ziuziu.ogg";
+#else
+		_hitLand = "Sounds/bombexp.mp3";
+		_targetDie = "Sounds/ahcut.mp3";
+		_bombFall = "Sounds/ziuziu.mp3";
+#endif
+
+	}
+	else if (MapNumber == MAP_6 || MapNumber == MAP_12){
+		// london - isarel
+		SpriteFrameCache::getInstance()->addSpriteFramesWithFile("mini/army/plist/burn_body/sprites.plist"
+			, "mini/army/plist/burn_body/sprites.png");
+		SpriteFrameCache::getInstance()->addSpriteFramesWithFile("mini/army/plist/heat_body/sprites.plist"
+			, "mini/army/plist/heat_body/sprites.png");
+		Vector<SpriteFrame*> frames_1;
+		frames_1.pushBack(SpriteFrameCache::getInstance()->getSpriteFrameByName("die_body_1.png"));
+		frames_1.pushBack(SpriteFrameCache::getInstance()->getSpriteFrameByName("die_body_2.png"));
+		frames_1.pushBack(SpriteFrameCache::getInstance()->getSpriteFrameByName("die_body_3.png"));
+		frames_1.pushBack(SpriteFrameCache::getInstance()->getSpriteFrameByName("die_body_4.png"));
+		frames_1.pushBack(SpriteFrameCache::getInstance()->getSpriteFrameByName("die_body_5.png"));
+		_animTargetFrames.push_back(frames_1);
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+		_hitLand = "Sounds/fire.ogg";
+		_targetDie = "Sounds/ahcut.ogg";
+		_bombFall = "Sounds/fire.ogg";
+#else
+		_hitLand = "Sounds/fire.mp3";
+		_targetDie = "Sounds/ahcut.mp3";
+		_bombFall = "Sounds/fire.mp3";
+#endif
+		_isVisibleMap = true;
+	}
+	else if (MapNumber == MAP_7){
+		//berlin
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+		_hitLand = "Sounds/hitland.ogg";
+		_targetDie = "Sounds/targetdestroy.ogg";//siryessir.mp3
+		_bombFall = "Sounds/siryessir.ogg";
+#else
+		_hitLand = "Sounds/hitland.mp3";
+		_targetDie = "Sounds/targetdestroy.mp3";//siryessir.mp3
+		_bombFall = "Sounds/siryessir.mp3";
+#endif
+
+
+		_isVisibleMap = true;
+	}
+	else if (MapNumber == MAP_8){
 		// usa
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
@@ -434,6 +357,87 @@ void MapProcessor::InitMapProcessor(const int& MapNumber)
 		_targetRandomList = map_30[_randMap];
 		_enemiesRandList = rand_6_30[_randEnemies];
 		this->addCarAnimation();
+
+	}
+	else if (MapNumber == MAP_9)
+	{
+
+		// india
+		SpriteFrameCache::getInstance()->addSpriteFramesWithFile("mini/army/plist/map_point_radar/sprites.plist"
+			, "mini/army/plist/map_point_radar/sprites.png");
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+		_hitLand = "Sounds/hitland.ogg";
+		_targetDie = "Sounds/targetdestroy.ogg";//siryessir.mp3
+		_bombFall = "Sounds/siryessir.ogg";
+#else
+		_hitLand = "Sounds/hitland.mp3";
+		_targetDie = "Sounds/targetdestroy.mp3";//siryessir.mp3
+		_bombFall = "Sounds/siryessir.mp3";
+#endif
+
+		_isVisibleMap = true;
+	}
+	else if (MapNumber == MAP_10)
+	{
+		// paris
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+		_hitLand = "Sounds/fire.ogg";
+		_targetDie = "Sounds/ahcut.ogg";//siryessir.mp3
+		_bombFall = "Sounds/fire.ogg";
+#else
+		_hitLand = "Sounds/fire.mp3";
+		_targetDie = "Sounds/ahcut.mp3";//siryessir.mp3
+		_bombFall = "Sounds/fire.mp3";
+#endif
+
+		_randEnemies = cocos2d::random(0, 3);
+		_enemiesRandList = map_5_in_20[_randEnemies];
+
+		SpriteFrameCache::getInstance()->addSpriteFramesWithFile("mini/army/plist/map_paris/sprites.plist"
+			, "mini/army/plist/map_paris/sprites.png");
+		SpriteFrameCache::getInstance()->addSpriteFramesWithFile("mini/army/plist/map_point_radar/sprites.plist"
+			, "mini/army/plist/map_point_radar/sprites.png");
+		Vector<SpriteFrame*> frames_1;
+		frames_1.pushBack(SpriteFrameCache::getInstance()->getSpriteFrameByName("paris_fire_hit_1.png"));
+		frames_1.pushBack(SpriteFrameCache::getInstance()->getSpriteFrameByName("paris_fire_hit_2.png"));
+		frames_1.pushBack(SpriteFrameCache::getInstance()->getSpriteFrameByName("paris_fire_hit_3.png"));
+		frames_1.pushBack(SpriteFrameCache::getInstance()->getSpriteFrameByName("paris_fire_hit_4.png"));
+		frames_1.pushBack(SpriteFrameCache::getInstance()->getSpriteFrameByName("paris_fire_hit_5.png"));
+		_animTargetFrames.push_back(frames_1);
+
+		Vector<SpriteFrame*> frames_2;
+		frames_2.pushBack(SpriteFrameCache::getInstance()->getSpriteFrameByName("paris_fire_no_hit_1.png"));
+		frames_2.pushBack(SpriteFrameCache::getInstance()->getSpriteFrameByName("paris_fire_no_hit_2.png"));
+		frames_2.pushBack(SpriteFrameCache::getInstance()->getSpriteFrameByName("paris_fire_no_hit_3.png"));
+		frames_2.pushBack(SpriteFrameCache::getInstance()->getSpriteFrameByName("paris_fire_no_hit_4.png"));
+		_animTargetFrames.push_back(frames_2);
+
+		//this->addEnemies("drain_cover.png");
+	}
+	else if (MapNumber == MAP_11 || MapNumber == MAP_13){
+		// jakarta - iran
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+		_hitLand = "Sounds/hitland.ogg";
+		_targetDie = "Sounds/targetdestroy.ogg";//siryessir.mp3
+		_bombFall = "Sounds/siryessir.ogg";
+#else
+		_hitLand = "Sounds/hitland.mp3";
+		_targetDie = "Sounds/targetdestroy.mp3";//siryessir.mp3
+		_bombFall = "Sounds/siryessir.mp3";
+#endif
+
+		SpriteFrameCache::getInstance()->addSpriteFramesWithFile("mini/army/plist/map_train/sprites.plist"
+			, "mini/army/plist/map_train/sprites.png");
+
+		sprintf(_currentEnemiesPath, "number_box_");
+		_randEnemies = cocos2d::random(0, 9);
+		_randMap = cocos2d::random(0, 9);
+		_targetRandomList = map_30[_randMap];
+		_enemiesRandList = rand_3_30[_randEnemies];
+		_isTrainMap = true;
 	}
 	else if (MapNumber == MAP_14){
 		// russia 
@@ -569,12 +573,9 @@ void MapProcessor::InitMapProcessor(const int& MapNumber)
 		frames_5.pushBack(SpriteFrameCache::getInstance()->getSpriteFrameByName("rocket_hit_4.png"));
 		frames_5.pushBack(SpriteFrameCache::getInstance()->getSpriteFrameByName("rocket_hit_5.png"));
 		_animTargetFrames.push_back(frames_5);
-
-		//this->addEnemies("is_fire_1.png");
-		//this->addEnemies("is_shoot_gun_1.png");
-		//this->addEnemies("is_shoot_air_1.png");
 	}
 	
+
 	if (!_hitLand.empty())
 		CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect(_hitLand.c_str());
 	if (!_targetDie.empty())

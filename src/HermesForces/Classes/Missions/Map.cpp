@@ -5,6 +5,13 @@
 
 
 //#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+
+
+//////////////////////////////////////////////////////////////////////////
+////
+////							DESERT
+////
+//////////////////////////////////////////////////////////////////////////
 // map IRAQ
 int targets_1[] = { 1, 1200, 1, 1450, 1, 1690, 1, 1990, 1, 2400, 1, 2640, 1, 2920, 1, 3210, 1, 3500, 1, 3750,
 					1, 3950, 1, 4160, 1, 4560, 1, 4900, 1, 5360, 1, 5690, 1, 6370, 1, 6680, 1, 6900, 1, 7170,
@@ -24,53 +31,79 @@ MapInfo* Map_2 = new MapInfo(targets_2, 30 , 15, ITEM_BOMB_B52, 20, SPECIAL_HELP
 int targets_3[] = {4,900 , 4,970 , 443, 1420, 5,1480, 4,1590, 4,1690, 4,1990, 4,2160, 4,2290, 443, 2860 ,
 					5, 2920 , 445,3200, 6,3300 , 4, 3390, 4 , 3470, 4, 3600 , 4, 3690 , 4,3800, 4,3900, 4,3990,
 					4, 4400, 443,4490, 5, 4560, 4, 4600, 4 , 4690, 4 , 4780 , 4, 5100, 445, 5190 , 6, 5260 , 4, 5380};
-MapInfo* Map_3 = new MapInfo(targets_3, 60, 30, ITEM_BOMB_B52, 30, SPECIAL_HELPER_NO_SPEC, GAME_PLAY_TYPE_NO_SPECIAL, "mini/land/morocco",
+MapInfo* Map_3 = new MapInfo(targets_3, 60, 25, ITEM_BOMB_B52, 30, SPECIAL_HELPER_NO_SPEC, GAME_PLAY_TYPE_NO_SPECIAL, "mini/land/morocco",
 	3.0, 3.0, 3.8, 
-	40);
+	40); // 25 enes
 
-// map_india.jpg
-int targets_4[] = { 7, 1200, 7, 1720, 7, 2250, 7, 2350, 7, 2770, 7, 2870, 7, 3550, 7, 3720, 7, 4220, 7, 4320, };
-MapInfo* Map_4 = new MapInfo(targets_4, 20, 10, ITEM_INDIA_SPECIAL_FORCE, 10, SPECIAL_HELPER_POINT_RADAR, GAME_PLAY_TYPE_HIDDEN, "mini/land/india",
-	3.0, 3.0, 3.8,
-	107);
+// map_egypt.jpg 3 - 437
+int targets_4[] = { 437, 900, 437, 1190, 437, 1430, 3, 1800, 3, 2000,
+437, 2190, 3, 2420, 437, 2610, 3, 2800, 437, 2990,
+3, 3300, 3, 3490, 437, 3960, 437, 4380, 3, 4570,
+437, 4860, 437, 5100, 3, 5290, 3, 5500, 3, 5700,
+437, 5900, 3, 6220, 437, 6510, 3, 6700, 437, 6900,
+437, 7240, 437, 7490, 3, 7680, 3, 7890, 437, 8100 };
+MapInfo* Map_4 = new MapInfo(targets_4, 60, 14, ITEM_BOMB_B52, 30, SPECIAL_HELPER_POINT_RADAR, GAME_PLAY_TYPE_HIDDEN, "mini/land/egypt",
+	3.0, 3.5, 3.4,
+	120);
 
+//////////////////////////////////////////////////////////////////////////
+////
+////							CITY
+////
+//////////////////////////////////////////////////////////////////////////
 // map_china.jpg
-int targets_5[] = { TARGET_NORMAL_CAR, TARGET_FAKE_CAR, 900, 1190, 1430, 1800, 2000, 2190, 2420, 2610, 2800, 2990, 3300 , 3490 , 3960, 4380, 4570
-														,4860, 5100, 5290, 5500, 5700, 5900, 6220, 6510, 6700, 6900, 7240, 7490, 7680, 7890, 8100 };
+int targets_5[] = { TARGET_NORMAL_CAR, TARGET_FAKE_CAR, 900, 1190, 1430, 1800, 2000, 2190, 2420, 2610, 2800, 2990, 3300, 3490, 3960, 4380, 4570
+, 4860, 5100, 5290, 5500, 5700, 5900, 6220, 6510, 6700, 6900, 7240, 7490, 7680, 7890, 8100 };
 MapInfo* Map_5 = new MapInfo(targets_5, 32, 3, ITEM_BOMB_CHINA, 5, SPECIAL_HELPER_NO_SPEC, GAME_PLAY_TYPE_RANDOM_3, "mini/land/china",
 	3.0, 3.4, 3.8,
 	120);
 
 // map_london.jpg
-int targets_6[] = { TARGET_IS_BODY_INVI, 800, 820, 1250, 1450, 1650, 1650, 1680, 1680, 2750, 2900  ,
-										 3000,3290, 3380 , 3410 , 3500 , 3500, 3550, 3550, 4330,4340 ,
-										 4500, 4500 , 4520, 4520 , 4535, 4550,  4800,4800, 4830, 4830};
+int targets_6[] = { TARGET_IS_BODY_INVI, 800, 820, 1250, 1450, 1650, 1650, 1680, 1680, 2750, 2900,
+3000, 3290, 3380, 3410, 3500, 3500, 3550, 3550, 4330, 4340,
+4500, 4500, 4520, 4520, 4535, 4550, 4800, 4800, 4830, 4830 };
 MapInfo* Map_6 = new MapInfo(targets_6, 15, 15, ITEM_BOMB_FIRE, 15, SPECIAL_HELPER_HEAT_RADAR, GAME_PLAY_RANDOM_ENEMIES_POSITION, "mini/land/london",
 	3.0, 3.0, 3.8,
 	100);
 
 // map_berlin.jpg
 int targets_7[] = { TARGET_IS_BOMB_WARNING, 800, 1200, 1250, 1450, 1650, 1650, 1760, 1780, 2750, 2900,
-					3000, 3290, 3380, 3410, 3500, 3500, 3530, 3550, 4330, 4340	,
-					4400, 4500, 4590, 4590, 4735, 4740, 4900, 4900, 5000, 5000 }; // 5 . 20
+3000, 3290, 3380, 3410, 3500, 3500, 3530, 3550, 4330, 4340,
+4400, 4500, 4590, 4590, 4735, 4740, 4900, 4900, 5000, 5000 }; // 5 . 20
 MapInfo* Map_7 = new MapInfo(targets_7, 15, 15, ITEM_BOMB_SQUAD, 18, SPECIAL_HELPER_BOMB_RADAR, GAME_PLAY_RANDOM_ENEMIES_POSITION, "mini/land/berlin",
-	3.0, 3.0, 3.8, 
+	3.0, 3.0, 3.8,
 	80);
 
+// map_usa.jpg
+int targets_8[] = { TARGET_NORMAL_CAR, TARGET_FAKE_CAR, 900, 1190, 1430, 1800, 2000, 2190, 2420, 2610, 2800, 2990, 3300, 3490, 3960, 4380, 4570
+, 4860, 5100, 5290, 5500, 5700, 5900, 6220, 6510, 6700, 6900, 7240, 7490, 7680, 7890, 8100 };
+MapInfo* Map_8 = new MapInfo(targets_8, 32, 6, ITEM_BOMB_B52, 10, SPECIAL_HELPER_NO_SPEC, GAME_PLAY_TYPE_RANDOM_6, "mini/land/usa",
+	3.0, 3.5, 3.8,
+	80);
+
+
+//////////////////////////////////////////////////////////////////////////
+////
+////							SUBURB
+////
+//////////////////////////////////////////////////////////////////////////
+
+
+// map_india.jpg
+int targets_9[] = { 7, 1200, 7, 1720, 7, 2250, 7, 2350, 7, 2770, 7, 2870, 7, 3550, 7, 3720, 7, 4220, 7, 4320, };
+MapInfo* Map_9 = new MapInfo(targets_9, 20, 10, ITEM_INDIA_SPECIAL_FORCE, 10, SPECIAL_HELPER_POINT_RADAR, GAME_PLAY_TYPE_HIDDEN, "mini/land/india",
+	3.0, 3.0, 3.8,
+	107);
+
 // map_paris.jpg
-int targets_8[] = { TARGET_NORMAL_MANHOLE, TARGET_IS_MANHOLE, 950, 1300, 1500, 1700, 1920, 2160, 2400, 2720, 3000,
+int targets_10[] = { TARGET_NORMAL_MANHOLE, TARGET_IS_MANHOLE, 950, 1300, 1500, 1700, 1920, 2160, 2400, 2720, 3000,
 					3300, 3540, 3800, 4000, 4230, 4500, 4700, 4990, 5280, 5500, 5700 , 5970 , 6280 , 6500 , 6700 , 6980 };
-MapInfo* Map_8 = new MapInfo(targets_8, 27, 5, ITEM_BOMB_FIRE, 7, SPECIAL_HELPER_POINT_RADAR, GAME_PLAY_RANDOM_5_TARGETS, "mini/land/paris",
+MapInfo* Map_10 = new MapInfo(targets_10, 27, 5, ITEM_BOMB_FIRE, 7, SPECIAL_HELPER_POINT_RADAR, GAME_PLAY_RANDOM_5_TARGETS, "mini/land/paris",
 	3.0, 3.0, 3.7, 
 	250);
 
-//////////////////////////////////////////////////////////////////////////
-/// DONE
-//////////////////////////////////////////////////////////////////////////
-
-
 // map_indo.jpg
-int targets_9[] = { TARGET_IS_JAKARTA_NOTHING_MAP_BOX, TARGET_IS_JAKARTA_TERRORIST_MAP_BOX, 
+int targets_11[] = { TARGET_IS_JAKARTA_NOTHING_MAP_BOX, TARGET_IS_JAKARTA_TERRORIST_MAP_BOX, 
 890, 1060, 1230, 1405,
 1620,1790, 1960, 2135,
 2345,2505, 2665, 
@@ -80,35 +113,25 @@ int targets_9[] = { TARGET_IS_JAKARTA_NOTHING_MAP_BOX, TARGET_IS_JAKARTA_TERRORI
 4770, 4940,5110,
 5300, 5420,5550,5670,
 5800 }; // 5 . 20
-MapInfo* Map_9 = new MapInfo(targets_9, 32, 3, ITEM_TRAIN_SPECIAL_FORCE, 4, SPECIAL_HELPER_NO_SPEC, GAME_PLAY_TYPE_RANDOM_3, "mini/land/jakarta",
+MapInfo* Map_11 = new MapInfo(targets_11, 32, 3, ITEM_TRAIN_SPECIAL_FORCE, 4, SPECIAL_HELPER_NO_SPEC, GAME_PLAY_TYPE_RANDOM_3, "mini/land/jakarta",
 	1.5, 1.5, 3.0,
 	345);
 
 // map_isarel.jpg
-int targets_10[] = { TARGET_IS_BODY_INVI, 860, 1020, 1250, 1450, 1650, 1650, 1680, 1680, 2750, 2900,
+int targets_12[] = { TARGET_IS_BODY_INVI, 860, 1020, 1250, 1450, 1650, 1650, 1680, 1680, 2750, 2900,
 3000, 3290, 3380, 3410, 3500, 3500, 3550, 3550, 4330, 4340,
 4500, 4500, 4520, 4520, 4535, 4550, 4800, 4800, 4830, 4830 };
-MapInfo* Map_10 = new MapInfo(targets_10, 15, 15, ITEM_BOMB_FIRE, 12, SPECIAL_HELPER_HEAT_RADAR, GAME_PLAY_RANDOM_ENEMIES_POSITION, "mini/land/isarel",
+MapInfo* Map_12 = new MapInfo(targets_12, 15, 15, ITEM_BOMB_FIRE, 12, SPECIAL_HELPER_HEAT_RADAR, GAME_PLAY_RANDOM_ENEMIES_POSITION, "mini/land/isarel",
 	3.0, 3.0, 3.8, 
 	116);
 
-// map_egypt.jpg 3 - 437
-int targets_11[] = { 437, 900, 437, 1190, 437, 1430, 3, 1800, 3, 2000, 
-					437, 2190, 3, 2420, 437, 2610, 3, 2800 ,437, 2990,
-					3, 3300, 3, 3490, 437, 3960, 437, 4380, 3,4570,
-					437, 4860, 437, 5100, 3, 5290, 3, 5500, 3, 5700,
-					437, 5900, 3, 6220, 437, 6510, 3, 6700,	437, 6900,
-					437, 7240, 437, 7490, 3, 7680, 3, 7890, 437, 8100 };
-MapInfo* Map_11 = new MapInfo(targets_11, 60, 14, ITEM_BOMB_B52, 30, SPECIAL_HELPER_POINT_RADAR, GAME_PLAY_TYPE_HIDDEN, "mini/land/egypt",
-	3.0, 3.5, 3.4, 
-	120);
 
-// map_usa.jpg
-int targets_12[] = { TARGET_NORMAL_CAR, TARGET_FAKE_CAR, 900, 1190, 1430, 1800, 2000, 2190, 2420, 2610, 2800, 2990, 3300, 3490, 3960, 4380, 4570
-						, 4860, 5100, 5290, 5500, 5700, 5900, 6220, 6510, 6700, 6900, 7240, 7490, 7680, 7890, 8100 };
-MapInfo* Map_12 = new MapInfo(targets_12, 32, 6, ITEM_BOMB_B52, 10, SPECIAL_HELPER_NO_SPEC, GAME_PLAY_TYPE_RANDOM_6, "mini/land/usa",
-	3.0, 3.5, 3.8,
-	80);
+//////////////////////////////////////////////////////////////////////////
+////
+////							AREA-X
+////
+//////////////////////////////////////////////////////////////////////////
+
 
 // map_iran.jpg
 int targets_13[] = { TARGET_IS_IRAN_NOTHING_MAP_BOX, TARGET_IS_IRAN_TERRORIST_MAP_BOX, 
