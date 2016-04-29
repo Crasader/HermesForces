@@ -23,13 +23,18 @@ private:
     //void GoToGameScene( cocos2d::Ref *sender );
     void GoToMainMenuScene(Ref* pSender, ui::Widget::TouchEventType eEventType);
     void GoToGameScene(Ref* pSender, ui::Widget::TouchEventType eEventType);
-	void onFinishLoading(float dt);
-
+	void onFinishLoading(float dt);//onFinishMenuLoading
+    void onFinishMenuLoading(float dt);
+    
 	cocos2d::ui::Button* itemRetryButton;
 	cocos2d::ui::Button* itemMenuButton;
 	bool _isVictory;
+    cocos2d::Sprite* cloudSprite;
     //char mx[300];
-    
+    cocos2d::Size visibleSize ;
+    cocos2d::Vec2 origin;
+    float x,y;
+    bool _isLoad;
 };
 
 #endif // __GAME_OVER_SCENE_H__

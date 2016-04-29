@@ -37,6 +37,7 @@ bool GameScene::init()
 		_oldTimer.tv_sec = 0;
 		_oldTimer.tv_usec = 0;
 	}
+    
 	_isSpecialTutorial = false;
     //background.mp3
     //actionAudio = SimpleAudioEngine::getInstance();
@@ -436,21 +437,6 @@ bool GameScene::onTouchBegan( cocos2d::Touch *touch, cocos2d::Event *event )
 					}
 					_oldTimer = _currTimer;
 				}
-
-				//cocos2d::ProfilingEndTimingBlock("aa");
-
-				//_currentTime = getCurrentTime();
-				//if (_currentTime > _lastTimeClicked + 50)
-				//{
-				//	_lastTimeClicked = _currentTime;
-				//	if (!_fighter->Drop())
-				//	{
-				//		scoreLabel->setString("Empty weapons");
-				//		returnScoreScreen();
-				//	}
-				//}
-
-            //scoreLabel->setString( "Drop!!" );
             }
         }
     }
@@ -513,13 +499,16 @@ void GameScene::start()
 	ScreenManager::Instance()->GetFighter()->startMoving();
     this->scheduleUpdate( );
 	//CocosDenshion::SimpleAudioEngine::sharedEngine()->stopBackgroundMusic(true);
-	ScreenManager::Instance()->playMusicGameScene();
+	
 
 	//*_pauseButton, *_resumeBtt, *_reloadBtt, *_homeBtt, *_musicBtt, *_soundBtt;
 	_pauseButton->setTouchEnabled(true);
 //    this->schedule(schedule_selector(GameScene::updateFPS), 0);
     Land::isMoving = true;
+    //
+    
 	//Director::getInstance()->getEventDispatcher()->setEnabled(true);
+    
 }
 
 void GameScene::setupUI()
@@ -775,11 +764,9 @@ void GameScene::setupDialogUI()
 			Enemy6->setScale(scaleTargetShow);
 			this->addChild(Enemy6, 8915);
 		}
-
 	}
 	else
 	{
-
 		this->scheduleOnce(schedule_selector(GameScene::NoDesciptStart), 0.5f);
 	}
 }
@@ -811,7 +798,9 @@ void GameScene::runTutorial()
 		_isSpecialTutorial = true;
 	}
 	else{
+        ScreenManager::Instance()->playMusicGameScene();
 		this->start();
+        //this->scheduleOnce(schedule_selector(GameScene::finishLoadingAndGoToStart), 0.5f);
 		return;
 	}
 		
@@ -824,12 +813,21 @@ void GameScene::runTutorial()
 	auto fadeout = FadeOut::create(0.5f);
 	auto seqTut = Sequence::create(delay,fadeout, CallFunc::create(CC_CALLBACK_0(GameScene::start, this)), nullptr);
 	tut->runAction(seqTut);
+    ScreenManager::Instance()->playMusicGameScene();
 }
 
 void GameScene::NoDesciptStart(float dt)
 {
-	_blackBg->setOpacity(0);
-	this->start();
+    auto fadeOut = FadeOut::create(1.0f);
+    auto sequenceStart = Sequence::create(fadeOut , CallFunc::create(CC_CALLBACK_0(GameScene::playMusic,this)),
+                                                    CallFunc::create(CC_CALLBACK_0(GameScene::start,this)), nullptr);
+    _blackBg->runAction(sequenceStart);
+//	this->scheduleOnce(schedule_selector(GameScene::finishLoadingAndGoToStart), 1.0f);
+}
+
+void GameScene::playMusic()
+{
+    ScreenManager::Instance()->playMusicGameScene();
 }
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)

@@ -13,6 +13,12 @@ public:
 	// implement the "static create()" method manually
 	CREATE_FUNC(DetailMainMenuScene);
 private:
+	void finishLoadingButton1(float dt);
+	void finishLoadingButton2(float dt);
+	void finishLoadingButton3(float dt);
+	void finishLoadingButton4(float dt);
+	void onFinishButtonBackLoading(float dt);
+
 	void GoToGameScene_1(Ref* pSender, ui::Widget::TouchEventType eEventType);
 	void GoToGameScene_2(Ref* pSender, ui::Widget::TouchEventType eEventType);
 	void GoToGameScene_3(Ref* pSender, ui::Widget::TouchEventType eEventType);
@@ -34,8 +40,12 @@ private:
 	float _deltaScaleX;
 	Sprite* _maskClicked;
 	bool _isMoving;
-
+	//std::string _pathOfBttImage1, _pathOfBttImage2, _pathOfBttImage3, _pathOfBttImage4;
 	float _col1, _col2, _col3, _col4;
 	float _row;
+	float _deltaScaleBgX;
+
+	cocos2d::ui::Button* _litemButton[4];
+	int _kItem;
 };
 #endif // !DETAIL_MAINMENU

@@ -49,7 +49,7 @@ public:
 	void reloadGameScene();
     void gotoGameOver(const bool& isCompleted, const std::string& recentMap);
 	void gotoCreditScene();
-	void gotoDetailMap(const int& bigmap);
+	void gotoDetailMap(bool isResetMusic = false);
 
     const int& CurrentMap();
 	const float& getkScale();
@@ -90,6 +90,7 @@ public:
 	void releaseGameScene();
 	void playMusicVictory();
 
+	void setCurrentBigMap(const int& bigmap);
 	const int& bigMap() { return _bigMap;}
 private:
 	float _delayTime;
@@ -112,6 +113,6 @@ private:
 
 		Land* CurrentLand;
 		Fighter* CurrentFighter;
-		int _bigMap;
+		int _bigMap,_maxMapNumber;
 };
 #endif /* ScreenManager_h */

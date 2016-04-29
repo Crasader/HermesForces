@@ -30,11 +30,12 @@ bool DetailMainMenuScene::init()
 		return false;
 	}
 	_mapMax = ScreenManager::Instance()->getMaxMap();
+	_kItem = 0;
 	auto backgroundSprite = Sprite::create("mini/scene/main_scene_sky.jpg");
 
-	float x = (Director::getInstance()->getVisibleSize().width + Director::getInstance()->getVisibleOrigin().x) / backgroundSprite->getContentSize().width;
+	_deltaScaleBgX = (Director::getInstance()->getVisibleSize().width + Director::getInstance()->getVisibleOrigin().x) / backgroundSprite->getContentSize().width;
 	_deltaScaleX = (Director::getInstance()->getVisibleSize().height + Director::getInstance()->getVisibleOrigin().y) / backgroundSprite->getContentSize().height;
-	backgroundSprite->setScaleX(x);// (Director::getInstance()->getVisibleSize().width + Director::getInstance()->getVisibleOrigin().x) / 1024);
+	backgroundSprite->setScaleX(_deltaScaleBgX);// (Director::getInstance()->getVisibleSize().width + Director::getInstance()->getVisibleOrigin().x) / 1024);
 	backgroundSprite->setScaleY(_deltaScaleX);// (Director::getInstance()->getVisibleSize().height + Director::getInstance()->getVisibleOrigin().y) / 768);
 	backgroundSprite->setPosition(Point(Director::getInstance()->getVisibleSize().width / 2 + Director::getInstance()->getVisibleOrigin().x,
 		Director::getInstance()->getVisibleSize().height / 2 + Director::getInstance()->getVisibleOrigin().y));
@@ -42,37 +43,41 @@ bool DetailMainMenuScene::init()
 
 	//antitero
 	auto antitero = Sprite::create("mini/scene/antitero.png");
-	antitero->setScale(x);
+	antitero->setScale(_deltaScaleBgX);
 	antitero->setPosition(Point(Director::getInstance()->getVisibleSize().width / 2 + Director::getInstance()->getVisibleOrigin().x,
 		Director::getInstance()->getVisibleSize().height  * 0.9 + Director::getInstance()->getVisibleOrigin().y));
-
 	this->addChild(antitero);
 
-	auto backButton = cocos2d::ui::Button::create();
-	backButton->loadTextures("mini/scene/btt_large.png", "mini/scene/btt_large.png", "");
-	backButton->setScale(_deltaScaleX * 1.5);
-	float distanceConer = 0.12 * Director::getInstance()->getVisibleSize().height;
-	backButton->setPosition(Point(Director::getInstance()->getVisibleSize().width * 0.92 + Director::getInstance()->getVisibleOrigin().x,
-		Director::getInstance()->getVisibleSize().height  * 0.9 + Director::getInstance()->getVisibleOrigin().y));
-	//backButton->setPosition(Point(Director::getInstance()->getVisibleSize().width - distanceConer,
-	//	Director::getInstance()->getVisibleSize().height - distanceConer));
-	backButton->addTouchEventListener(CC_CALLBACK_2(DetailMainMenuScene::GoToMainMenuScene, this));
-	this->addChild(backButton);
+	auto cloudSprite = Sprite::create("mini/scene/cloud.png");
+	cloudSprite->setPosition(Point((Director::getInstance()->getVisibleSize().width / 2 + Director::getInstance()->getVisibleOrigin().x / 2),
+		(Director::getInstance()->getVisibleSize().height / 2 + Director::getInstance()->getVisibleOrigin().y / 2)));
+	cloudSprite->setScale(_deltaScaleBgX, _deltaScaleX);
+	this->addChild(cloudSprite, 1122);
 
-	
+	auto moveToLeft = MoveTo::create(10, Point(cloudSprite->getContentSize().width * _deltaScaleBgX - Director::getInstance()->getVisibleSize().width * 0.5,
+		cloudSprite->getPositionY()));
+	auto moveToRight = MoveTo::create(10, Point(cloudSprite->getPositionX()  * _deltaScaleBgX + Director::getInstance()->getVisibleSize().width * 0.5,
+		cloudSprite->getPositionY()));
+	auto seq = Sequence::create(moveToLeft, moveToRight, nullptr);
+	cloudSprite->runAction(RepeatForever::create(seq));
+
+	_isMoving = false;
+
 	if (ScreenManager::Instance()->bigMap() == MAP_AREAX)
 	{
 		float width = Director::getInstance()->getVisibleSize().width + Director::getInstance()->getVisibleOrigin().x;
 		float sizeOfItem = width;
-		sizeOfItem *= 0.3;
+		sizeOfItem *= 0.25;
+		_deltaScaleX = sizeOfItem / 300; // 300 is size of button
+
 		_row = Director::getInstance()->getVisibleSize().height + Director::getInstance()->getVisibleOrigin().y;
 		_row *= 0.45;
 
 		_col1 = width;
 		_col1 *= 0.167;
-		float _col2 = width;
+		_col2 = width;
 		_col2 *= 0.5;
-		float _col3 = width;
+		_col3 = width;
 		_col3 *= 0.833;
 
 		this->addMapButton(MAP_13, "mini/scene/map_stage/iran_map.png", CC_CALLBACK_2(DetailMainMenuScene::GoToGameScene_13, this), _col1, _row);
@@ -121,24 +126,19 @@ bool DetailMainMenuScene::init()
 		}
 	}
 
-	auto cloudSprite = Sprite::create("mini/scene/cloud.png");
-	cloudSprite->setPosition(Point((Director::getInstance()->getVisibleSize().width / 2 + Director::getInstance()->getVisibleOrigin().x / 2),
-		(Director::getInstance()->getVisibleSize().height / 2 + Director::getInstance()->getVisibleOrigin().y / 2)));
-	cloudSprite->setScale(x, _deltaScaleX);
-	this->addChild(cloudSprite, 1122);
-
-	auto moveToLeft = MoveTo::create(10, Point(cloudSprite->getContentSize().width * x - Director::getInstance()->getVisibleSize().width * 0.5,
-		cloudSprite->getPositionY()));
-	auto moveToRight = MoveTo::create(10, Point(cloudSprite->getPositionX()  * x + Director::getInstance()->getVisibleSize().width * 0.5, 
-		cloudSprite->getPositionY()));
-	auto seq = Sequence::create(moveToLeft, moveToRight, nullptr);
-	cloudSprite->runAction(RepeatForever::create(seq));
-
 	_maskClicked = Sprite::create("mini/scene/map_stage/map_click.png");
 	_maskClicked->setScale(_deltaScaleX);
 	_maskClicked->setOpacity(0);
 	this->addChild(_maskClicked, 1133);
-	_isMoving = false;
+
+
+	this->scheduleOnce(schedule_selector(DetailMainMenuScene::finishLoadingButton1), 0.55f);
+	this->scheduleOnce(schedule_selector(DetailMainMenuScene::finishLoadingButton2), 0.6f);
+	this->scheduleOnce(schedule_selector(DetailMainMenuScene::finishLoadingButton3), 0.65f);
+	if (_kItem>2)
+		this->scheduleOnce(schedule_selector(DetailMainMenuScene::finishLoadingButton4), 0.7f);
+
+	this->scheduleOnce(schedule_selector(DetailMainMenuScene::onFinishButtonBackLoading), 0.75f);
 	return true;
 }
 
@@ -149,12 +149,12 @@ void DetailMainMenuScene::GoToMainMenuScene(Ref* pSender, ui::Widget::TouchEvent
 
 void DetailMainMenuScene::addMapButton(const int& MapNumber, const std::string& path, const cocos2d::ui::Widget::ccWidgetTouchCallback& callback, const float& col, const float& row)
 {
-	auto itemButton = cocos2d::ui::Button::create();
+	_litemButton[_kItem] = cocos2d::ui::Button::create();
 	//itemButton->setTouchEnabled(true);
-	itemButton->loadTextures(path, path, "");
+	_litemButton[_kItem]->loadTextures(path, path, "");
 	if (MapNumber <= _mapMax)
-	{	
-		itemButton->addTouchEventListener(callback);
+	{
+		_litemButton[_kItem]->addTouchEventListener(callback);
 	}
 	else{
 		auto maskLock = Sprite::create("mini/scene/map_stage/lock.png");
@@ -162,10 +162,11 @@ void DetailMainMenuScene::addMapButton(const int& MapNumber, const std::string& 
 		maskLock->setPosition(Point(col, row));
 		this->addChild(maskLock, 1111);
 	}
-	itemButton->setScale(_deltaScaleX);
-	itemButton->setPosition(Point(col, row));
-		
-	this->addChild(itemButton);
+	_litemButton[_kItem]->setScale(_deltaScaleX);
+	_litemButton[_kItem]->setPosition(Point(col, row));
+	_litemButton[_kItem]->setVisible(false);
+	this->addChild(_litemButton[_kItem]);
+	_kItem++;
 }
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
@@ -188,7 +189,8 @@ void DetailMainMenuScene::GoToGameScene_1(Ref* pSender, ui::Widget::TouchEventTy
 		if (!_isMoving)
 		{
 			_isMoving = true;
-			_maskClicked->setOpacity(0);
+			auto fadeOut = FadeOut::create(0.15);
+			_maskClicked->runAction(fadeOut);
 		}
 	}
 	if (eEventType == ui::Widget::TouchEventType::ENDED)
@@ -209,7 +211,8 @@ void DetailMainMenuScene::GoToGameScene_2(Ref* pSender, ui::Widget::TouchEventTy
 		if (!_isMoving)
 		{
 			_isMoving = true;
-			_maskClicked->setOpacity(0);
+			auto fadeOut = FadeOut::create(0.15);
+			_maskClicked->runAction(fadeOut);
 		}
 	}
 	if (eEventType == ui::Widget::TouchEventType::ENDED)
@@ -229,8 +232,9 @@ void DetailMainMenuScene::GoToGameScene_3(Ref* pSender, ui::Widget::TouchEventTy
 	{
 		if (!_isMoving)
 		{
-			_isMoving = true;
-			_maskClicked->setOpacity(0);
+			_isMoving = true;			
+			auto fadeOut = FadeOut::create(0.15);
+			_maskClicked->runAction(fadeOut);
 		}
 	}
 	if (eEventType == ui::Widget::TouchEventType::ENDED)
@@ -251,7 +255,8 @@ void DetailMainMenuScene::GoToGameScene_4(Ref* pSender, ui::Widget::TouchEventTy
 		if (!_isMoving)
 		{
 			_isMoving = true;
-			_maskClicked->setOpacity(0);
+			auto fadeOut = FadeOut::create(0.15);
+			_maskClicked->runAction(fadeOut);
 		}
 	}
 	if (eEventType == ui::Widget::TouchEventType::ENDED)
@@ -272,7 +277,8 @@ void DetailMainMenuScene::GoToGameScene_5(Ref* pSender, ui::Widget::TouchEventTy
 		if (!_isMoving)
 		{
 			_isMoving = true;
-			_maskClicked->setOpacity(0);
+			auto fadeOut = FadeOut::create(0.15);
+			_maskClicked->runAction(fadeOut);
 		}
 	}
 	if (eEventType == ui::Widget::TouchEventType::ENDED)
@@ -293,7 +299,8 @@ void DetailMainMenuScene::GoToGameScene_6(Ref* pSender, ui::Widget::TouchEventTy
 		if (!_isMoving)
 		{
 			_isMoving = true;
-			_maskClicked->setOpacity(0);
+			auto fadeOut = FadeOut::create(0.15);
+			_maskClicked->runAction(fadeOut);
 		}
 	}
 	if (eEventType == ui::Widget::TouchEventType::ENDED)
@@ -314,7 +321,8 @@ void DetailMainMenuScene::GoToGameScene_7(Ref* pSender, ui::Widget::TouchEventTy
 		if (!_isMoving)
 		{
 			_isMoving = true;
-			_maskClicked->setOpacity(0);
+			auto fadeOut = FadeOut::create(0.15);
+			_maskClicked->runAction(fadeOut);
 		}
 	}
 	if (eEventType == ui::Widget::TouchEventType::ENDED)
@@ -335,7 +343,8 @@ void DetailMainMenuScene::GoToGameScene_8(Ref* pSender, ui::Widget::TouchEventTy
 		if (!_isMoving)
 		{
 			_isMoving = true;
-			_maskClicked->setOpacity(0);
+			auto fadeOut = FadeOut::create(0.15);
+			_maskClicked->runAction(fadeOut);
 		}
 	}
 	if (eEventType == ui::Widget::TouchEventType::ENDED)
@@ -356,7 +365,8 @@ void DetailMainMenuScene::GoToGameScene_9(Ref* pSender, ui::Widget::TouchEventTy
 		if (!_isMoving)
 		{
 			_isMoving = true;
-			_maskClicked->setOpacity(0);
+			auto fadeOut = FadeOut::create(0.15);
+			_maskClicked->runAction(fadeOut);
 		}
 	}
 	if (eEventType == ui::Widget::TouchEventType::ENDED)
@@ -377,7 +387,8 @@ void DetailMainMenuScene::GoToGameScene_10(Ref* pSender, ui::Widget::TouchEventT
 		if (!_isMoving)
 		{
 			_isMoving = true;
-			_maskClicked->setOpacity(0);
+			auto fadeOut = FadeOut::create(0.15);
+			_maskClicked->runAction(fadeOut);
 		}
 	}
 	if (eEventType == ui::Widget::TouchEventType::ENDED)
@@ -398,7 +409,8 @@ void DetailMainMenuScene::GoToGameScene_11(Ref* pSender, ui::Widget::TouchEventT
 		if (!_isMoving)
 		{
 			_isMoving = true;
-			_maskClicked->setOpacity(0);
+			auto fadeOut = FadeOut::create(0.15);
+			_maskClicked->runAction(fadeOut);
 		}
 	}
 	if (eEventType == ui::Widget::TouchEventType::ENDED)
@@ -419,7 +431,8 @@ void DetailMainMenuScene::GoToGameScene_12(Ref* pSender, ui::Widget::TouchEventT
 		if (!_isMoving)
 		{
 			_isMoving = true;
-			_maskClicked->setOpacity(0);
+			auto fadeOut = FadeOut::create(0.15);
+			_maskClicked->runAction(fadeOut);
 		}
 	}
 	if (eEventType == ui::Widget::TouchEventType::ENDED)
@@ -440,7 +453,8 @@ void DetailMainMenuScene::GoToGameScene_13(Ref* pSender, ui::Widget::TouchEventT
 		if (!_isMoving)
 		{
 			_isMoving = true;
-			_maskClicked->setOpacity(0);
+			auto fadeOut = FadeOut::create(0.15);
+			_maskClicked->runAction(fadeOut);
 		}
 	}
 	if (eEventType == ui::Widget::TouchEventType::ENDED)
@@ -461,7 +475,8 @@ void DetailMainMenuScene::GoToGameScene_14(Ref* pSender, ui::Widget::TouchEventT
 		if (!_isMoving)
 		{
 			_isMoving = true;
-			_maskClicked->setOpacity(0);
+			auto fadeOut = FadeOut::create(0.15);
+			_maskClicked->runAction(fadeOut);
 		}
 	}
 	if (eEventType == ui::Widget::TouchEventType::ENDED)
@@ -482,11 +497,48 @@ void DetailMainMenuScene::GoToGameScene_15(Ref* pSender, ui::Widget::TouchEventT
 		if (!_isMoving)
 		{
 			_isMoving = true;
-			_maskClicked->setOpacity(0);
+			auto fadeOut = FadeOut::create(0.15);
+			_maskClicked->runAction(fadeOut);
 		}
 	}
 	if (eEventType == ui::Widget::TouchEventType::ENDED)
 	{
 		ScreenManager::Instance()->gotoGameScene(MAP_15);
 	}
+}
+
+void DetailMainMenuScene::onFinishButtonBackLoading(float dt)
+{
+	auto backButton = cocos2d::ui::Button::create();
+	backButton->loadTextures("mini/scene/btt_large.png", "mini/scene/btt_large.png", "");
+	backButton->setScale(_deltaScaleX * 1.4);
+	float distanceConer = 0.12 * Director::getInstance()->getVisibleSize().height;
+	backButton->setPosition(Point(Director::getInstance()->getVisibleSize().width * 0.92 + Director::getInstance()->getVisibleOrigin().x,
+		Director::getInstance()->getVisibleSize().height  * 0.9 + Director::getInstance()->getVisibleOrigin().y));
+	//backButton->setPosition(Point(Director::getInstance()->getVisibleSize().width - distanceConer,
+	//	Director::getInstance()->getVisibleSize().height - distanceConer));
+	backButton->addTouchEventListener(CC_CALLBACK_2(DetailMainMenuScene::GoToMainMenuScene, this));
+	this->addChild(backButton);
+}
+
+
+
+void DetailMainMenuScene::finishLoadingButton1(float dt)
+{
+	_litemButton[0]->setVisible(true);
+}
+
+void DetailMainMenuScene::finishLoadingButton2(float dt)
+{
+	_litemButton[1]->setVisible(true);
+}
+
+void DetailMainMenuScene::finishLoadingButton3(float dt)
+{
+	_litemButton[2]->setVisible(true);
+}
+
+void DetailMainMenuScene::finishLoadingButton4(float dt)
+{
+	_litemButton[3]->setVisible(true);
 }

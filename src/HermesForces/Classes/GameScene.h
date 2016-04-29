@@ -54,6 +54,7 @@ public:
 	void onPause();
 
 	void NoDesciptStart(float dt);
+    
 private:
 	char _szTest[150];
 
@@ -62,6 +63,12 @@ private:
     bool onContactBegin( cocos2d::PhysicsContact &contact );
     
     bool onTouchBegan( cocos2d::Touch *touch, cocos2d::Event *event );
+        
+    void finishLoadingAndGoToStart(float dt);
+    
+    void finishNoDisc(float dt);
+    
+    void playMusic();
     
     void StopFlying( float dt );
     void update( float dt );

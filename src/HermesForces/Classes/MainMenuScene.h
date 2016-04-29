@@ -16,20 +16,24 @@ public:
 	    CREATE_FUNC(MainMenuScene);
 private:
 	int _mapMax;
+	void loadAllButton();
+	void finishLoadingButtonDesert(float dt);
+	void finishLoadingButtonCity(float dt);
+	void finishLoadingButtonSuburb(float dt);
+	void finishLoadingButtonAreaX(float dt);
+	void finishLoadingOthers(float dt);
+	void finishLoadingToRunMusic(float dt);
 
 	cocos2d::ui::Button* musicBtt;
 	cocos2d::ui::Button* soundBtt;
 	cocos2d::ui::Button* copyrightBtt;
 
-	cocos2d::Sprite* _bttDesert, *_bttCity, *_bttSuburb,* _bttAreaX , *_maskClicked;
-	//cocos2d::ui::Button* _bttDesert;
-	//cocos2d::ui::Button* _bttCity;
-	//cocos2d::ui::Button* _bttSuburb;
-	//cocos2d::ui::Button* _bttAreaX;
+	cocos2d::Sprite* _bttDesert, *_bttCity, *_bttSuburb, *_bttAreaX, *_maskClicked, *antitero;
+    cocos2d::Sprite* _cloudSprite;
 
 	float _pointDesert, _pointCity, _pointSuburb, _pointAreaX;
-	Size visibleSize;
-	Vec2 origin;
+	cocos2d::Size visibleSize;
+	cocos2d::Vec2 origin;
 	float x, y;
 	float _scaleMap;
 	void turnOnOffMusicButton(Ref* pSender, ui::Widget::TouchEventType eEventType);
@@ -51,7 +55,7 @@ private:
 	float initialTouchPosX, initialTouchPosY;
 	float currentTouchPosX, currentTouchPosY;
 	float _deltaTouchX, _deltaApply;
-	float _minSlide, _maxSlide;
+	float _minSlide, _maxSlide ,_minDistanceToMove;
 	
 	bool isTouchDown;
 	//void update(float dt);

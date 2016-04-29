@@ -133,6 +133,9 @@ void ScreenManager::writeResult()
 
 const int& ScreenManager::getMaxMap()
 {
+	//_maxMapNumber = 15;
+	//return _maxMapNumber;
+
 	std::string path = cocos2d::FileUtils::sharedFileUtils()->getWritablePath() + "631164782_map.db";
 	FILE* f = fopen(path.c_str(), "r");
 	if (cocos2d::FileUtils::sharedFileUtils()->isFileExist(path) == true)
@@ -149,8 +152,8 @@ const int& ScreenManager::getMaxMap()
 			return 0;
 		}
 		fclose(f);
-		_mapNumber = ToInt(buf1);
-		return _mapNumber;
+		_maxMapNumber = ToInt(buf1);
+		return _maxMapNumber;
 	}
 	_mapNumber = 0;
 	return 0;
@@ -401,6 +404,11 @@ void ScreenManager::playMusicVictory()
 	}
 }
 
+void ScreenManager::setCurrentBigMap(const int& bigmap)
+{
+	_bigMap = bigmap;
+}
+
 void ScreenManager::gotoSplash()
 {
     auto scene = SplashScene::createScene();
@@ -409,6 +417,7 @@ void ScreenManager::gotoSplash()
 
 void ScreenManager::gotoMainMenu()
 {
+	CocosDenshion::SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic();
 	auto scene = MainMenuScene::createScene();
 	Engine::Instance()->replaceScene(scene, 1);
 }
@@ -425,7 +434,7 @@ void ScreenManager::gotoGameScene(const int& map)
 		MapProcessor::Instance()->InitMapProcessor(map);
 	_mapNumber = map;
 	auto scene = GameScene::createScene();
-	Engine::Instance()->replaceScene(scene, 1);
+	Engine::Instance()->replaceScene(scene, 1.8f);
 }
 
 void ScreenManager::reloadGameScene()
@@ -436,8 +445,9 @@ void ScreenManager::reloadGameScene()
 	else
 		_isWelcome3s = false;
 	MapProcessor::Instance()->InitMapProcessor(_mapNumber);
+    //CocosDenshion::SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic();
 	auto scene = GameScene::createScene();
-	Engine::Instance()->replaceScene(scene, 1);
+	Engine::Instance()->replaceScene(scene, 1.8f);
 
 	//_scene = TransitGameScene::createScene();
 	//Engine::Instance()->replaceScene(_scene, 0.1f);
@@ -448,7 +458,7 @@ void ScreenManager::gotoGameOver(const bool& isCompleted, const std::string& rec
 	_isCompleted = isCompleted;
 	_recentMap = recentMap + "";
 	auto scene = GameOverScene::createScene();
-	Engine::Instance()->replaceScene(scene, 1);
+	Engine::Instance()->replaceScene(scene, 1.2f);
 }
 
 void ScreenManager::gotoCreditScene()
@@ -457,21 +467,21 @@ void ScreenManager::gotoCreditScene()
 	Engine::Instance()->replaceScene(scene, 0.9f);
 }
 
-void ScreenManager::gotoDetailMap(const int& bigmap)
+void ScreenManager::gotoDetailMap(bool isResetMusic)
 {
-	if (bigmap == MAP_CITY)
-		if (_mapNumber < MAP_5)
+	if (_bigMap == MAP_CITY)
+		if (_maxMapNumber < MAP_5)
 			return;
-	if (bigmap == MAP_SUBURB)
-		if (_mapNumber < MAP_9)
+	if (_bigMap == MAP_SUBURB)
+		if (_maxMapNumber < MAP_9)
 			return;
-	if (bigmap == MAP_AREAX)
-		if (_mapNumber < MAP_13)
+	if (_bigMap == MAP_AREAX)
+		if (_maxMapNumber < MAP_13)
 			return;
-
-	_bigMap = bigmap;
+    if(isResetMusic)
+        this->playMusicMainMenu();
 	auto scene = DetailMainMenuScene::createScene();
-	Engine::Instance()->replaceScene(scene, 0.9f);
+	Engine::Instance()->replaceScene(scene, 1.2f);
 }
 
 //void ScreenManager::continueGame()
