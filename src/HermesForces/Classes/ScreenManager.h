@@ -47,16 +47,17 @@ public:
     void gotoMainMenu();
     void gotoGameScene(const int& map);
 	void reloadGameScene();
-    void gotoGameOver(const bool& isCompleted, const std::string& recentMap);
+    void gotoGameOver(const std::string& recentMap);
 	void gotoCreditScene();
 	void gotoDetailMap(bool isResetMusic = false);
+	void setResultCurrentMap(const bool& isGood);
 
     const int& CurrentMap();
 	const float& getkScale();
 	void scaleScreenFull(cocos2d::Sprite* bg);
 	//void getRecentInfoGameOver(bool& isCompleted, std::string& recentMap);
 	std::string& getRecentMapPath() { return _recentMap; }
-	const bool& getStatusMapOver(){ return _isCompleted; }
+	const bool& isCompleStatusMapOver(){ return _isCompleted; }
 	const bool& IsWelcome3s(){ return _isWelcome3s; }
 	void writeResult();
 	const int& getMaxMap();

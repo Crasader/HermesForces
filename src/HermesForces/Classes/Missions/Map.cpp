@@ -13,12 +13,9 @@
 ////
 //////////////////////////////////////////////////////////////////////////
 // map IRAQ
-int targets_1[] = { 1, 1200, 1, 1450, 1, 1690, 1, 1990, 1, 2400, 1, 2640, 1, 2920, 1, 3210, 1, 3500, 1, 3750,
-					1, 3950, 1, 4160, 1, 4560, 1, 4900, 1, 5360, 1, 5690, 1, 6370, 1, 6680, 1, 6900, 1, 7170,
-					1, 7400, 1, 7600, 1, 8270, 1, 8450, 1, 8840 };
-
-MapInfo* Map_1 = new MapInfo(targets_1, 50, 25, ITEM_BOMB_B52, 30, SPECIAL_HELPER_NO_SPEC, GAME_PLAY_TYPE_NO_SPECIAL, "mini/land/iraq",
-	3.0, 3.5 , 3.8 ,
+int targets_1[] = {0};
+MapInfo* Map_1 = new MapInfo(targets_1, 0, 5, ITEM_BOMB_B52, 15, SPECIAL_HELPER_NO_SPEC, GAME_PLAY_TYPE_MAP_1_TUTORIAL, "mini/land/iraq",
+	3.0, 3.5 , 3.5 ,
 	75);
 
 int targets_2[] = { 2, 1000, 2, 1550, 2, 2090, 2, 2450, 2, 2800, 2, 3340, 2, 3520, 2, 3810, 2, 4220, 2, 4750,
@@ -28,22 +25,19 @@ MapInfo* Map_2 = new MapInfo(targets_2, 30 , 15, ITEM_BOMB_B52, 20, SPECIAL_HELP
 	90);
 
 // map_morocco
-int targets_3[] = {4,900 , 4,970 , 443, 1420, 5,1480, 4,1590, 4,1690, 4,1990, 4,2160, 4,2290, 443, 2860 ,
+int targets_3[] = {443,900 , 5,940 , 4, 1220, 4,1380, 4,1790, 4,1890, 4,1990, 4,2160, 4,2290, 443, 2860 ,
 					5, 2920 , 445,3200, 6,3300 , 4, 3390, 4 , 3470, 4, 3600 , 4, 3690 , 4,3800, 4,3900, 4,3990,
 					4, 4400, 443,4490, 5, 4560, 4, 4600, 4 , 4690, 4 , 4780 , 4, 5100, 445, 5190 , 6, 5260 , 4, 5380};
-MapInfo* Map_3 = new MapInfo(targets_3, 60, 25, ITEM_BOMB_B52, 30, SPECIAL_HELPER_NO_SPEC, GAME_PLAY_TYPE_NO_SPECIAL, "mini/land/morocco",
+MapInfo* Map_3 = new MapInfo(targets_3, 60, 25, ITEM_BOMB_B52, 30, SPECIAL_HELPER_NO_SPEC, GAME_PLAY_TYPE_MAP_FOCUS_TUTORIAL, "mini/land/morocco",
 	3.0, 3.0, 3.8, 
 	40); // 25 enes
 
 // map_egypt.jpg 3 - 437
-int targets_4[] = { 437, 900, 437, 1190, 437, 1430, 3, 1800, 3, 2000,
-437, 2190, 3, 2420, 437, 2610, 3, 2800, 437, 2990,
-3, 3300, 3, 3490, 437, 3960, 437, 4380, 3, 4570,
-437, 4860, 437, 5100, 3, 5290, 3, 5500, 3, 5700,
-437, 5900, 3, 6220, 437, 6510, 3, 6700, 437, 6900,
-437, 7240, 437, 7490, 3, 7680, 3, 7890, 437, 8100 };
-MapInfo* Map_4 = new MapInfo(targets_4, 60, 14, ITEM_BOMB_B52, 30, SPECIAL_HELPER_POINT_RADAR, GAME_PLAY_TYPE_HIDDEN, "mini/land/egypt",
-	3.0, 3.5, 3.4,
+int targets_4[] = { 3, 1000, 3, 1440, 3, 1630, 3, 1800, 3, 2000,
+3, 2190, 3, 2420, 3, 2610, 3, 2800, 3, 2990,
+3, 3300, 3, 3490, 3, 3960, 3, 4380, 3, 4570 };
+MapInfo* Map_4 = new MapInfo(targets_4, 30, 15, ITEM_BOMB_B52, 20, SPECIAL_HELPER_POINT_RADAR, GAME_PLAY_TYPE_MAP_FOCUS_TUTORIAL, "mini/land/egypt",
+	2.5, 2.5, 3.5,
 	120);
 
 //////////////////////////////////////////////////////////////////////////

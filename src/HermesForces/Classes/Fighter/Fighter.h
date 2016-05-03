@@ -29,6 +29,7 @@ public:
 	void fadeInOutAntiRocketButton();
 	void turnOffAntiRocketFading();
 	void startMoving();
+	void stopAllBooms();
 	//static Fighter* ThisPointer;
 private:
     int _nextTimeShootGun , _iGood;

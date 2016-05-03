@@ -440,7 +440,7 @@ void ScreenManager::gotoGameScene(const int& map)
 void ScreenManager::reloadGameScene()
 {
 	//CocosDenshion::SimpleAudioEngine::sharedEngine()->stopAllEffects();
-	if (_mapNumber == MAP_5 || _mapNumber == MAP_9 || _mapNumber == MAP_11 || _mapNumber == MAP_12 || _mapNumber == MAP_13)
+	if (_mapNumber == MAP_5 || _mapNumber == MAP_8 || _mapNumber == MAP_11 || _mapNumber == MAP_13)
 		_isWelcome3s = true;
 	else
 		_isWelcome3s = false;
@@ -453,9 +453,8 @@ void ScreenManager::reloadGameScene()
 	//Engine::Instance()->replaceScene(_scene, 0.1f);
 }
 
-void ScreenManager::gotoGameOver(const bool& isCompleted, const std::string& recentMap)
+void ScreenManager::gotoGameOver(const std::string& recentMap)
 {
-	_isCompleted = isCompleted;
 	_recentMap = recentMap + "";
 	auto scene = GameOverScene::createScene();
 	Engine::Instance()->replaceScene(scene, 1.2f);
@@ -482,6 +481,11 @@ void ScreenManager::gotoDetailMap(bool isResetMusic)
         this->playMusicMainMenu();
 	auto scene = DetailMainMenuScene::createScene();
 	Engine::Instance()->replaceScene(scene, 1.2f);
+}
+
+void ScreenManager::setResultCurrentMap(const bool& isGood)
+{
+	_isCompleted = isGood;
 }
 
 //void ScreenManager::continueGame()

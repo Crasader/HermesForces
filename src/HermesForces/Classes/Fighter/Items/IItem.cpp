@@ -60,7 +60,7 @@ void IItem::updatePos()
 	if (!_isDisable){
 		if (_isHit){
 			_fighterItems->setPositionX(_fighterItems->getPositionX() - Land::pixelOfLandMoving);
-			if (_fighterItems->getPositionX() < Land::OutOfLeftWidth)
+			if (_fighterItems->getPositionX() < 0)
 			{
                 _isDisable = true;
 				_fighterItems->stopAllActions();

@@ -63,11 +63,8 @@ bool GameOverScene::init()
     cloudSprite->setScale(y);
     this->addChild(cloudSprite,200);
     
-
-    
-    
     Sprite* _statusImage;
-    if (ScreenManager::Instance()->getStatusMapOver()){
+	if (ScreenManager::Instance()->isCompleStatusMapOver()){
         if (ScreenManager::Instance()->CurrentMap() == MAP_15)
         {
             //mission_complete_final
@@ -90,8 +87,8 @@ bool GameOverScene::init()
         _statusImage = Sprite::create("mini/scene/mission_finish.png");
         ScreenManager::Instance()->writeResult();
     }
-    else
-        _statusImage = Sprite::create("mini/scene/mission_failed.png");
+    //else
+    //    _statusImage = Sprite::create("mini/scene/mission_failed.png");
     
     
     //radioloop

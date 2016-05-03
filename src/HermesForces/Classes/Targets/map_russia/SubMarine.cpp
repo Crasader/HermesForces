@@ -72,7 +72,7 @@ const bool& SubMarine::updatePositionToTheLeft()
 	//{
 	if (!_isDisable)
 	{
-		if (_targetUnit->getPositionX() < Land::OutOfLeftWidth){
+		if (_targetUnit->getPositionX() < -50){
 			if (_isEnemies){
 				if (!_isDead)
 					Land::thisPointer->stopMoveLand();

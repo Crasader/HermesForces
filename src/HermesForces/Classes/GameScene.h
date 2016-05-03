@@ -47,16 +47,20 @@ public:
 	void touchHomeEvent(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
 	void touchOnOffMusicEvent(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
 	void touchOnOffSoundEvent(Ref* pSender, cocos2d::ui::Widget::TouchEventType eEventType);
-	void stopGame();
+	void stopGame(float dt);
 
-	void setupDialogUI();
+	
 	const bool& checkDeltaTime();
 	void onPause();
 
 	void NoDesciptStart(float dt);
+
+	void startGame();
     
 private:
 	char _szTest[150];
+
+	void hideOptionBoard();
 
     void SetPhysicsWorld( cocos2d::PhysicsWorld *world ) { sceneWorld = world; };
     
@@ -76,8 +80,22 @@ private:
     int getAngle2Sprite();
 
 	void setupUI();
+	void setupDialogUI();
+	void setupHelloUI();
+	void setupGuideUI();
 
-	void runTutorial();
+	void runTutMap1();
+	void runTutMap1StartGame(float dt);
+
+	void runTutMap2();
+	void runTutMap3();
+	void runTutMap4();
+	//void runTutMap5();
+	//void runTutMap14();
+
+	bool _isTut1, _isFinishBombMeet, _isTut2, _isTut3, _isTut4/*, _isTut5, _isTut14*/;
+
+	//void runTutorial();
 	cocos2d::EventListenerPhysicsContact* _contactListener;
 	cocos2d::EventListenerTouchOneByOne* _touchListener;
 
@@ -120,6 +138,13 @@ private:
 
 	int _disTime;
 	bool _isSpecialTutorial;
+
+	Sprite *_focusLight, *_focusLightBg, *_tutSprite, *_guide1, *_focusLightNoTut;
+
+	void finishBombMeetMap1();
+	void returnAfterBombMeetMap1();
+
+	//void finishSchedule();
 };
 
 #endif // __GAME_SCENE_H__

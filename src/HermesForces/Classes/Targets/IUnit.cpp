@@ -54,7 +54,7 @@ IUnit::~IUnit()
 const bool& IUnit::updatePositionToTheLeft()
 {
 	_targetUnit->setPositionX(_targetUnit->getPositionX() - Land::pixelOfTargetMoving);
-	if (_targetUnit->getPositionX() < Land::OutOfLeftWidth){
+	if (_targetUnit->getPositionX() < 0){
 		if (_isEnemies){
 			if (!_isDead)
 				Land::thisPointer->stopMoveLand();

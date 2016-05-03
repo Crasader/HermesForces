@@ -21,7 +21,7 @@ cocos2d::Vec2 Land::origin;
 float Land::pixelOfLandMoving;
 float Land::pixelOfTargetMoving;
 
-int Land::OutOfLeftWidth = 0;
+//int Land::OutOfLeftWidth = 0;
 //int Land::OutOfRightWidth = 100;
 
 Point Land::endPointFallingBomb;
@@ -60,7 +60,7 @@ Land::Land(cocos2d::Layer* layer , const int& stage)
 	Land::isCalculateEndPoint = false;
 	_SpecialButton = NULL;
 	//Land::parentLayer = layer;
-
+	_isTutorial = false;
 	//Land::intoScreen = -1;
 	//Land::outtoScreen = -1;
 	//_objSpecial = 0;
@@ -160,7 +160,7 @@ Land::Land(cocos2d::Layer* layer , const int& stage)
 	_indexOutTarget = 0;
 	//_indexInTarget = _targetCount;
 	//_indexInTarget = 0;
-	Land::OutOfLeftWidth = -50 * Land::deltaScale;
+	//Land::OutOfLeftWidth = 0;
 	// TODO : remove outofRight
 	//Land::OutOfRightWidth = Director::getInstance()->getVisibleSize().width + 200;
 
@@ -184,26 +184,27 @@ Land::Land(cocos2d::Layer* layer , const int& stage)
 //	return _land;
 //}
 
-void Land::stopMoveLand()
+void Land::stopMoveLand(const bool& isGood)
 {
 	//Land::isMoving = false;
-	parent->returnScoreScreen(false);
+	parent->returnScoreScreen(isGood);
 }
 
 void Land::addTargets(cocos2d::Layer* layer)
 {
 	float LandHeight = currentMap->physicsLandHeight * Land::deltaScale;
 	int list6EnemiesItems[6];
-	int layerId = 189;
+	int layerId = INDEX_LAYER_TARGET;
+
 	if (MapProcessor::Instance()->isTargetVisible())
 		layerId = 3150;
 	// prepair targets
-	switch (currentMap->targetPlayingType)
+
+	if (currentMap->targetPlayingType == GAME_PLAY_TYPE_RANDOM_3) // 3/30
 	{
-	case GAME_PLAY_TYPE_RANDOM_3: // 3/30
 		// get random fake
-		MapProcessor::Instance()->getRandomEnemies(list6EnemiesItems,currentMap->targetPlayingType);
-		for(int i=2;i<currentMap->CountItems;i++)
+		MapProcessor::Instance()->getRandomEnemies(list6EnemiesItems, currentMap->targetPlayingType);
+		for (int i = 2; i < currentMap->CountItems; i++)
 		{
 			// TO DO : && => ||
 			if (i != list6EnemiesItems[0] && i != list6EnemiesItems[1] && i != list6EnemiesItems[2])
@@ -214,17 +215,18 @@ void Land::addTargets(cocos2d::Layer* layer)
 			{
 				_listTargets.push_back(new Target(Point(currentMap->Items[i] * Land::deltaScale, LandHeight), _targetCount, currentMap->Items[1]));
 			}
-				//_listTargets[_targetCount] = new Target(Point(currentMap->Items[i] * Land::deltaScale,LandHeight),_targetCount,currentMap->Items[0]);
+			//_listTargets[_targetCount] = new Target(Point(currentMap->Items[i] * Land::deltaScale,LandHeight),_targetCount,currentMap->Items[0]);
 			//else
 			//	_listTargets[_targetCount] = new Target(Point(currentMap->Items[i] * Land::deltaScale,LandHeight),_targetCount,currentMap->Items[1]);
 			layer->addChild(_listTargets[_targetCount++]->getSprite(), layerId + i);
 			//_targetCount++;
 		}
-		break;
-	case GAME_PLAY_TYPE_RANDOM_6:
+	}
+	else 	if (currentMap->targetPlayingType == GAME_PLAY_TYPE_RANDOM_6) // 3/30
+	{
 		// get random fake
-		MapProcessor::Instance()->getRandomEnemies(list6EnemiesItems,currentMap->targetPlayingType);
-		for(int i=2;i<currentMap->CountItems;i++)
+		MapProcessor::Instance()->getRandomEnemies(list6EnemiesItems, currentMap->targetPlayingType);
+		for (int i = 2; i < currentMap->CountItems; i++)
 		{
 			// TO DO : && => ||
 			if (i != list6EnemiesItems[0] && i != list6EnemiesItems[1] && i != list6EnemiesItems[2] && i != list6EnemiesItems[3] && i != list6EnemiesItems[4] && i != list6EnemiesItems[5]){
@@ -235,12 +237,13 @@ void Land::addTargets(cocos2d::Layer* layer)
 			{
 				_listTargets.push_back(new Target(Point(currentMap->Items[i] * Land::deltaScale, LandHeight), _targetCount, currentMap->Items[1]));
 			}
-				//_listTargets[_targetCount] = new Target(Point(currentMap->Items[i] * Land::deltaScale,LandHeight),_targetCount,currentMap->Items[1]);
+			//_listTargets[_targetCount] = new Target(Point(currentMap->Items[i] * Land::deltaScale,LandHeight),_targetCount,currentMap->Items[1]);
 			layer->addChild(_listTargets[_targetCount++]->getSprite(), layerId + i);
 			//_targetCount++;
 		}
-		break;
-	case GAME_PLAY_RANDOM_5_TARGETS:
+	}
+	else 	if (currentMap->targetPlayingType == GAME_PLAY_RANDOM_5_TARGETS) // 3/30
+	{
 		MapProcessor::Instance()->getRandomEnemies(list6EnemiesItems, currentMap->targetPlayingType);
 		for (int i = 2; i < currentMap->CountItems; i++)
 		{
@@ -252,40 +255,94 @@ void Land::addTargets(cocos2d::Layer* layer)
 			else{
 				_listTargets.push_back(new Target(Point(currentMap->Items[i] * Land::deltaScale, LandHeight), _targetCount, currentMap->Items[1]));
 				//_listTargets[_targetCount] = new Target(Point(currentMap->Items[i] * Land::deltaScale, LandHeight), _targetCount, currentMap->Items[1]);
-			}		
+			}
 			layer->addChild(_listTargets[_targetCount++]->getSprite(), layerId + i);
 			//_targetCount++;
 		}
-		break;
-	case GAME_PLAY_RANDOM_ENEMIES_POSITION:
-		for(int i=1;i<(currentMap->CountItems *2) +1;i=i+2)
+	}
+	else 	if (currentMap->targetPlayingType == GAME_PLAY_RANDOM_ENEMIES_POSITION) // 3/30
+	{
+		for (int i = 1; i < (currentMap->CountItems * 2) + 1; i = i + 2)
 		{
-			int randPos = cocos2d::random(currentMap->Items[i],currentMap->Items[i+1]);
+			int randPos = cocos2d::random(currentMap->Items[i], currentMap->Items[i + 1]);
 			//_listTargets[_targetCount] = new Target(Point(randPos * Land::deltaScale,LandHeight),_targetCount,currentMap->Items[0]);
 			_listTargets.push_back(new Target(Point(randPos * Land::deltaScale, LandHeight), _targetCount, currentMap->Items[0]));
 			layer->addChild(_listTargets[_targetCount++]->getSprite(), layerId + i);
 			//_targetCount++;
 		}
-		break;
-	case  GAME_PLAY_ENEMIES_DIFF_HEIGHT:
-		for(int i=0;i<currentMap->CountItems;i=i+3)
+	}
+	else 	if (currentMap->targetPlayingType == GAME_PLAY_ENEMIES_DIFF_HEIGHT) // 3/30
+	{
+		for (int i = 0; i < currentMap->CountItems; i = i + 3)
 		{
 			//_listTargets[_targetCount] = new Target(Point(currentMap->Items[i+1] * Land::deltaScale,currentMap->Items[i+2] * Land::deltaScale),_targetCount,currentMap->Items[i]);
 			_listTargets.push_back(new Target(Point(currentMap->Items[i + 1] * Land::deltaScale, currentMap->Items[i + 2] * Land::deltaScale), _targetCount, currentMap->Items[i]));
 			layer->addChild(_listTargets[_targetCount++]->getSprite(), layerId + i);
 			//_targetCount++;
 		}
-		break;
-	default:
-		for(int i=0;i<currentMap->CountItems;i=i+2)
+	}
+	else if (currentMap->targetPlayingType == GAME_PLAY_TYPE_MAP_FOCUS_TUTORIAL) // 3/30
+	{
+		float w4on5 = visibleSize.width * 0.8;
+		float delta = currentMap->Items[1] * Land::deltaScale - w4on5;
+		focusLightPos = Point(w4on5, (LandHeight  * 0.5) + (10 * 0.5 * Land::deltaScale));
+		
+		_listTargets.push_back(new Target(Point(w4on5,LandHeight), _targetCount, currentMap->Items[0]));
+		layer->addChild(_listTargets[_targetCount++]->getSprite(), layerId + 90);
+
+		_listTargets.push_back(new Target(Point(currentMap->Items[3] * Land::deltaScale - delta, LandHeight), _targetCount, currentMap->Items[2]));
+		layer->addChild(_listTargets[_targetCount++]->getSprite(), layerId + 91);
+
+		for (int i = 4; i < currentMap->CountItems; i = i + 2)
+		{
+			_listTargets.push_back(new Target(Point(currentMap->Items[i + 1] * Land::deltaScale - delta, LandHeight), _targetCount, currentMap->Items[i]));
+			layer->addChild(_listTargets[_targetCount++]->getSprite(), layerId + i);
+		}
+	}
+	else if (currentMap->targetPlayingType == GAME_PLAY_TYPE_MAP_1_TUTORIAL) // 3/30
+	{
+		/// BEGIN for tut 1
+		float posYFighter = visibleSize.height * 0.95 + origin.y - SIZE_AHALF_BTT_SPEC * Land::deltaScale;
+		float posYBomb = posYFighter - 0.5 * Land::sizeBoom->height * Land::deltaScale - FIGHTER_POS_BOMB;
+		float distanceBombToLand = posYBomb - LandHeight - 0.5 * Land::sizeBoom->height * Land::deltaScale;
+		//+ 185_fighter->getContentSize().width * 0.5 * Land::deltaScale
+		float xblank_top = 0.05 * visibleSize.height + origin.y;
+		float posXMeet = xblank_top + SIZE_BTT_SPEC * Land::deltaScale + xblank_top + 185/*_fighter->getContentSize().width*/ * 0.5 * Land::deltaScale;
+		
+		float distanceMeetBombToTarget1st = posXMeet + distanceBombToLand + 50 * Land::deltaScale;
+		if (!ScreenManager::Instance()->IsWelcome3s())
+			distanceMeetBombToTarget1st += 450 * Land::deltaScale;
+
+		//float timeFromBombToLand = distanceBombToLand / Land::PixelPerFPSBoomFall;
+		//float distanceMeetBombToTarget1st = timeFromBombToLand * Land::pixelOfTargetMoving;
+		/// END for tut 1
+
+		_listTargets.push_back(new Target(Point(distanceMeetBombToTarget1st, LandHeight), _targetCount, TARGET_IS_IRAQ));
+		layer->addChild(_listTargets[_targetCount++]->getSprite(), layerId + 1);
+
+		_listTargets.push_back(new Target(Point(distanceMeetBombToTarget1st + 450 * Land::deltaScale , LandHeight), _targetCount, TARGET_IS_IRAQ));
+		layer->addChild(_listTargets[_targetCount++]->getSprite(), layerId + 2);
+
+		_listTargets.push_back(new Target(Point(distanceMeetBombToTarget1st + 1000 * Land::deltaScale, LandHeight), _targetCount, TARGET_IS_IRAQ));
+		layer->addChild(_listTargets[_targetCount++]->getSprite(), layerId + 3);
+
+		_listTargets.push_back(new Target(Point(distanceMeetBombToTarget1st + 1450 * Land::deltaScale, LandHeight), _targetCount, TARGET_IS_IRAQ));
+		layer->addChild(_listTargets[_targetCount++]->getSprite(), layerId + 4);
+
+		_listTargets.push_back(new Target(Point(distanceMeetBombToTarget1st + 1999 * Land::deltaScale, LandHeight), _targetCount, TARGET_IS_IRAQ));
+		layer->addChild(_listTargets[_targetCount++]->getSprite(), layerId + 5);
+	}
+	else
+	{
+		for (int i = 0; i < currentMap->CountItems; i = i + 2)
 		{
 			//_listTargets[_targetCount] = new Target(Point(currentMap->Items[i+1] * Land::deltaScale,LandHeight),_targetCount,currentMap->Items[i]);
 			_listTargets.push_back(new Target(Point(currentMap->Items[i + 1] * Land::deltaScale, LandHeight), _targetCount, currentMap->Items[i]));
 			layer->addChild(_listTargets[_targetCount++]->getSprite(), layerId + i);
 			//_targetCount++;
 		}
-		break;
 	}
+
 	
 }
 
@@ -317,17 +374,21 @@ void Land::preReleaseLand()
 
 void Land::fadeInOutSpecBtt()
 {
+	_isTutorial = true;
 	if (_SpecialButton == NULL)
 		return;
+	
 	//_SpecialButton->loadTextures("mini/land/special/btt_flare.png", "mini/land/special/btt_flare.png", "");
 	auto fadein = FadeTo::create(0.1f, 0);
 	auto fadeOut = FadeTo::create(0.5f, 255);
 	auto seq = Sequence::create(fadein, fadeOut, nullptr);
 	_SpecialButton->runAction(RepeatForever::create(seq));
+	_SpecialButton->setTouchEnabled(true);
 }
 
 void Land::stopFadeInoutSpecBtt()
 {
+	_isTutorial = false;
 	_SpecialButton->stopAllActions();
 	_SpecialButton->setOpacity(255);
 }
@@ -437,6 +498,13 @@ void Land::turnOnLightSpecialEvent(Ref* pSender, ui::Widget::TouchEventType eEve
 		//if( currT  - _delayTimeClickSpecial >= DELAY_SPECIAL_CLICK_1)
 		{
 			//_delayTimeClickSpecial = currT;
+			if (_isTutorial){
+				_isTutorial = false;
+				_SpecialButton->setTouchEnabled(false);
+				_SpecialButton->stopAllActions();
+				parent->startGame();
+			}
+
 			turnOnLight();
 		}
 	}
@@ -447,7 +515,19 @@ void Land::turnOnRadarPointSpecialEvent(Ref* pSender, ui::Widget::TouchEventType
 
 	if (eEventType != ui::Widget::TouchEventType::ENDED)
 	{
-		
+		if (_isTutorial){
+			_isTutorial = false;
+			_SpecialButton->setTouchEnabled(false);
+			_SpecialButton->stopAllActions();
+			auto fadeIn = FadeIn::create(0.25f);
+			auto delay = DelayTime::create(1.5f);
+			auto fadeOut = FadeOut::create(0.25f);
+			auto seq = Sequence::create(fadeIn, delay, fadeOut, nullptr);
+			_backgroundSpecial->runAction(seq);
+
+			parent->startGame();
+			return;
+		}
 		//int currT = Utility::getCurrentTime();
 		//if( currT  - _delayTimeClickSpecial >= DELAY_SPECIAL_CLICK_2)
 		{
@@ -461,6 +541,12 @@ void Land::turnOnRadarHeatSpecialEvent(Ref* pSender, ui::Widget::TouchEventType 
 {
 	if (eEventType != ui::Widget::TouchEventType::ENDED)
 	{
+		if (_isTutorial){
+			_isTutorial = false;
+			_SpecialButton->setTouchEnabled(false);
+			_SpecialButton->stopAllActions();
+			parent->startGame();
+		}
 		//int currT = Utility::getCurrentTime();
 		//if( currT  - _delayTimeClickSpecial >= DELAY_SPECIAL_CLICK_2)
 		{
@@ -474,6 +560,7 @@ void Land::turnOnRadarBombSpecialEvent(Ref* pSender, ui::Widget::TouchEventType 
 {
 	if (eEventType != ui::Widget::TouchEventType::ENDED)
 	{
+
 		//int currT = Utility::getCurrentTime();
 		//if( currT  - _delayTimeClickSpecial >= DELAY_SPECIAL_CLICK_2)
 		{
@@ -611,15 +698,18 @@ void Land::updateLandPositionToTheLeft()
 {
 	moveToLeft(/*_deltaMovingLand*/);
 
+	//if (!Land::isMoving)
+	//	return;
+
 	//_pixelTargetMoving += _deltaMovingTargets;
 	for (int i = _indexOutTarget ; i < _targetCount/* - 1*/; i++)
 	{
 		if (!_listTargets[i]->updatePositionToTheLeft(/*_deltaMovingTargets*/))
 			_indexOutTarget = i;
-
 	}
+
 	if (_indexOutTarget + 2 > _targetCount)
-		this->stopMoveLand();
+		this->stopMoveLand(false);
 }
 
 const bool& Land::hitWeaponEnemies(const int& idWeapons)

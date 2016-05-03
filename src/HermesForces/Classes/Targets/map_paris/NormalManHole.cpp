@@ -37,7 +37,7 @@ const bool& NormalManHole::updatePositionToTheLeft()
 	_targetUnit->setPositionX(_targetUnit->getPositionX() - Land::pixelOfTargetMoving);
 	if (_isDisable)
 		_underHole->setPositionX(_targetUnit->getPositionX());
-	if (_targetUnit->getPositionX() < Land::OutOfLeftWidth){
+	if (_targetUnit->getPositionX() < 0){
 		this->disable();
 		return false;
 	}

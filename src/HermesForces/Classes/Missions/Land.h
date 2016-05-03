@@ -39,7 +39,7 @@ public:
 	static cocos2d::Vec2 origin;
 	static float pixelOfLandMoving;
 	static float pixelOfTargetMoving;
-	static int OutOfLeftWidth;
+	//static int OutOfLeftWidth;
 	//static int OutOfRightWidth;
 	static cocos2d::Point endPointFallingBomb;
 	static bool isCalculateEndPoint;
@@ -48,7 +48,7 @@ public:
 	static cocos2d::Point FighterPos;
 	static Land* thisPointer;
 
-	void stopMoveLand();
+	void stopMoveLand(const bool& isGood = false);
 	void addTargets(cocos2d::Layer* layer);
 	void detectInScreen();
 	void turnOnLight();
@@ -83,6 +83,9 @@ public:
 
 	void fadeInOutSpecBtt();
 	void stopFadeInoutSpecBtt();
+
+	void pauseToShow();
+	cocos2d::Point focusLightPos;
 private:
 	//const bool& checkDeltaTime();
 
@@ -103,6 +106,7 @@ private:
 	//Target* _listTargets[50];
 	std::vector<Target*> _listTargets;
 	GameScene* parent;
+	bool _isTutorial;
 
 	int _typeBomb;
 	MapInfo* currentMap;

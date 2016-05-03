@@ -4,8 +4,7 @@
 #include "../ScreenManager.h"
 //Fighter* Fighter::ThisPointer = NULL;
 USING_NS_CC;
-#define FIGHTER_BOX_SQUARE 10
-#define FIGHTER_POS_BOMB 0
+
 // TODO: hit fighter -> explosive !!
 Fighter::Fighter(cocos2d::Layer *layer, const cocos2d::Point& leftAlignPos, const int& specialMap)
 {
@@ -16,6 +15,7 @@ Fighter::Fighter(cocos2d::Layer *layer, const cocos2d::Point& leftAlignPos, cons
 		_fighter = Sprite::createWithSpriteFrameName("china_zep.png");
 
 	// TO DO : make less calculation
+	//float test = _fighter->getContentSize().width;
 	Land::FighterPos = Point(leftAlignPos.x + _fighter->getContentSize().width * 0.5 * Land::deltaScale,leftAlignPos.y);/*Point((Land::visibleSize.width + Land::origin.x) * 0.25,
 							(Land::visibleSize.height + Land::origin.y) * 0.8);*/
 	_fighter->setPosition( Land::FighterPos );
@@ -167,6 +167,14 @@ void Fighter::startMoving()
 {
 	if (_specialButton)
 		_specialButton->setTouchEnabled(true);
+}
+
+void Fighter::stopAllBooms()
+{
+	for (int i = Land::BombCount; i > restBomb; i--)
+	{
+		_listFighterItems[i]->disapeare();
+	}
 }
 
 Fighter::~Fighter()
