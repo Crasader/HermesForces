@@ -171,6 +171,9 @@ void Fighter::startMoving()
 
 void Fighter::stopAllBooms()
 {
+	if (ScreenManager::Instance()->CurrentMap() == MAP_15)
+		return;
+
 	for (int i = Land::BombCount; i > restBomb; i--)
 	{
 		_listFighterItems[i]->disapeare();
@@ -217,22 +220,13 @@ void Fighter::antiRocket(Ref* pSender, ui::Widget::TouchEventType eEventType)
 #else
 		ScreenManager::Instance()->playSoundEffect("Sounds/antirocket.mp3");
 #endif
-		//_listAntiRocketItems[_restAntiRocket] = new AntiRocket(_layer, _antiRocketFromPos_1  ,_restAntiRocket);
-		//_listAntiRocketItems[_restAntiRocket]->MoveToPos(_antiRocketToPos_1);
-		//_restAntiRocket--;
-
-		//_listAntiRocketItems[_restAntiRocket] = new AntiRocket(_layer, _antiRocketFromPos_2 ,_restAntiRocket);
-		//_listAntiRocketItems[_restAntiRocket]->MoveToPos(_antiRocketToPos_2);
-		//_restAntiRocket--;
-
-		//_listAntiRocketItems[_restAntiRocket] = new AntiRocket(_layer, _antiRocketFromPos_3 ,_restAntiRocket);
-		//_listAntiRocketItems[_restAntiRocket]->MoveToPos(_antiRocketToPos_3);
-		//_restAntiRocket--;
-		_listAntiRocketImage[_restAntiRocket]->setOpacity(0);
-
+       
+        _listAntiRocketImage[_restAntiRocket]->setOpacity(0);
+        //auto anti = new AntiRocket(_layer, _antiRocketFromPos_1, _restAntiRocket);
+        
 		_listAntiRocketItems.push_back(new AntiRocket(_layer, _antiRocketFromPos_1, _restAntiRocket));
-		_listAntiRocketItems.push_back(new AntiRocket(_layer, _antiRocketFromPos_1, _restAntiRocket));
-		_listAntiRocketItems.push_back(new AntiRocket(_layer, _antiRocketFromPos_1, _restAntiRocket));
+		_listAntiRocketItems.push_back(new AntiRocket(_layer, _antiRocketFromPos_2, _restAntiRocket));
+		_listAntiRocketItems.push_back(new AntiRocket(_layer, _antiRocketFromPos_3, _restAntiRocket));
 
 		_listAntiRocketItems[_restAntiRocket * 3]->MoveToPos(_antiRocketToPos_1);
 		_listAntiRocketItems[_restAntiRocket * 3 + 1]->MoveToPos(_antiRocketToPos_2);
@@ -282,6 +276,8 @@ void Fighter::eatRocket()
 	Animation* animation = Animation::createWithSpriteFrames(frames_1, 0.1);
 	Animate* animate = Animate::create(animation);
 	_fighter->runAction(animate);
+    for(int i = _restAntiRocket; i< 5;i++)
+        _listAntiRocketImage[i]->setOpacity(0);
 }
 
 void Fighter::setAntiRocketMap14(const Point& p)

@@ -309,7 +309,7 @@ void Land::addTargets(cocos2d::Layer* layer)
 		float xblank_top = 0.05 * visibleSize.height + origin.y;
 		float posXMeet = xblank_top + SIZE_BTT_SPEC * Land::deltaScale + xblank_top + 185/*_fighter->getContentSize().width*/ * 0.5 * Land::deltaScale;
 		
-		float distanceMeetBombToTarget1st = posXMeet + distanceBombToLand + 50 * Land::deltaScale;
+		float distanceMeetBombToTarget1st = posXMeet + distanceBombToLand + 45 * Land::deltaScale;
 		if (!ScreenManager::Instance()->IsWelcome3s())
 			distanceMeetBombToTarget1st += 450 * Land::deltaScale;
 
@@ -320,16 +320,16 @@ void Land::addTargets(cocos2d::Layer* layer)
 		_listTargets.push_back(new Target(Point(distanceMeetBombToTarget1st, LandHeight), _targetCount, TARGET_IS_IRAQ));
 		layer->addChild(_listTargets[_targetCount++]->getSprite(), layerId + 1);
 
-		_listTargets.push_back(new Target(Point(distanceMeetBombToTarget1st + 450 * Land::deltaScale , LandHeight), _targetCount, TARGET_IS_IRAQ));
+		_listTargets.push_back(new Target(Point(distanceMeetBombToTarget1st + 1050 * Land::deltaScale , LandHeight), _targetCount, TARGET_IS_IRAQ));
 		layer->addChild(_listTargets[_targetCount++]->getSprite(), layerId + 2);
 
-		_listTargets.push_back(new Target(Point(distanceMeetBombToTarget1st + 1000 * Land::deltaScale, LandHeight), _targetCount, TARGET_IS_IRAQ));
+		_listTargets.push_back(new Target(Point(distanceMeetBombToTarget1st + 1960 * Land::deltaScale, LandHeight), _targetCount, TARGET_IS_IRAQ));
 		layer->addChild(_listTargets[_targetCount++]->getSprite(), layerId + 3);
 
-		_listTargets.push_back(new Target(Point(distanceMeetBombToTarget1st + 1450 * Land::deltaScale, LandHeight), _targetCount, TARGET_IS_IRAQ));
+		_listTargets.push_back(new Target(Point(distanceMeetBombToTarget1st + 2750 * Land::deltaScale, LandHeight), _targetCount, TARGET_IS_IRAQ));
 		layer->addChild(_listTargets[_targetCount++]->getSprite(), layerId + 4);
 
-		_listTargets.push_back(new Target(Point(distanceMeetBombToTarget1st + 1999 * Land::deltaScale, LandHeight), _targetCount, TARGET_IS_IRAQ));
+		_listTargets.push_back(new Target(Point(distanceMeetBombToTarget1st + 3599 * Land::deltaScale, LandHeight), _targetCount, TARGET_IS_IRAQ));
 		layer->addChild(_listTargets[_targetCount++]->getSprite(), layerId + 5);
 	}
 	else

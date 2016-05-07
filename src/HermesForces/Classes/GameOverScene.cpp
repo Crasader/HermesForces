@@ -56,7 +56,7 @@ bool GameOverScene::init()
     backgroundSprite->setScaleY(y);// (Director::getInstance()->getVisibleSize().height + Director::getInstance()->getVisibleOrigin().y) / 768);
     
     //ScreenManager::Instance()->scaleScreenFull(backgroundSprite);
-    this->addChild(backgroundSprite);
+    this->addChild(backgroundSprite,1);
     
     cloudSprite = Sprite::create("mini/scene/cloud.png");
     cloudSprite->setPosition(Point(cloudSprite->getContentSize().width * 0.5 * y + origin.x * 0.5, visibleSize.height / 2 + origin.y * 0.5));
@@ -87,14 +87,27 @@ bool GameOverScene::init()
         _statusImage = Sprite::create("mini/scene/mission_finish.png");
         ScreenManager::Instance()->writeResult();
     }
-    //else
-    //    _statusImage = Sprite::create("mini/scene/mission_failed.png");
+    else{
+//        auto failBg = Sprite::create("mini/scene/mission_fail.png");
+//        failBg->setScale(Land::deltaScale);
+//        failBg->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
+//        failBg->setOpacity(0);
+//        this->addChild(failBg, 2);
+        
+        auto _blackBg = Sprite::create("mini/land/bg_nothing.jpg");
+        _blackBg->setScale(visibleSize.width / 10);
+        _blackBg->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
+        this->addChild(_blackBg, 2);//2861
+        _blackBg->setOpacity(222);
+        
+        _statusImage = Sprite::create("mini/scene/mission_failed.png");
+    }
     
     
     //radioloop
     _statusImage->setPosition(Point(visibleSize.width / 2, visibleSize.height * 0.8));
     _statusImage->setScale(Land::deltaScale);
-    this->addChild(_statusImage);
+    this->addChild(_statusImage,5);
     
     
     //float wi = cloudSprite->getContentSize().width * 0.5 * x + origin.x * 0.5;
@@ -161,6 +174,22 @@ void GameOverScene::GoToGameScene( Ref* pSender, ui::Widget::TouchEventType eEve
     }
 }
 
+void GameOverScene::GoToNextScene(Ref* pSender, ui::Widget::TouchEventType eEventType)
+{
+    if (eEventType == ui::Widget::TouchEventType::ENDED)
+    {
+        if(_isLoad){
+            if (ScreenManager::Instance()->CurrentMap() >= MAP_3)
+            {
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+                SonarCocosHelper::AdMob::hideBannerAd(SonarCocosHelper::AdBannerPosition::eBottom);
+#endif
+            }
+        }
+        ScreenManager::Instance()->gotoGameScene(ScreenManager::Instance()->CurrentMap() + 1);
+    }
+}
+
 GameOverScene::~GameOverScene()
 {
     
@@ -194,20 +223,27 @@ void GameOverScene::onFinishMenuLoading(float dt)
 {
     //ScreenManager::Instance()->releaseGameScene();
     
-    itemRetryButton = cocos2d::ui::Button::create();
-    itemRetryButton->loadTextures("mini/scene/button_retry.jpg", "", "");
-    itemRetryButton->addTouchEventListener(CC_CALLBACK_2(GameOverScene::GoToGameScene, this));
-    itemRetryButton->setPosition(Point(Director::getInstance()->getVisibleSize().width * 0.25, Director::getInstance()->getVisibleSize().height * 0.5));
-    itemRetryButton->setScale(Land::deltaScale);
-    this->addChild(itemRetryButton);
-    
+    itemNextOrRetryButton = cocos2d::ui::Button::create();
+    if(!ScreenManager::Instance()->isCompleStatusMapOver())
+    {
+        itemNextOrRetryButton->loadTextures("mini/scene/button_retry.jpg", "", "");
+        itemNextOrRetryButton->addTouchEventListener(CC_CALLBACK_2(GameOverScene::GoToGameScene, this));
+    }
+    else
+    {
+        itemNextOrRetryButton->loadTextures("mini/scene/button_next.jpg", "", "");
+        itemNextOrRetryButton->addTouchEventListener(CC_CALLBACK_2(GameOverScene::GoToNextScene,this));
+    }
+    itemNextOrRetryButton->setPosition(Point(Director::getInstance()->getVisibleSize().width * 0.25, Director::getInstance()->getVisibleSize().height * 0.5));
+    itemNextOrRetryButton->setScale(Land::deltaScale);
+    this->addChild(itemNextOrRetryButton,7);
     
     itemMenuButton = cocos2d::ui::Button::create();
     itemMenuButton->loadTextures("mini/scene/button_menu.jpg", "", "");
     itemMenuButton->addTouchEventListener(CC_CALLBACK_2(GameOverScene::GoToMainMenuScene, this));
     itemMenuButton->setPosition(Point(Director::getInstance()->getVisibleSize().width * 0.75, Director::getInstance()->getVisibleSize().height * 0.5));
     itemMenuButton->setScale(Land::deltaScale);
-    this->addChild(itemMenuButton);
+    this->addChild(itemMenuButton,9);
     
     
 }

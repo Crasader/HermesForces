@@ -19,6 +19,7 @@ void IndianSwat::hitTarget()
 {
 	// do nothing
 	_isGoodHit = true;
+    _isHitTarget = true;
 }
 
 void IndianSwat::hitLand()
@@ -26,7 +27,7 @@ void IndianSwat::hitLand()
 	MapProcessor::Instance()->playSoundEffectHitLand();
 	_isHit = true;
 	_fighterBody->setEnabled(false);
-	//_fighterItems->setPosition(Land::endPointFallingBomb);
+	_fighterItems->setPosition(Land::endPointFallingBomb);
 
 	if (_isGoodHit) // hit IS
 	{

@@ -29,6 +29,7 @@ SpecialForce::SpecialForce(cocos2d::Layer *layer, const cocos2d::Point&  point, 
 void SpecialForce::hitTarget()
 {
 	_isGoodHit = true;
+    _isHitTarget = true;
 	// do nothing
 }
 

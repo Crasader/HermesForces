@@ -16,7 +16,7 @@ AntiRocket::AntiRocket( cocos2d::Layer *layer, const cocos2d::Point&  pStart, co
 
 	_antiRocketItem->setTag(idTag);
 
-	layer->addChild(_antiRocketItem);
+	layer->addChild(_antiRocketItem,27250 + idTag);
 }
 
 void AntiRocket::MoveToPos(const cocos2d::Point&  pTo)

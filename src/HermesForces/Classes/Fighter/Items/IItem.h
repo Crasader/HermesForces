@@ -22,7 +22,7 @@ protected:
 	bool isFalling;
 	bool _isDisable;
 	bool _isHit;
-
+    bool _isHitTarget;
 	cocos2d::Point  _pStart;
 	int _idTag;
 };

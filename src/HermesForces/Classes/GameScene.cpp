@@ -37,7 +37,7 @@ bool GameScene::init()
 		_oldTimer.tv_sec = 0;
 		_oldTimer.tv_usec = 0;
 	}
-    
+    _isTut1CompleteFallingBomb = true;
 	_isTut1 = _isTut2 = _isTut3 = _isTut4 = /*_isTut5 = _isTut14 = */false;
 
 	_isSpecialTutorial = false;
@@ -404,6 +404,9 @@ bool GameScene::onTouchBegan( cocos2d::Touch *touch, cocos2d::Event *event )
 		return true;
 	}
 
+    if(!_isTut1CompleteFallingBomb)
+        return false;
+    
     if(!_isGameOver)
     {
 		if(Land::isMoving == true){
@@ -416,6 +419,19 @@ bool GameScene::onTouchBegan( cocos2d::Touch *touch, cocos2d::Event *event )
 				if (this->checkDeltaTime())
 				{
 					if (_iweaponTotal-- > 0){
+                        if ( _iweaponTotal < 3)
+                        {
+                            _focusLight = Sprite::create ("mini/scene/focus_light_red.png" );
+                            _focusLight->setPosition (_weaponLabel ->getPosition ());
+                            _focusLight->setScale (Land ::deltaScale * 1.5);
+                            _focusLight->setOpacity (50);
+                            this-> addChild( _focusLight, 4299);
+                            
+                            auto fadeIn = FadeIn::create (0.25f);
+                            auto fadeOut = FadeOut::create (0.5f);
+                            auto seq = Sequence::create (fadeIn , fadeOut , nullptr );
+                            _focusLight->runAction (seq );
+                        }
 						ScreenManager::Instance()->GetFighter()->Drop();
 						sprintf(_szWeaponTotalStr, " x %d ", _iweaponTotal);
 						_weaponLabel->setString(_szWeaponTotalStr);
@@ -440,10 +456,10 @@ void GameScene::update( float dt )
 void GameScene::stopGame(float dt)
 {	
 	this->unscheduleUpdate();	
-	if (ScreenManager::Instance()->isCompleStatusMapOver())
+	//if (ScreenManager::Instance()->isCompleStatusMapOver())
 		ScreenManager::Instance()->gotoGameOver(ScreenManager::Instance()->GetLand()->getPathMap());
-	else
-		ScreenManager::Instance()->reloadGameScene();
+//	else
+//		ScreenManager::Instance()->reloadGameScene();
 
 }
 void GameScene::returnScoreScreen(const bool& _isCompleted)
@@ -479,10 +495,18 @@ void GameScene::returnScoreScreen(const bool& _isCompleted)
 	this->scheduleOnce(schedule_selector(GameScene::stopGame), 1.0f);
 }
 
+void GameScene::stopTut1Bomb(float dt)
+{
+    _isTut1CompleteFallingBomb = true;
+}
+
 void GameScene::start()
 {
-	Land::isMoving = true;
-
+    if(!_isTut1CompleteFallingBomb)
+    {
+        this->scheduleOnce(schedule_selector(GameScene::stopTut1Bomb), 0.25f);
+    }
+    Land::isMoving = true;
 	//ScreenManager::Instance()->cleanUpMainMenu();
 	//ScreenManager::Instance()->cleanUpGameOver();
 	//CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("Sounds/heli_long.mp3", true);
@@ -496,17 +520,26 @@ void GameScene::start()
 	if (_isMapRandom3)
 	{
 		Enemy1->removeFromParent();
+		bgEnemy1->removeFromParent();
 		Enemy2->removeFromParent();
-		Enemy3->removeFromParentAndCleanup(true);
+		bgEnemy2->removeFromParent();
+		Enemy3->removeFromParent();
+		bgEnemy3->removeFromParentAndCleanup(true);
 	}
 	if (_isMapRandom6)
 	{
 		Enemy1->removeFromParent();
+		bgEnemy1->removeFromParent();
 		Enemy2->removeFromParent();
+		bgEnemy2->removeFromParent();
 		Enemy3->removeFromParent();
+		bgEnemy3->removeFromParent();
 		Enemy4->removeFromParent();
+		bgEnemy4->removeFromParent();
 		Enemy5->removeFromParent();
-		Enemy6->removeFromParentAndCleanup(true);
+		bgEnemy5->removeFromParent();
+		Enemy6->removeFromParent();
+		bgEnemy6->removeFromParentAndCleanup(true);
 	}
 
 	
@@ -697,12 +730,23 @@ void GameScene::setupDialogUI()
 void GameScene::setupGuideUI()
 {
 	_desciptContent->setOpacity(0);
-	_blackBg->setOpacity(0);
-
+	
+    /// reload game -> just show description
+    if(ScreenManager::Instance()->isReloaded())
+    {
+        auto fadeOut = FadeOut::create(0.25f);
+        auto sequenceStart = Sequence::create(fadeOut, CallFunc::create(CC_CALLBACK_0(GameScene::playMusic, this)),
+                                              CallFunc::create(CC_CALLBACK_0(GameScene::start, this)), nullptr);
+        _blackBg->runAction(sequenceStart);
+        return;
+    }
+    
+    /// new game : add tut
 	if (ScreenManager::Instance()->CurrentMap() == MAP_1)
 	{
 		_isTut1 = true;
-
+        _isTut1CompleteFallingBomb = false;
+        _blackBg->setOpacity(0);
 		//missionfail
 		_tutSprite = Sprite::create("mini/scene/tut/guide_0.png");
 		_tutSprite->setScale(visibleSize.width / _tutSprite->getContentSize().width, visibleSize.height / _tutSprite->getContentSize().height);
@@ -723,6 +767,7 @@ void GameScene::setupGuideUI()
 	}
 	else if (ScreenManager::Instance()->CurrentMap() == MAP_3)
 	{
+        _blackBg->setOpacity(0);
 		_focusLightBg = Sprite::create("mini/land/bg_nothing.jpg");
 		_focusLightBg->setScale(visibleSize.width / 10);
 		_focusLightBg->setPosition(Point(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
@@ -776,9 +821,8 @@ void GameScene::setupGuideUI()
 
 void GameScene::setupHelloUI()
 {
-
 	//////////////////////////////////////////////////////////////////////////
-	if (ScreenManager::Instance()->IsWelcome3s())
+	//if (ScreenManager::Instance()->IsWelcome3s())
 	{
 		char szPath[60] = { 0 };
 		sprintf(szPath, "mini/scene/tut/tut_%d.png", ScreenManager::Instance()->CurrentMap());	
@@ -789,7 +833,11 @@ void GameScene::setupHelloUI()
 				
 		float scaleY = Land::deltaScale;//visibleSize.height * 0.5 / _desciptContent->getContentSize().height;
 		_desciptContent->setScale(Land::deltaScale);
-		auto delay = DelayTime::create(1.0f);
+		float delayFloat = 1.0f;
+		if (ScreenManager::Instance()->isReloaded())
+			delayFloat = 1.8f;
+			
+		auto delay = DelayTime::create(delayFloat);
 		auto actionFadeIn = FadeIn::create(0.75f);
 		auto actionFadeOut = FadeOut::create(0.25f);
 
@@ -798,17 +846,35 @@ void GameScene::setupHelloUI()
 		if (sizeEnemies > 0)
 		{
 			std::random_shuffle(listEnemiesTexture.begin(), listEnemiesTexture.end());
-
+			_blackBg->setOpacity(250);
 			float scaleTargetShow = Land::deltaScale * 1.25;
-			if (ScreenManager::Instance()->CurrentMap() == MAP_5)
-				scaleTargetShow *= 1.0;
-			else if (ScreenManager::Instance()->CurrentMap() == MAP_8)
-				scaleTargetShow *= 1.0;
-			else if (ScreenManager::Instance()->CurrentMap() == MAP_11)
+			if (ScreenManager::Instance()->CurrentMap() == MAP_5){
+				bgEnemy1 = Sprite::create("mini/army/plist/map_car/bg_2.png");
+				bgEnemy2 = Sprite::create("mini/army/plist/map_car/bg_1.png");
+				bgEnemy3 = Sprite::create("mini/army/plist/map_car/bg_1.png");
+			}
+			else if (ScreenManager::Instance()->CurrentMap() == MAP_8){
+				// usa_b1_1
+				bgEnemy1 = Sprite::create("mini/army/plist/map_car/usa_bg.png");
+				bgEnemy2 = Sprite::create("mini/army/plist/map_car/usa_bg.png");
+				bgEnemy3 = Sprite::create("mini/army/plist/map_car/usa_bg.png");
+				bgEnemy4 = Sprite::create("mini/army/plist/map_car/usa_bg.png");
+				bgEnemy5 = Sprite::create("mini/army/plist/map_car/usa_bg.png");
+				bgEnemy6 = Sprite::create("mini/army/plist/map_car/usa_bg.png");
+			}
+			else if (ScreenManager::Instance()->CurrentMap() == MAP_11){
 				scaleTargetShow *= 2.0;
-			else if (ScreenManager::Instance()->CurrentMap() == MAP_13)
+				bgEnemy1 = Sprite::create("mini/army/plist/map_train/ja_bg.png");
+				bgEnemy2 = Sprite::create("mini/army/plist/map_train/ja_bg.png");
+				bgEnemy3 = Sprite::create("mini/army/plist/map_train/ja_bg.png");
+			}
+			else if (ScreenManager::Instance()->CurrentMap() == MAP_13){
 				scaleTargetShow *= 2.0;
-
+				bgEnemy1 = Sprite::create("mini/army/plist/map_train/ira_bg.png");
+				bgEnemy2 = Sprite::create("mini/army/plist/map_train/ira_bg.png");
+				bgEnemy3 = Sprite::create("mini/army/plist/map_train/ira_bg.png");
+			}
+			
 			if (sizeEnemies == 3) // map 3 this->hideOptionBoard();
 			{
 				_isMapRandom3 = true;
@@ -819,20 +885,36 @@ void GameScene::setupHelloUI()
 					- Enemy1->getContentSize().height * 1.5 * scaleTargetShow;
 
 				Enemy1->setPosition(Point(_desciptContent->getPositionX(), yTargetShow));
+				bgEnemy1->setPosition(Enemy1->getPosition());
+
 				Enemy1->setScale(scaleTargetShow);
+				bgEnemy1->setScale(scaleTargetShow);
+
 				this->addChild(Enemy1, 8911);
+				this->addChild(bgEnemy1, 8910);
 
 				Enemy2 = Sprite::createWithSpriteFrameName(listEnemiesTexture[1]);
 				Enemy2->setPosition(Point(_desciptContent->getPositionX() - Enemy1->getContentSize().width * scaleTargetShow * 0.5
 					- Enemy2->getContentSize().width  * scaleTargetShow, yTargetShow));
+				bgEnemy2->setPosition(Enemy2->getPosition());
+
 				Enemy2->setScale(scaleTargetShow);
-				this->addChild(Enemy2, 8912);
+				bgEnemy2->setScale(scaleTargetShow);
+
+				this->addChild(Enemy2, 8913);
+				this->addChild(bgEnemy2, 8912);
 
 				Enemy3 = Sprite::createWithSpriteFrameName(listEnemiesTexture[2]);
 				Enemy3->setPosition(Point(_desciptContent->getPositionX() + Enemy1->getContentSize().width * scaleTargetShow * 0.5
 					+ Enemy3->getContentSize().width  * scaleTargetShow, yTargetShow));
+				bgEnemy3->setPosition(Enemy3->getPosition());
+
 				Enemy3->setScale(scaleTargetShow);
-				this->addChild(Enemy3, 8912);
+				bgEnemy3->setScale(scaleTargetShow);
+
+				this->addChild(Enemy3, 8915);
+				this->addChild(bgEnemy3, 8914);
+
 			}
 			else if (sizeEnemies == 6) // map 6
 			{
@@ -845,40 +927,71 @@ void GameScene::setupHelloUI()
 					- Enemy1->getContentSize().height * 1.5 * Land::deltaScale;
 
 				Enemy1->setPosition(Point(_desciptContent->getPositionX(), yTargetShow));
+				bgEnemy1->setPosition(Enemy1->getPosition());
+
 				Enemy1->setScale(scaleTargetShow);
+				bgEnemy1->setScale(scaleTargetShow);
+
 				this->addChild(Enemy1, 8911);
+				this->addChild(bgEnemy1, 8910);
 
 				Enemy2 = Sprite::createWithSpriteFrameName(listEnemiesTexture[1]);
 				Enemy2->setPosition(Point(_desciptContent->getPositionX() - Enemy1->getContentSize().width * scaleTargetShow * 0.5
 					- Enemy2->getContentSize().width  * scaleTargetShow, yTargetShow));
+				bgEnemy2->setPosition(Enemy2->getPosition());
+
 				Enemy2->setScale(scaleTargetShow);
-				this->addChild(Enemy2, 8912);
+				bgEnemy2->setScale(scaleTargetShow);
+
+				this->addChild(Enemy2, 8913);
+				this->addChild(bgEnemy2, 8912);
 
 				Enemy3 = Sprite::createWithSpriteFrameName(listEnemiesTexture[2]);
 				Enemy3->setPosition(Point(_desciptContent->getPositionX() + Enemy1->getContentSize().width * scaleTargetShow * 0.5
 					+ Enemy3->getContentSize().width  * scaleTargetShow, yTargetShow));
+				bgEnemy3->setPosition(Enemy3->getPosition());
+
 				Enemy3->setScale(scaleTargetShow);
-				this->addChild(Enemy3, 8912);
+				bgEnemy3->setScale(scaleTargetShow);
+
+				this->addChild(Enemy3, 8915);
+				this->addChild(bgEnemy3, 8914);
 
 				//////////////////////////////////////////////////////////////////////////
 
 				Enemy4 = Sprite::createWithSpriteFrameName(listEnemiesTexture[3]);
-				float yTargetShowUnder = yTargetShow - Enemy4->getContentSize().height * 1.5 * scaleTargetShow;
+				float yTargetShowUnder = yTargetShow - bgEnemy4->getContentSize().height * scaleTargetShow;
 				Enemy4->setPosition(Point(_desciptContent->getPositionX(), yTargetShowUnder));
+				bgEnemy4->setPosition(Enemy4->getPosition());
+
 				Enemy4->setScale(scaleTargetShow);
-				this->addChild(Enemy4, 8913);
+				bgEnemy4->setScale(scaleTargetShow);
+
+				this->addChild(Enemy4, 8917);
+				this->addChild(bgEnemy4, 8916);
 
 				Enemy5 = Sprite::createWithSpriteFrameName(listEnemiesTexture[4]);
 				Enemy5->setPosition(Point(_desciptContent->getPositionX() - Enemy4->getContentSize().width * scaleTargetShow * 0.5
 					- Enemy5->getContentSize().width  * scaleTargetShow, yTargetShowUnder));
+				bgEnemy5->setPosition(Enemy5->getPosition());
+
 				Enemy5->setScale(scaleTargetShow);
-				this->addChild(Enemy5, 8914);
+				bgEnemy5->setScale(scaleTargetShow);
+
+				this->addChild(Enemy5, 8919);
+				this->addChild(bgEnemy5, 8918);
 
 				Enemy6 = Sprite::createWithSpriteFrameName(listEnemiesTexture[5]);
 				Enemy6->setPosition(Point(_desciptContent->getPositionX() + Enemy4->getContentSize().width * scaleTargetShow * 0.5
 					+ Enemy6->getContentSize().width  * scaleTargetShow, yTargetShowUnder));
+				bgEnemy6->setPosition(Enemy6->getPosition());
+
 				Enemy6->setScale(scaleTargetShow);
-				this->addChild(Enemy6, 8915);
+				bgEnemy6->setScale(scaleTargetShow);
+
+				this->addChild(Enemy6, 8921);
+				this->addChild(bgEnemy6, 8920);
+
 			}
 			auto sequenceStart = Sequence::create(actionFadeIn, delay, actionFadeOut, CallFunc::create(CC_CALLBACK_0(GameScene::startGame, this)), nullptr);
 			_desciptContent->runAction(sequenceStart);
@@ -890,10 +1003,10 @@ void GameScene::setupHelloUI()
 			_desciptContent->runAction(sequenceStart);
 		}
 	}
-	else
-	{
-		this->scheduleOnce(schedule_selector(GameScene::NoDesciptStart), 0.5f);
-	}
+//	else
+//	{
+//		this->scheduleOnce(schedule_selector(GameScene::NoDesciptStart), 2.85f);
+//	}
 }
 
 void GameScene::NoDesciptStart(float dt)
@@ -970,14 +1083,16 @@ void GameScene::runTutMap1StartGame(float dt)
 	_focusLight->setOpacity(0);
 	_focusLightBg->setOpacity(0);
 	this->playMusic();
+    ScreenManager::Instance()->GetFighter()->Drop();
 	this->start();
-	ScreenManager::Instance()->GetFighter()->Drop();
+	
 }
 
 void GameScene::runTutMap4()
 {
 	_focusLightBg->setOpacity(0);
 	_focusLight->setOpacity(0);
+	_targetUnitTut4->setOpacity(0);
 	_blackBg->setOpacity(0);
 }
 
@@ -1009,10 +1124,10 @@ void GameScene::startGame()
 		_focusLight->setOpacity(50);
 		this->addChild(_focusLight, 3150 + 87);
 
-		auto targetUnit = Sprite::createWithSpriteFrameName("ene.png");
-		targetUnit->setPosition(ScreenManager::Instance()->GetLand()->focusLightPos);
-		targetUnit->setScale(Land::deltaScale);
-		this->addChild(targetUnit, 3150 + 89);
+		_targetUnitTut4 = Sprite::createWithSpriteFrameName("ene.png");
+		_targetUnitTut4->setPosition(ScreenManager::Instance()->GetLand()->focusLightPos);
+		_targetUnitTut4->setScale(Land::deltaScale);
+		this->addChild(_targetUnitTut4, 3150 + 89);
 
 		//auto delay = DelayTime::create(1.0f);
 		auto fadeInLight = FadeIn::create(0.25f);
@@ -1021,7 +1136,7 @@ void GameScene::startGame()
 		auto delayLight = DelayTime::create(2.0f);
 		auto delayLightBg = DelayTime::create(2.0f);
 
-		auto fadeOutLight = FadeOut::create(0.75f);
+		auto fadeOutLight = FadeOut::create(0.2f);
 		//auto fadeOutLightBg = FadeOut::create(0.5f);
 
 		auto sqLightBg = Sequence::create(fadeInLightBg, delayLightBg,
@@ -1035,10 +1150,10 @@ void GameScene::startGame()
 		_focusLight->runAction(sqLight);
 		
 
-		auto delayUnit = DelayTime::create(1.5f);
+		auto delayUnit = DelayTime::create(2.0f);
 		auto fadeOut = FadeOut::create(0.2f);
 		auto sqPoint = Sequence::create(delayUnit, fadeOut, nullptr);
-		targetUnit->runAction(sqPoint);
+		_targetUnitTut4->runAction(sqPoint);
 
 		return;
 	}

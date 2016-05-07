@@ -23,10 +23,11 @@ private:
     //void GoToGameScene( cocos2d::Ref *sender );
     void GoToMainMenuScene(Ref* pSender, ui::Widget::TouchEventType eEventType);
     void GoToGameScene(Ref* pSender, ui::Widget::TouchEventType eEventType);
+    void GoToNextScene(Ref* pSender, ui::Widget::TouchEventType eEventType);
 	void onFinishLoading(float dt);//onFinishMenuLoading
     void onFinishMenuLoading(float dt);
     
-	cocos2d::ui::Button* itemRetryButton;
+	cocos2d::ui::Button* itemNextOrRetryButton;
 	cocos2d::ui::Button* itemMenuButton;
 	bool _isVictory;
     cocos2d::Sprite* cloudSprite;

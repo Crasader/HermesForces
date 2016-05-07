@@ -93,7 +93,8 @@ private:
 	//void runTutMap5();
 	//void runTutMap14();
 
-	bool _isTut1, _isFinishBombMeet, _isTut2, _isTut3, _isTut4/*, _isTut5, _isTut14*/;
+    void stopTut1Bomb(float dt);
+	bool _isTut1, _isFinishBombMeet, _isTut2, _isTut3, _isTut4, _isTut1CompleteFallingBomb/*, _isTut5, _isTut14*/;
 
 	//void runTutorial();
 	cocos2d::EventListenerPhysicsContact* _contactListener;
@@ -109,6 +110,8 @@ private:
 	cocos2d::ui::Button *_pauseButton,*_resumeBtt, *_reloadBtt, *_homeBtt, *_musicBtt, *_soundBtt;
 
 	Sprite *Enemy1, *Enemy2, *Enemy3, *Enemy4, *Enemy5, *Enemy6;
+	Sprite *bgEnemy1, *bgEnemy2, *bgEnemy3, *bgEnemy4, *bgEnemy5, *bgEnemy6;
+
 	bool _isGameOver;
 	bool _isEmptyWeapons;
 	bool _isMapRandom3, _isMapRandom6;
@@ -139,7 +142,7 @@ private:
 	int _disTime;
 	bool _isSpecialTutorial;
 
-	Sprite *_focusLight, *_focusLightBg, *_tutSprite, *_guide1, *_focusLightNoTut;
+	Sprite *_focusLight, *_focusLightBg, *_tutSprite, *_guide1, *_focusLightNoTut, *_targetUnitTut4;
 
 	void finishBombMeetMap1();
 	void returnAfterBombMeetMap1();

@@ -21,6 +21,7 @@ B52Bomb::B52Bomb(cocos2d::Layer *layer, const cocos2d::Point&  point, const  int
 
 void B52Bomb::hitTarget()
 {
+    _isHitTarget = true;
 	// do nothing
 	//_isGoodHit = true;
 }

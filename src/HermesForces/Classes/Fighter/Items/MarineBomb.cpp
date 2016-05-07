@@ -17,6 +17,7 @@ MarineBomb::MarineBomb(cocos2d::Layer *layer, const  cocos2d::Point&  point, con
 void MarineBomb::hitTarget()
 {
 	// do nothing
+    _isHitTarget = true;
 }
 
 void MarineBomb::hitLand()

@@ -426,6 +426,7 @@ void ScreenManager::gotoGameScene(const int& map)
 {
 	//int map2 = 0;
 	_isWelcome3s = true;
+	_isReloadGame = false;
 	//if (map != _mapNumber){
 	//	SpriteFrameCache::getInstance()->removeSpriteFrames();
 	//	MapProcessor::Instance()->InitMapProcessor(map);
@@ -439,15 +440,20 @@ void ScreenManager::gotoGameScene(const int& map)
 
 void ScreenManager::reloadGameScene()
 {
+	_isReloadGame = true;
 	//CocosDenshion::SimpleAudioEngine::sharedEngine()->stopAllEffects();
 	if (_mapNumber == MAP_5 || _mapNumber == MAP_8 || _mapNumber == MAP_11 || _mapNumber == MAP_13)
 		_isWelcome3s = true;
 	else
 		_isWelcome3s = false;
+
 	MapProcessor::Instance()->InitMapProcessor(_mapNumber);
     //CocosDenshion::SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic();
 	auto scene = GameScene::createScene();
-	Engine::Instance()->replaceScene(scene, 1.8f);
+	if (_mapNumber == 14)
+		Engine::Instance()->replaceScene(scene, 3.2f);
+	else
+		Engine::Instance()->replaceScene(scene, 2.6f);
 
 	//_scene = TransitGameScene::createScene();
 	//Engine::Instance()->replaceScene(_scene, 0.1f);

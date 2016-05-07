@@ -17,6 +17,7 @@ FireBomb::FireBomb(cocos2d::Layer *layer, const cocos2d::Point&  point, const in
 void FireBomb::hitTarget()
 {
 	// do nothing
+    _isHitTarget = true;
 }
 
 void FireBomb::hitLand()

@@ -8,6 +8,7 @@ BombSquad::BombSquad(cocos2d::Layer *layer, const cocos2d::Point&  point, const 
 	_fighterItems->setPosition( point);
 	_fighterItems->setOpacity(0);
 	layer->addChild( _fighterItems );
+    
 	_isGoodHit = false;
 }
 
@@ -15,6 +16,7 @@ void BombSquad::hitTarget()
 {
 	// do nothing
 	_isGoodHit = true;
+    _isHitTarget = true;
 }
 
 void BombSquad::hitLand()

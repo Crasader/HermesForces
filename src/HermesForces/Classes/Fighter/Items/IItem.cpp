@@ -7,6 +7,7 @@ IItem::IItem(cocos2d::Layer *layer, const cocos2d::Point&  pStart, const  int& i
 	isFalling = false;
 	_isDisable = false;
 	_isHit = false;
+    _isHitTarget = false;
 	_pStart = pStart;
 	_idTag = idTag;
 }
@@ -64,6 +65,7 @@ void IItem::updatePos()
 			{
                 _isDisable = true;
 				_fighterItems->stopAllActions();
+				_fighterItems->setOpacity(0);
 			}
 		}
 		else
@@ -73,6 +75,10 @@ void IItem::updatePos()
 
 void IItem::disapeare()
 {
-	if (isFalling)
-		_fighterItems->setOpacity(0);
+    if (isFalling){
+        if(_isHitTarget)
+            this->hitLand();
+        else
+            _fighterItems->setOpacity(0);
+    }
 }
